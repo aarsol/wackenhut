@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="hr_loans.employee_advance_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <p style="font-size:16px;font-weight:bold;text-align:center;">Employee Advance Report</p>
+                            <p style="font-size:13px;font-weight:bold;text-align:center;"><span t-field="o.name"/></p>
+
+                            <table class="table table-condensed table-bordered">
+                                <tr>
+                                    <td colspan="4" style="font-size:13:px;font-weight:bold;text-decoration: underline;">Employee Information</td>
+                                </tr>
+                                <tr>
+                                    <td>Employee Name</td>
+                                    <td><span t-field="o.employee_id"/></td>
+                                    <td>Department</td>
+                                    <td><span t-field="o.employee_id.department_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>CNIC</td>
+                                    <td><span t-field="o.employee_id.cnic"/></td>
+                                    <td>Campus</td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4" style="font-size:13:px;font-weight:bold;text-decoration: underline;">Advance Information</td>
+                                </tr>
+                                 <tr>
+                                    <td>Paid Amount</td>
+                                    <td><span t-field="o.paid_amount"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                 <tr>
+                                    <td>Date</td>
+                                    <td><span t-field="o.date"/></td>
+                                    <td>Payment Date</td>
+                                    <td><span t-field="o.payment_date"/></td>
+                                </tr>
+                                 <tr>
+                                    <td colspan="4" style="font-size:13:px;font-weight:bold;text-decoration: underline;">Accounting Information</td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Method</td>
+                                    <td><span t-field="o.payment_channel"/></td>
+                                    <td>Debit Account</td>
+                                    <td><span t-field="o.debit_account_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Accounting Entry</td>
+                                    <td><span t-field="o.move_id.name"/></td>
+                                    <td>Credit Account</td>
+                                    <td><span t-field="o.credit_account_id.name"/></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

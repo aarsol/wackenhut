@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_topsheet_deduction_wiz" model="ir.ui.view">
+            <field name="name">hr.topsheet.deduction</field>
+            <field name="model">hr.topsheet.deduction</field>
+            <field name="arch" type="xml">
+                <form string="Top Sheet Deduction Details">
+                    <group>
+                        <field name="top_sheet_category_id"/>
+                        <field name="start_date"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Generate Report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_topsheet_deduction_wize" model="ir.actions.act_window">
+            <field name="name">Top Sheet Deduction</field>
+            <field name="res_model">hr.topsheet.deduction</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+<!--        <menuitem-->
+<!--                action="action_topsheet_deduction_wize"-->
+<!--                id="menu_topsheet_deduction_wize"-->
+<!--                parent="hr_payroll.menu_report_payroll"-->
+<!--                sequence="150"-->
+<!--        />-->
+
+    </data>
+</odoo>

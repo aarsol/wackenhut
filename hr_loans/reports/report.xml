@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_employee_loan_report" model="ir.actions.report">
+            <field name="name">Loan Report</field>
+            <field name="model">hr.loan</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_loans.employee_loan_report</field>
+            <field name="report_file">hr_loans.employee_loan_report</field>
+            <field name="binding_model_id" ref="model_hr_loan"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_employee_loan_paid_report" model="ir.actions.report">
+            <field name="name">Loan Paid Report</field>
+            <field name="model">hr.loan</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_loans.employee_loan_paid_report</field>
+            <field name="report_file">hr_loans.employee_loan_paid_report</field>
+            <field name="binding_model_id" ref="model_hr_loan"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_employee_loan_unpaid_report" model="ir.actions.report">
+            <field name="name">Loan Unpaid Report</field>
+            <field name="model">hr.loan</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_loans.employee_loan_unpaid_report</field>
+            <field name="report_file">hr_loans.employee_loan_unpaid_report</field>
+            <field name="binding_model_id" ref="model_hr_loan"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_employee_advance_report" model="ir.actions.report">
+            <field name="name">Advance Report</field>
+            <field name="model">hr.staff.advance</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_loans.employee_advance_report</field>
+            <field name="report_file">hr_loans.employee_advance_report</field>
+            <field name="binding_model_id" ref="model_hr_staff_advance"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

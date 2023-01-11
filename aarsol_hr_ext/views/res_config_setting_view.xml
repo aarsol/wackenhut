@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_config_settings_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.fee</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="60"/>
+        <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='hr_payroll_accountant']" position="after">
+                <div class="row mt16 o_settings_container"
+                     title="Specify Fiscal year settings for Payroll.">
+                    <div name="fiscal_year_start" class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group mt16">
+                                <label class="o_form_label o_light_label" for="fiscal_year_start"/>
+                                <field name="fiscal_year_start"/>
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="text-muted">
+                                Fiscal Year Start Date.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div name="fiscal_year_end" class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group mt16">
+                                <label class="o_form_label o_light_label" for="fiscal_year_end"/>
+                                <field name="fiscal_year_end"/>
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="text-muted">
+                                Fiscal Year end Date.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt16 o_settings_container"
+                     title="Salary Inputs Setting For Loans And Advances.">
+                    <div name="loan_input_rule" class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group mt16">
+                                <label class="o_form_label o_light_label" for="loan_input_rule"/>
+                                <field name="loan_input_rule" options="{'no_create':True}"/>
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="text-muted">
+                                Configure Salary Input Type For Loans.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div name="advance_input_rule" class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group mt16">
+                                <label class="o_form_label o_light_label" for="advance_input_rule"/>
+                                <field name="advance_input_rule" options="{'no_create':True}"/>
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="text-muted">
+                                Configure Salary Input Type For Advances.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt16 o_settings_container"
+                     title="Retirement Period Setting.">
+                    <div name="retirement_period" id="retirement_period" class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group mt16">
+                                <label class="o_form_label o_light_label" for="retirement_period"/>
+                                <field name="retirement_period"/>
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="text-muted">
+                                Configure Retirement Years.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt16 o_settings_container"
+                     title="Attendance Policy Setting">
+                    <div name="attendance_policy" id="attendance_policy" class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group mt16">
+                                <label class="o_form_label o_light_label" for="attendance_policy"/>
+                                <field name="attendance_policy"/>
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="text-muted">
+                                Configure Payroll Attendance Setting.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div name="arrears_input_rule" id="arrears_input_rule" class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group mt16">
+                                <label class="o_form_label o_light_label" for="arrears_input_rule"/>
+                                <field name="arrears_input_rule" domain="[('input_type','=','alw')]" options="{'no_create':True}"/>
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="text-muted">
+                                Configure Arrears Input Rule.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div name="prev_deduction_input_rule" id="prev_deduction_input_rule" class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group mt16">
+                                <label class="o_form_label o_light_label" for="prev_deduction_input_rule"/>
+                                <field name="prev_deduction_input_rule" domain="[('input_type','=','ded')]" options="{'no_create':True}"/>
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="text-muted">
+                                Configure Prev. Deductions Input Rule.
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    <div name="contract_arrears_threshold_days" id="contract_arrears_threshold_days" class="col-12 col-lg-6 o_setting_box">-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <div class="content-group mt16">-->
+<!--                                <label class="o_form_label o_light_label" for="contract_arrears_threshold_days"/>-->
+<!--                                <field name="contract_arrears_threshold_days"/>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <div class="text-muted">-->
+<!--                                Configure Contract Arrears Threshold Days.-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                </div>
+
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="action_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="view_config_settings_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'hr_payroll'}</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_inherited_hr_payslip_run_form" model="ir.ui.view">
+            <field name="name">inherited.hr.payslip.run.form.view</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <!--                    <xpath expr="//header" position="replace">-->
+                    <!--                        <header>-->
+                    <!--                            <button name="%(hr_payroll.action_hr_payslip_by_employees)d" type="action" invisible="1" string="Generate Payslips" class="oe_highlight"/>-->
+                    <!--                            <button name="action_validate" type="object" string="Validate" states="draft" class="oe_highlight" context="{'payslip_generate_pdf': True}"/>-->
+                    <!--                            <button name="create_advice" string="Create Advice" type="object" states="close" class="oe_highlight"/>-->
+                    <!--                            <button string="Set to Draft" name="action_draft" type="object" states="close" class="oe_highlight"/>-->
+                    <!--                            <field name="state" widget="statusbar"/>-->
+                    <!--                        </header>-->
+                    <!--                    </xpath>-->
+                    <xpath expr="//field[@name='credit_note']" position="after">
+                        <newline/>
+                        <field name="available_advice"/>
+                    </xpath>
+                    <field name="name" position="attributes">
+                        <attribute name="required">False</attribute>
+                    </field>
+                    <xpath expr="//sheet/group[1]" position="after">
+                        <field name="slip_ids" widget="many2many" domain="[('payslip_run_id','=', False)]"/>
+                    </xpath>
+
+                    <xpath expr="//form" position="inside">
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_inherited_hr_payslip_run_search" model="ir.ui.view">
+            <field name="name">inherited.hr.payslip.run.search.view</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//filter[@name='state']" position="after">
+                        <separator orientation="vertical"/>
+                        <filter string="To Advice" name="to_advice" domain="[('available_advice','=', False)]" help="Payslip Batches ready to be Adviced"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Account HR Payslip view -->
+        <record id="view_inherited_account_hr_payslip_run_form" model="ir.ui.view">
+            <field name="name">inherited.hr.payslip.run.form.view</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll_account.hr_payslip_run_view_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//header" position="replace">
+                        <header>
+                            <button name="%(hr_payroll.action_hr_payslip_by_employees)d" type="action" invisible="1" string="Generate Payslips" class="oe_highlight"/>
+                            <button name="action_validate" type="object" string="Validate" states="draft" class="oe_highlight" context="{'payslip_generate_pdf': True}"/>
+                            <button name="create_advice" string="Create Advice" type="object" states="close" class="oe_highlight"/>
+                            <button string="Set to Draft" name="action_draft" type="object" states="close" class="oe_highlight"/>
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

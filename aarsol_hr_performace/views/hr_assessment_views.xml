@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!--Aar Assessment Form-->
+
+        <record id="aar_assessment_form" model="ir.ui.view">
+            <field name="name">aar.assessment.form</field>
+            <field name="model">aar.assessment</field>
+            <field name="arch" type="xml">
+                <form string="Aar Assesment">
+                    <sheet>
+                        <group>
+                            <field name="name"></field>
+                            <field name="courses_taught_ids"></field>
+                            <field name="student_supervision_ids"></field>
+                            <field name="research_publication_ids"></field>
+                            <field name="funding_activities_ids"></field>
+                            <field name="institutional_services_ids"></field>
+
+                        </group>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_assessment_tree" model="ir.ui.view">
+            <field name="name">aar.assessment.tree</field>
+            <field name="model">aar.assessment</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Aar Assessment">
+                    <field name="name"></field>
+                    <field name="courses_taught_ids"></field>
+                    <field name="student_supervision_ids"></field>
+                    <field name="research_publication_ids"></field>
+                    <field name="funding_activities_ids"></field>
+                    <field name="institutional_services_ids"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_assessment" model="ir.actions.act_window">
+            <field name="name">Aar Assessment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.assessment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!--Cours es Taught Form-->
+
+        <record id="assess_courses_taught_form" model="ir.ui.view">
+            <field name="name">assess.courses.taught.form</field>
+            <field name="model">assess.courses.taught</field>
+            <field name="arch" type="xml">
+                <form string="Assessment Courses Taught">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="code"></field>
+                            </group>
+                            <group>
+                                <field name="batch"></field>
+                                <field name="semester"></field>
+                            </group>
+                            <group>
+                                <field name="credits"></field>
+                                <field name="student_feedback"></field>
+                            </group>
+                            <group>
+                                <field name="class_audit"></field>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="assess_courses_taught_tree" model="ir.ui.view">
+            <field name="name">assess.courses.taught.tree</field>
+            <field name="model">assess.courses.taught</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Assessment Courses Taught">
+                    <field name="name"></field>
+                    <field name="code"></field>
+                    <field name="batch"></field>
+                    <field name="semester"></field>
+                    <field name="credits"></field>
+                    <field name="student_feedback"></field>
+                    <field name="class_audit"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_assess_courses_taught" model="ir.actions.act_window">
+            <field name="name">Assessment Courses Taught</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">assess.courses.taught</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--Students Supervised Assessment Form-->
+
+        <record id="assess_student_supervision_form" model="ir.ui.view">
+            <field name="name">assess.student.supervision.form</field>
+            <field name="model">assess.student.supervision</field>
+            <field name="arch" type="xml">
+                <form string="Assessment Students Supervised">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="reg_num"></field>
+                            </group>
+                            <group>
+                                <field name="batch"></field>
+                                <field name="semester"></field>
+                            </group>
+                            <group>
+                                <field name="type"></field>
+                                <field name="topic"></field>
+                            </group>
+                            <group>
+                                <field name="keywords"></field>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="assess_student_supervision_tree" model="ir.ui.view">
+            <field name="name">assess.student.supervision.tree</field>
+            <field name="model">assess.student.supervision</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Assessment Student Supervision">
+                    <field name="name"></field>
+                    <field name="reg_num"></field>
+                    <field name="batch"></field>
+                    <field name="semester"></field>
+                    <field name="type"></field>
+                    <field name="topic"></field>
+                    <field name="keywords"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_assess_student_supervision" model="ir.actions.act_window">
+            <field name="name">Assessment Student Supervision</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">assess.student.supervision</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!--Research Publications Assessment Form-->
+
+        <record id="assess_research_publication_form" model="ir.ui.view">
+            <field name="name">assess.research.publication.form</field>
+            <field name="model">assess.research.publication</field>
+            <field name="arch" type="xml">
+                <form string="Assessment Research Publication">
+                    <sheet>
+                        <group string="Type">
+                            <field name="type" widget='radio' options="{'horizontal': true}"></field>
+                        </group>
+
+                        <group string="Level">
+                            <field name="level" widget='radio' options="{'horizontal': true}"></field>
+                        </group>
+
+                        <group string="Rank">
+                            <field name="rank" widget='radio' options="{'horizontal': true}"></field>
+                        </group>
+
+                        <group string="Index">
+                            <field name="index" widget='radio' options="{'horizontal': true}"></field>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="reg_num"></field>
+                            </group>
+                            <group>
+                                <field name="published_in"></field>
+                                <field name="author_name"></field>
+                            </group>
+                            <group>
+                                <field name="co_author_name"></field>
+                                <field name="organizer"></field>
+                            </group>
+                            <group>
+                                <field name="issue_number"></field>
+                                <field name="vol_number"></field>
+                            </group>
+                            <group>
+                                <field name="issue_number"></field>
+                                <field name="vol_number"></field>
+                            </group>
+                            <group>
+                                <field name="published_pages"></field>
+                                <field name="publication_date"></field>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="assess_research_publication_tree" model="ir.ui.view">
+            <field name="name">assess.research.publication.tree</field>
+            <field name="model">assess.research.publication</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Assessment Research Publication">
+                    <field name="name"></field>
+                    <field name="reg_num"></field>
+                    <field name="type"></field>
+                    <field name="level"></field>
+                    <field name="rank"></field>
+                    <field name="index"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_assess_research_publication" model="ir.actions.act_window">
+            <field name="name">Assessment Research Publication</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">assess.research.publication</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!--Funding Activities Assessment Form-->
+
+        <record id="assess_funding_activities_form" model="ir.ui.view">
+            <field name="name">assess.funding.activities.form</field>
+            <field name="model">assess.funding.activities</field>
+            <field name="arch" type="xml">
+                <form string="Assessment Funding and Entrepreneurial Activities">
+                    <sheet>
+                        <group string="Type">
+                            <field name="type" widget='radio' options="{'horizontal': true}"></field>
+                        </group>
+
+                        <group string="Level">
+                            <field name="level" widget='radio' options="{'horizontal': true}"></field>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="approval_date"></field>
+                            </group>
+                            <group>
+                                <field name="keywords"></field>
+                                <field name="copi"></field>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="assess_funding_activities_tree" model="ir.ui.view">
+            <field name="name">assess.funding.activities.tree</field>
+            <field name="model">assess.funding.activities</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Assessment Funding Activities">
+
+                    <field name="name"></field>
+                    <field name="approval_date"></field>
+                    <field name="type"></field>
+                    <field name="level"></field>
+                    <field name="keywords"></field>
+                    <field name="copi"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_assess_funding_activities" model="ir.actions.act_window">
+            <field name="name">Assessment Funding Activities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">assess.funding.activities</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--Institutional Services Assessment Form-->
+
+        <record id="assess_institutional_services_form" model="ir.ui.view">
+            <field name="name">assess.institutional.services.form</field>
+            <field name="model">assess.institutional.services</field>
+            <field name="arch" type="xml">
+                <form string="Assessment Institutional Services">
+                    <sheet>
+                        <group string="Type">
+                            <field name="type" widget='radio' options="{'horizontal': true}"></field>
+                        </group>
+
+                        <group string="Frequency">
+                            <field name="frequency" widget='radio' options="{'horizontal': true}"></field>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="start_date"></field>
+                                <field name="end_date"></field>
+                            </group>
+                            <group>
+                                <field name="keywords"></field>
+                            </group>
+                            <field name="description"></field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="assess_institutional_services_tree" model="ir.ui.view">
+            <field name="name">assess.institutional.services.tree</field>
+            <field name="model">assess.institutional.services</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Assessment Funding Activities">
+
+                    <field name="type"></field>
+                    <field name="frequency"></field>
+                    <field name="start_date"></field>
+                    <field name="end_date"></field>
+                    <field name="keywords"></field>
+                    <field name="description"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_assess_institutional_services" model="ir.actions.act_window">
+            <field name="name">Assessment Institutional Services</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">assess.institutional.services</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <menuitem parent="menu_aar_appraisal" action="action_aar_assessment" id="menu_aar_assessment"
+                  name="Aar Assessment"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_aar_appraisal" id="menu_assess_configurations" name="Assessment Configurations"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_assess_configurations" action="action_assess_courses_taught" id="menu_courses_taught"
+                  name="Courses Taught"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_assess_configurations" action="action_assess_student_supervision"
+                  id="menu_assess_student_supervision"
+                  name="Student Supervision"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_assess_configurations" action="action_assess_research_publication"
+                  id="menu_assess_research_publication"
+                  name="Research Publication"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_assess_configurations" action="action_assess_funding_activities"
+                  id="menu_assess_funding_activities"
+                  name="Funding Activities"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_assess_configurations" action="action_assess_institutional_services"
+                  id="menu_assess_institutional_services"
+                  name="Institutional Services"
+                  groups="base.group_user" sequence="10"/>
+
+
+    </data>
+</odoo>

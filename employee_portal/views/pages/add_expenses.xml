@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="employee_add_expense" name="Employee Add Expense">
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <t t-call="employee_portal.employee_dashboard_sidebar"/>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <t t-call="employee_portal.dashboard_topbar"/>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        <h2>Add Expense</h2>
+                        <!-- Page Heading -->
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="add_expense_form" method="post">
+                                            <div class="row mb-3">
+                                                <div class="col-sm-12">
+                                                    <h6 class="mb-0">Description</h6>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-12 text-secondary">
+                                                    <input type="text" name="name" id="name"
+                                                           class="form-control"
+                                                           placeholder="Description" required="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                            <div class="col-sm-6">
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="mb-0">Product</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6 text-secondary">
+                                                        <select class="form-control" id="product" name="product">
+                                                        <t t-foreach="expense_product" t-as="pro">
+
+                                                            <option  t-att-value="pro.id"><t t-esc="pro.name"/></option>
+
+                                                        </t>
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="mb-0">Unit Price</h6>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6 text-secondary">
+                                                        <input type="number" name="unit_price" id="unit_price"
+                                                               class="form-control"
+                                                               placeholder="Unit Price" required="1"/>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="mb-0">Quantity</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6 text-secondary">
+                                                        <input type="number" name="quantity" id="quantity"
+                                                               class="form-control"
+                                                               placeholder="Quantity" required="1"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="mb-0">Bill Reference</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6 text-secondary">
+                                                        <input type="text" name="bill_reference" id="bill_reference"
+                                                               class="form-control"
+                                                               placeholder="Bill Reference" required="1"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="mb-0">Expense Date</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6 text-secondary">
+                                                        <input type="date" name="expense_date" id="expense_date"
+                                                               class="form-control"
+                                                               placeholder="Expense Date" required="1"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="mb-0">Upload File</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-6 text-secondary">
+                                                        <input type="file" name="attach_file" id="attach_file"
+                                                               class="form-control" required="1"/>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input id="add_expense_btn" type="submit" class="btn btn-primary px-4"
+                                                           value="Submit"/>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+            </div>
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+
+        <div class="modal-body" style="padding: 0rem;">
+
+
+            <div class="modal fade" id="ignismyModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="">
+                                <span>×</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body" style="padding: 0rem;">
+
+                            <div class="thank-you-pop">
+                                <img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png"
+                                     alt=""/>
+                                <h1>Request Initiated SuccessFully</h1>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ignismyModalerror" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="">
+                                <span>×</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body" style="padding: 0rem;">
+
+                            <div class="thank-you-pop">
+                                <img src="/employee_portal/static/img/red-x.png" alt=""/>
+                                <h1>Something Went Wrong</h1>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </template>
+</odoo>

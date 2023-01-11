@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_gp_fund_profit" model="ir.ui.view">
+            <field name="name">gp.fund.wize</field>
+            <field name="model">gp.fund.wize</field>
+            <field name="arch" type="xml">
+                <form string="Change Student State">
+                    <group>
+                        <field name="profit"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Employee">
+                            <group>
+                                <field name="employee_ids" colspan="4" nolabel="1">
+                                    <tree string="Employee">
+                                        <field name="employee_id"/>
+                                        <field name="designation_id"/>
+                                        <field name="department_id"/>
+                                        <field name="section_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button name="calculate_profit" string="Calculate Profit" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_hr_gp_fund_profit" model="ir.actions.act_window">
+            <field name="name">Gp Fund Profit</field>
+            <field name="res_model">gp.fund.wize</field>
+            <field name="binding_model_id" ref="model_hr_gp_fund"></field>
+            <field name="view_mode">form</field>
+            <field name="binding_view_types">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

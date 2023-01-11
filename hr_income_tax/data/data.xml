@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_hr_employee_income_tax_adjustment" model="ir.sequence">
+            <field name="name">Employee Income Tax Adjustment</field>
+            <field name="code">hr.employee.income.tax.adjustment</field>
+            <field name="prefix">TAX/ADJ/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_hr_employee_annual_income_adjustment" model="ir.sequence">
+            <field name="name">Employee Annual Income Adjustment</field>
+            <field name="code">hr.employee.annual.income.adjustment</field>
+            <field name="prefix">ANNINC/ADJ/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

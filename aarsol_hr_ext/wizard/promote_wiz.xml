@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_gp_fund_profit" model="ir.ui.view">
+            <field name="name">hr.employee.promote</field>
+            <field name="model">hr.employee.promote</field>
+            <field name="arch" type="xml">
+                <form string="Employee Promotion">
+                    <notebook>
+                        <page string="Employee">
+                            <group>
+                                <field name="employee_ids" colspan="4" nolabel="1">
+                                    <tree string="Employee">
+                                        <field name="name"/>
+                                        <field name="job_id"/>
+                                        <field name="department_id"/>
+                                        <field name="section_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button name="calculate_profit" string="Promote To Next Stage" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+<!--        <record id="act_hr_employee_promote" model="ir.actions.act_window">-->
+<!--            <field name="name">Promote To Next Stage</field>-->
+<!--            <field name="res_model">hr.employee.promote</field>-->
+<!--            <field name="binding_model_id" ref="model_hr_employee"></field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="binding_view_types">form</field>-->
+<!--            <field name="target">new</field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

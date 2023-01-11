@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!--  HR Section Form-->
+         <record id="view_hr_section_form" model="ir.ui.view">
+            <field name="name">hr.section.form.view</field>
+            <field name="model">hr.section</field>
+            <field name="arch" type="xml">
+                <form string="Employee Section">
+                 <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="top_sheet_category_id"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="employees" string="Employees/Contracts">
+                                <field name="employee_ids" edit="false" create="false" delete="false">
+                                     <tree>
+                                         <field name="name"/>
+                                     </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                     </sheet>
+                </form>
+            </field>
+         </record>
+
+        <!-- HR Section Tree-->
+         <record id="view_hr_section_tree" model="ir.ui.view">
+            <field name="name">hr.section.tree.view</field>
+            <field name="model">hr.section</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Section">
+                    <field name="name"/>
+                </tree>
+            </field>
+         </record>
+
+         <!-- HR Section Search View -->
+        <record id="view_hr_section_search" model="ir.ui.view">
+            <field name="name">hr.section.search</field>
+            <field name="model">hr.section</field>
+            <field name="arch" type="xml">
+                <search string="HR Section">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- HR Section Action View -->
+        <record id="action_hr_section" model="ir.actions.act_window">
+            <field name="name">HR Section</field>
+            <field name="res_model">hr.section</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!--  HR Category Form-->
+         <record id="view_hr_category_form" model="ir.ui.view">
+            <field name="name">hr.category.form.view</field>
+            <field name="model">hr.category</field>
+            <field name="arch" type="xml">
+                <form string="Employee Category">
+                 <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="employees" string="Employees/Contracts">
+                                <field name="employee_ids" edit="false" create="false" delete="false">
+                                     <tree>
+                                         <field name="name"/>
+                                     </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                     </sheet>
+                </form>
+            </field>
+         </record>
+
+        <!-- HR Category Tree-->
+         <record id="view_hr_category_tree" model="ir.ui.view">
+            <field name="name">hr.category.tree.view</field>
+            <field name="model">hr.category</field>
+            <field name="arch" type="xml">
+                <tree string="Employee category">
+                    <field name="name"/>
+                </tree>
+            </field>
+         </record>
+
+         <!-- HR Category Search View -->
+        <record id="view_hr_category_search" model="ir.ui.view">
+            <field name="name">hr.category.search</field>
+            <field name="model">hr.category</field>
+            <field name="arch" type="xml">
+                <search string="HR Category">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- HR Category Action View -->
+        <record id="action_hr_category" model="ir.actions.act_window">
+            <field name="name">HR Category</field>
+            <field name="res_model">hr.category</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_section"
+                name ="Employee Section"
+                action="action_hr_section"
+                parent="hr.menu_human_resources_configuration"
+                sequence="108"/>
+
+        <menuitem
+                id="menu_hr_category"
+                name ="Employee Category"
+                action="action_hr_category"
+                parent="hr.menu_human_resources_configuration"
+                sequence="111"/>
+    </data>
+</odoo>

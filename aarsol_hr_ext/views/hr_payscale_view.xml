@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- HR PayScale Category -->
+        <record id="view_hr_payscale_category_tree" model="ir.ui.view">
+            <field name="name">hr.pa.scale.category.tree.view</field>
+            <field name="model">hr.payscale.category</field>
+            <field name="arch" type="xml">
+                <tree string="PayScale Category" decoration-primary="state == 'draft'" decoration-success="state == 'lock'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="active"/>
+                    <field name="state" widget="badge" decoration-primary="state == 'draft'" decoration-success="state == 'lock'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_payscale_category_form" model="ir.ui.view">
+            <field name="name">hr.payscale.category.form.view</field>
+            <field name="model">hr.payscale.category</field>
+            <field name="arch" type="xml">
+                <form string="PayScale Category">
+                    <header>
+                        <button name="action_lock" type="object" class="oe_highlight" string="Lock" states="draft" groups="hr.group_hr_user"/>
+                        <button name="action_unlock" type="object" class="oe_highlight" string="UnLock" states="lock" groups="hr.group_hr_user"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="code" required="0" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="active" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_start" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_end" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Pay Scale" name="scale_ids">
+                                <field name="scale_ids" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree decoration-primary="state == 'draft'" decoration-success="state == 'lock'">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="basic_pay"/>
+                                        <field name="increment"/>
+                                        <field name="stages"/>
+                                        <field name="last_limit"/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <field name="state" widget="badge" decoration-primary="state == 'draft'" decoration-success="state == 'lock'"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="employee_summary" string="Employee Summary">
+                                <field name="employee_summary" widget="html"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_payscale_category_search" model="ir.ui.view">
+            <field name="name">hr.payscale.category.search</field>
+            <field name="model">hr.payscale.category</field>
+            <field name="arch" type="xml">
+                <search string="PayScale Category">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_hr_payscale_category" model="ir.actions.act_window">
+            <field name="name">HR PayScale Category</field>
+            <field name="res_model">hr.payscale.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem
+                name="Salary Payscales"
+                id="menu_hr_payscales"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration"
+                sequence="110"/>
+
+        <menuitem
+                name="PayScale Category"
+                id="menu_hr_payscale_category"
+                action="action_hr_payscale_category"
+                parent="menu_hr_payscales"
+                sequence="10"/>
+
+        <!-- HR PayScale -->
+        <record id="view_hr_payscale_tree" model="ir.ui.view">
+            <field name="name">hr.payscale.tree.view</field>
+            <field name="model">hr.payscale</field>
+            <field name="arch" type="xml">
+                <tree string="PayScale" decoration-primary="state == 'draft'" decoration-success="state == 'lock'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="basic_pay"/>
+                    <field name="scale_category_id"/>
+                    <field name="increment"/>
+                    <field name="stages"/>
+                    <field name="last_limit"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="state" widget="badge" decoration-primary="state == 'draft'" decoration-success="state == 'lock'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_payscale_form" model="ir.ui.view">
+            <field name="name">hr.payscale.form</field>
+            <field name="model">hr.payscale</field>
+            <field name="arch" type="xml">
+                <form string="Employee PayScale">
+                    <header>
+                        <button name="action_lock" type="object" class="oe_highlight" string="Lock" states="draft" groups="hr.group_hr_user"/>
+                        <button name="action_unlock" type="object" class="oe_highlight" string="UnLock" states="lock" groups="hr.group_hr_user"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="code" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="scale_category_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                            </group>
+                            <group>
+                                <field name="basic_pay" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="increment" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="stages" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="last_limit" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="employee_summary" string="Employee Summary">
+                                <field name="employee_summary" widget="html"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_payscale_search">
+            <field name="name">hr.payscale.search</field>
+            <field name="model">hr.payscale</field>
+            <field name="arch" type="xml">
+                <search string="Payscale Filters">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <separator/>
+
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_category_id" string="Category" domain="[]" context="{'group_by':'scale_category_id'}"/>
+                        <filter name="group_name" string="Grade" domain="[]" context="{'group_by':'name'}"/>
+                        <separator/>
+                        <filter name="group_date_start" string="Start Date" domain="[]" context="{'group_by':'date_start'}"/>
+                        <filter name="group_date_end" string="End Date" domain="[]" context="{'group_by':'date_end'}"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_payscale">
+            <field name="name">HR PayScale</field>
+            <field name="res_model">hr.payscale</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem
+                name="PayScale"
+                id="menu_hr_payscale"
+                action="action_hr_payscale"
+                parent="menu_hr_payscales"
+                sequence="20"/>
+    </data>
+</odoo>

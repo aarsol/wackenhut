@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_employee_unions_form" model="ir.ui.view">
+            <field name="name">hr.employee.unions.form</field>
+            <field name="model">hr.employee.unions</field>
+            <field name="arch" type="xml">
+                <form string="Employee Unions">
+                    <header>
+                        <button name="action_lock" type="object" class="oe_highlight" string="Lock" states="draft" groups="hr.group_hr_user"/>
+                        <button name="action_unlock" type="object" class="oe_highlight" string="UnLock" states="lock" groups="hr.group_hr_user"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" attrs="{'readonly':[('state', '=', 'lock')]}"/>
+                                <field name="code" required="1" attrs="{'readonly':[('state', '=', 'lock')]}"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_unions_tree" model="ir.ui.view">
+            <field name="name">hr.employee.unions.tree</field>
+            <field name="model">hr.employee.unions</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Unions" decoration-info="state=='draft'" decoration-success="state=='lock'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="create_uid" string="Created By" optional="show" widget="many2one_avatar_user"/>
+                    <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='lock'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_unions_search" model="ir.ui.view">
+            <field name="name">hr.employee.unions.search</field>
+            <field name="model">hr.employee.unions</field>
+            <field name="arch" type="xml">
+                <search string="Employee Unions">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="state"/>
+
+                    <newline/>
+                    <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Lock" name="done" domain="[('state','=','done')]"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_unions" model="ir.actions.act_window">
+            <field name="name">Employee Unions</field>
+            <field name="res_model">hr.employee.unions</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click To Create A New Record.
+                </p>
+            </field>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_unions"
+                name="Employee Unions"
+                action="action_hr_employee_unions"
+                parent="hr.menu_human_resources_configuration"
+                sequence="600"/>
+    </data>
+</odoo>

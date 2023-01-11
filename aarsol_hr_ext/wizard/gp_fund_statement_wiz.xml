@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_gp_fund_statement_wize_form" model="ir.ui.view">
+		<field name="name">gp.fund.statement.wize.form</field>
+		<field name="model">gp.fund.statement.wize</field>
+		<field name="arch" type="xml">
+			<form string="Gp Fund Statement">
+				<group>
+					<group>
+						<field name="employee_id"/>
+					</group>
+					<group>
+						<field name="start_date"/>
+						<field name="end_date"/>
+					</group>
+				</group>
+				<footer>
+					<button class="btn-primary" name="print_report" string="Get Report" type="object"/>
+					<button class="btn-default" special="cancel" string="Cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_gp_fund_statement_wize" model="ir.actions.act_window">
+		<field name="name">Gp Fund Statement</field>
+		<field name="res_model">gp.fund.statement.wize</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem
+			id="menu_gp_fund_statement_wize"
+			action="action_gp_fund_statement_wize"
+			name="Gp Fund Statement"
+			parent="menu_hr_emp_benefits_deduction_main"
+			sequence="160"/>
+
+</odoo>

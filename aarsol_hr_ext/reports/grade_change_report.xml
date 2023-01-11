@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <template id="aarsol_hr_ext.grade_change_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <t t-if="not company">
+                            <t t-if="company_id">
+                                <t t-set="company" t-value="company_id"/>
+                            </t>
+                            <t t-elif="o and 'company_id' in o">
+                                <t t-set="company" t-value="o.company_id.sudo()"/>
+                            </t>
+                            <t t-else="else">
+                                <t t-set="company" t-value="res_company"/>
+                            </t>
+                        </t>
+
+                        <div class="header">
+                            <div>
+                                <div class="row">
+                                    <div style="width:13%; height:100px; padding:5px; margin-left:10px; border:0px solid #f2f2f2">
+                                        <img alt="..." width="200px" height="200px" class="rounded mb-2 img-thumbnail"
+                                             t-att-src="image_data_uri(company.logo)" t-if="company.logo"/>
+                                    </div>
+                                    <div style="width:84% ;font-size:35px; font-weight:bold; text-align:center">
+                                        <div class="col col-12">
+                                            <span t-esc="company.name" t-if="company"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page">
+                            <h5 style="text-align:right;">Date:
+                                <span t-esc="o.date.strftime('%B/%Y')"/>
+                            </h5>
+
+                            <table class="table table-sm table-bordered" style="font-size:12px;">
+
+                                <tr>
+                                    <td>
+                                        <strong>Name</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.name"/>
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

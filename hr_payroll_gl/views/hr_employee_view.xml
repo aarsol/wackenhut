@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inherit_view_hr_employee_form650" model="ir.ui.view">
+            <field name="name">inherit.hr.employee.form650</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name='age' position="after">
+                        <field name="account_head_type" options="{'no_create':True}"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="inherit_view_hr_employee_tree650" model="ir.ui.view">
+            <field name="name">inherit.hr.employee.tree650</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name='parent_id' position="after">
+                        <field name="account_head_type" optional="hide"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="inherit_view_hr_department_form650" model="ir.ui.view">
+            <field name="name">inherit.hr.department.form650</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name='parent_id' position="after">
+                        <field name="analytic_account_id" options="{'no_create':True}"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="inherit_view_hr_department_tree650" model="ir.ui.view">
+            <field name="name">inherit.hr.department.tree650</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name='parent_id' position="after">
+                        <field name="analytic_account_id"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="hr_income_tax.employee_income_tax_statement_document">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <p style="font-size:20px;font-weight:bold;text-align:center;padding-top:25px;">
+                            Income Tax Statement
+                        </p>
+
+                         <div class="row mt32 mb32" id="informations">
+                             <div class="col-auto mw-200 mb-4">
+                                 <strong>Employee:</strong>
+                                 <p class="m-0" t-field="o.employee_id.name"/>
+                             </div>
+                              <div class="col-auto mw-200 mb-4">
+                                 <strong>From Date:</strong>
+                                <p class="m-0" t-field="o.date_from" t-field-options='{"widget": "date"}'/>
+                             </div>
+                             <div class="col-auto mw-200 mb-4">
+                                 <strong>To Date:</strong>
+                                  <p class="m-0" t-field="o.date_to" t-field-options='{"widget": "date"}'/>
+                             </div>
+                             <div class="col-auto mw-200 mb-4">
+                                 <strong>Total Tax Amount:</strong>
+                                  <p class="m-0" t-field="o.total_tax_amount" />
+                             </div>
+                             <div class="col-auto mw-200 mb-4">
+                                 <strong>Per Month Tax Amount:</strong>
+                                  <p class="m-0" t-field="o.per_month_tax" />
+                             </div>
+                         </div>
+
+                         <p style="font-size:15px;text-align:right;">
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                        </p>
+
+                         <table class="table table-bordered">
+                             <thead>
+                                 <tr style="text-align:center;font-size:12px;">
+                                    <th class="text-center">Sr.</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Month</th>
+                                    <th class="text-center">Payslip</th>
+                                    <th class="text-center">Amount</th>
+                                    <th class="text-center">Deducted Amount</th>
+                                    <th class="text-center">Diff</th>
+                                    <th class="text-center">State</th>
+                                </tr>
+                             </thead>
+                             <tbody>
+                                 <t t-foreach="o.employee_tax_lines" t-as="line">
+                                     <tr style="font-size:12px;">
+                                         <td class="text-left"><span t-esc="line_index + 1" /></td>
+                                         <td class="text-left"><span t-field="line.date" t-field-options='{"widget": "date"}'/></td>
+                                         <td class="text-left"><span t-esc="line.month" /></td>
+                                         <td class="text-left"><span t-esc="line.slip_id.name" /></td>
+                                         <td class="text-right"><span t-esc="line.amount" /></td>
+                                         <td class="text-right"><span t-esc="line.deducted_amount" /></td>
+                                         <td class="text-right"><span t-esc="line.difference" /></td>
+                                         <td class="text-right"><span t-esc="line.state" /></td>
+                                     </tr>
+                                 </t>
+                             </tbody>
+                         </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <!-- Report Entry main report template -->
+        <template id="hr_income_tax.employee_income_tax_statement_report">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="hr_income_tax.employee_income_tax_statement_document"/>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,107 @@
+<odoo>
+
+    <template id="aarsol_hr_ext.topsheet_allowance_report">
+        <t t-call="web.basic_layout">
+
+            <style>
+                #invoice-report {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                }
+
+                #invoice-report td, #invoice-report th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align:center;
+                }
+
+                #invoice-report tr:nth-child(even){background-color: #f2f2f2;}
+
+                #invoice-report tr:hover {background-color: #ddd;}
+
+                #invoice-report th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color: #17134e;
+                color: white;
+                }
+
+                #top-info {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                margin-top:15px;
+                display: inline;
+                }
+
+                #top-info td, #personal-info th {
+                padding: 3px;
+                }
+
+
+            </style>
+            <div class="page"
+                 style='font-size: 14px; padding:10px; margin:5em; font-family: "Times New Roman", Times, serif;'>
+                <div>
+                    <div>
+                        <img alt="..." style="max-width:40px" t-att-src="image_data_uri(company.logo)"
+                             t-if="company.logo"/>
+                        <img alt="..." style="max-width:40px" src="/web/static/src/img/user_menu_avatar.png"
+                             t-if=" not company.logo"/>
+                    </div>
+                    <div class="col col-12" style="font-size:25px; font-weight:bold; text-align:center;">
+                        <span style="border-bottom:1px solid" t-esc="company.name" t-if="company.name"/>
+                    </div>
+                </div>
+                <div style="font-size:25px; font-weight:bold; text-align:center;">
+                    <span>Top Sheet</span>
+                </div>
+                <div style="font-size:25px; font-weight:bold; text-align:center;">
+                    <span>Allowances</span>
+                </div>
+                <div style="font-size:20px; font-weight:bold; text-align:center;">
+                    <span t-esc="start_date.strftime('%B /%Y')"></span>
+                </div>
+                <table id="invoice-report">
+                    <tr style="text-align:center">
+                        <th>Allowances</th>
+                        <t t-as="allow" t-foreach="allowance_list">
+                        <t t-if="allow!='Gross'">
+                            <th style="width:30%">
+                                <span t-esc="allow"/>
+                            </th>
+                        </t>
+                            <t t-if="allow=='Gross'">
+                                <th style="width:30%">
+                                    Total
+                                </th>
+                            </t>
+                        </t>
+                    </tr>
+                    <t t-as="dt" t-foreach="data_list">
+                        <tr>
+
+                            <t t-as="d" t-foreach="dt">
+
+                                <td style="width:30%">
+                                    <span t-esc="d"/>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                    <tr>
+
+                        <td style="width:30%">Total</td>
+                        <t t-as="total" t-foreach="total_list">
+
+                            <td style="width:30%">
+                                <span t-esc="total"/>
+                            </td>
+                        </t>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_notification_form" model="ir.ui.view">
+        <field name="name">employee.notification.form</field>
+        <field name="model">employee.notification</field>
+        <field name="arch" type="xml">
+            <form string="Notification" >
+                <sheet>
+                    <group>
+                        <field name="name" required="1"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="date" readonly="1" required="1"/>
+                            <field name="expiry" required="1"/>
+                        </group>
+                        <group>
+                            <field name="uploaded_by" readonly="1"/>
+                            <field name="visible_for" required="1" />
+                        </group>
+
+                    </group>
+                    <group>
+                        <field name="description" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_employee_notification_tree" model="ir.ui.view">
+        <field name="name">employee.notification.tree</field>
+        <field name="model">employee.notification</field>
+        <field name="arch" type="xml">
+            <tree string="Notifications">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="expiry"/>
+                <field name="uploaded_by"/>
+                <field name="visible_for"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_employee_notification" model="ir.actions.act_window">
+        <field name="name">Notifications</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.notification</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to add new Notification here.</p>
+        </field>
+    </record>
+
+
+
+</odoo>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_hr_employee_backdate_arrears_tree" model="ir.ui.view">
+            <field name="name">hr.employee.backdate.arrears.tree</field>
+            <field name="model">hr.employee.backdate.arrears</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Back Date Arrears"
+                      decoration-info="state=='draft'" decoration-primary="state=='confirm'" decoration-success="state=='done'" decoration-warning="state=='cancel'">
+                    <field name="sequence" string="Sequence" widget="handle"/>
+                    <field name="employee_code"/>
+                    <field name="employee_id"/>
+                    <field name="department_id" optional="hide"/>
+                    <field name="job_id" optional="hide"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="slip_month"/>
+                    <field name="ttype"/>
+                    <field name="calculation_type"/>
+                    <field name="contract_id" invisible="1"/>
+                    <field name="allowance_ids" widget="many2many_tags" optional="hide"/>
+                    <field name="deduction_ids" widget="many2many_tags" optional="hide"/>
+                    <field name="amount" sum="sum_amount"/>
+                    <field name="other_amount" sum="sum_other_amount"/>
+                    <field name="total_amount" sum="sum_total_amount"/>
+                    <field name="slip_id"/>
+                    <field name="state" widget="badge" decoration-info="state=='draft'" decoration-primary="state=='confirm'" decoration-success="state=='done'" decoration-warning="state=='error'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_backdate_arrears_form" model="ir.ui.view">
+            <field name="name">hr.employee.backdate.arrears.form</field>
+            <field name="model">hr.employee.backdate.arrears</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Back Date Arrears">
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+                        <button name="action_recompute" type="object" string="Recompute" states="draft" class="oe_highlight"/>
+                        <button name="action_turn_to_draft" type="object" string="Turn To Draft" states="confirm" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"/>
+                                <field name="employee_code"/>
+                                <field name="department_id"/>
+                                <field name="job_id"/>
+                                <field name="contract_id"/>
+                                <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="slip_id" readonly="1"/>
+                                <field name="emp_salary_input_id" readonly="1" groups="base.group_no_one"/>
+                            </group>
+
+                            <group>
+                                <field name="ttype" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="allowance_ids" widget="many2many_tags"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"
+                                       attrs="{'readonly':[('state','!=','draft')], 'required':[('ttype','=','allowance')],'invisible':[('ttype','=','deduction')]}"/>
+                                <field name="deduction_ids" widget="many2many_tags"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"
+                                       attrs="{'readonly':[('state','!=','draft')], 'required':[('ttype','=','deduction')],'invisible':[('ttype','=','allowance')]}"/>
+                                <field name="calculation_type" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_from" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_to" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="slip_month" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="amount" required="1"/>
+                                <field name="other_amount" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="total_amount"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="view_hr_employee_backdate_arrears_search" model="ir.ui.view">
+            <field name="name">hr.employee.backdate.arrears.search</field>
+            <field name="model">hr.employee.backdate.arrears</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Back Date Arrears">
+                    <field name="employee_code"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="contract_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="slip_month"/>
+                    <field name="slip_id"/>
+                    <field name="calculation_type"/>
+                    <field name="state"/>
+
+                    <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Done" name="done" domain="[('state','=','done')]"/>
+                    <filter string="Cancel" name="cancel" domain="[('state','=','cancel')]"/>
+                    <separator/>
+                    <filter string="From Date" name="from_date" date="date_from"/>
+                    <filter string="To Date" name="from_date" date="date_from"/>
+                    <filter string="Slip Month" name="slip_month" date="slip_month"/>
+                    <filter string="Date" name="date" date="date"/>
+                    <newline/>
+
+                    <group expand="0" string="Group By...">
+                        <separator/>
+                        <filter name="group_ttype" string="Type" domain="[]" context="{'group_by':'ttype'}"/>
+                        <filter name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter name="employee_id" string="Employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter name="group_by_department_id" string="Department" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter name="group_id_job_id" string="Job" domain="[]" context="{'group_by':'job_id'}"/>
+                        <separator/>
+                        <filter name="date_from" string="Date From" domain="[]" context="{'group_by':'date_from'}"/>
+                        <filter name="date_to" string="Date To" domain="[]" context="{'group_by':'date_to'}"/>
+                        <separator/>
+                        <filter name="calculation_type" string="Calculation Type" domain="[]" context="{'group_by':'calculation_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_hr_employee_backdate_arrears_view" model="ir.actions.act_window">
+            <field name="name">Employee Back Date Arrears</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.backdate.arrears</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_backdate_arrears"
+                name="Employee BackDate Arrears"
+                parent="aarsol_hr_ext.menu_hr_emp_benefits_deduction_main"
+                action="action_hr_employee_backdate_arrears_view"
+                sequence="15"
+        />
+    </data>
+</odoo>

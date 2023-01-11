@@ -1,0 +1,2554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="faculty_appraisal_details" name="Appraisal Details">
+        <style>
+            #dataTable_length{
+            display:none !important;
+            }
+            #dataTable_filter{
+            display:none !important;
+            }
+
+        </style>
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <t t-call="employee_portal.employee_dashboard_sidebar"/>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <t t-call="employee_portal.dashboard_topbar"/>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- Page Heading -->
+                        <h1 class="h3 mb-2 text-gray-800">Appraisal Details</h1>
+                        <div class="card shadow mb-4">
+                            <div class="row" style="padding-left:20px;padding-right:20px;padding-bottom:20px">
+                                <div style="margin-top:20;width:100%"></div>
+                                <div class="col-sm-6">
+                                    <label for="employee_name">Employee Name</label>
+                                    <input class="form-control form-control-sm" id="employee_name"
+                                           name="employee_name"
+                                           t-att-value="appraisal_rec.employee_id.name"
+                                           placeholder="Employee Name"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="payscale">Designation</label>
+                                    <input class="form-control form-control-sm" id="designation"
+                                           name="designation"
+                                           t-att-value="appraisal_rec.designation"
+                                           placeholder="Designation"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="payscale">Phone</label>
+                                    <input class="form-control form-control-sm" id="Phone"
+                                           name="Phone"
+                                           t-att-value="appraisal_rec.phone"
+                                           placeholder="Phone"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="payscale">Email</label>
+                                    <input class="form-control form-control-sm" id="Email"
+                                           name="Email"
+                                           t-att-value="appraisal_rec.email"
+                                           placeholder="Email"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="payscale">Qualification</label>
+                                    <input class="form-control form-control-sm" id="Qualification"
+                                           name="Qualification"
+                                           t-att-value="appraisal_rec.qualification"
+                                           placeholder="Qualification"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="payscale">No of Citation</label>
+                                    <input class="form-control form-control-sm" id="citation"
+                                           name="payscale"
+                                           t-att-value="appraisal_rec.citations"
+                                           placeholder="Citation"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="payscale">H Index Value</label>
+                                    <input class="form-control form-control-sm" id="payscale"
+                                           name="payscale"
+                                           t-att-value="appraisal_rec.h_index"
+                                           placeholder="H Index Value"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="payscale">Area of Focus</label>
+                                    <input class="form-control form-control-sm" id="focus_area"
+                                           name="focus_area"
+                                           t-att-value="appraisal_rec.focus_area"
+                                           placeholder="Area of Focus"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="payscale">Payscale</label>
+                                    <input class="form-control form-control-sm" id="payscale"
+                                           name="payscale"
+                                           t-att-value="appraisal_rec.payscale"
+                                           placeholder="Payscale"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="joining_date">Employment Date</label>
+                                    <input class="form-control form-control-sm" id="joining_date"
+                                           name="joining_date"
+                                           t-att-value="appraisal_rec.joining_date"
+                                           placeholder="Employment Date"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="birthday">Date Of Birth</label>
+                                    <input class="form-control form-control-sm" id="payscale"
+                                           name="birthday"
+                                           t-att-value="appraisal_rec.birthday"
+                                           placeholder="Birthday"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                            </div>
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Courses Taught</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                        <form onsubmit="save_courses_taught(event)" id="courses_taught">
+                                            <table class="table table-bordered table-striped" id="dataTable"
+                                                   width="100%"
+                                                   cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Code</th>
+                                                        <th>Name</th>
+                                                        <th>Batch</th>
+                                                        <th>Semester</th>
+                                                        <th>Credits</th>
+                                                        <th>Student Feedback</th>
+                                                        <th>Class Audti Socre</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="appraisal_id"
+                                                                   name="appraisal_id"
+                                                                   t-att-value="appraisal_rec.id"
+                                                                   placeholder="appraisal_id" required="true"
+                                                                   type="text"
+                                                                   style="display:none"
+                                                            />
+                                                            <input class="form-control form-control-sm" id="name"
+                                                                   name="name"
+                                                                   placeholder="Name" required="true"
+                                                                   type="text"
+                                                            />
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="code"
+                                                                   name="code"
+                                                                   placeholder="Code" required="true"
+                                                                   type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm" id="batch"
+                                                                   name="batch"
+                                                                   placeholder="Batch" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm" id="semester"
+                                                                   name="semester"
+                                                                   placeholder="Semester" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm" id="credits"
+                                                                   name="credits"
+                                                                   placeholder="Credits" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm"
+                                                                   id="student_feedback"
+                                                                   name="student_feedback"
+                                                                   placeholder="Student Feedback" required="true"
+                                                                   type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm" id="class_audit"
+                                                                   name="class_audit"
+                                                                   placeholder="Class Audit" required="true" type="text"
+                                                            />
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="row" style="padding-top:20px;justify-content:end">
+                                                <input id="employee_profile_save" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+                                                </input>
+                                            </div>
+                                        </form>
+
+                                    </t>
+                                    <table class="table table-bordered table-striped" id="coursesTaughtTable"
+                                           width="100%"
+                                           cellspacing="0">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Batch</th>
+                                                <th>Semester</th>
+                                                <th>Credits</th>
+                                                <th>Student Feedback</th>
+                                                <th>Class Audit Score</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="appraisal_rec.courses_taught_ids" t-as="course">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="course.code"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="course.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="course.batch"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="course.semester"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="course.credits"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="course.student_feedback"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="course.class_audit"/>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None"
+                                                                t-attf-onclick="delete_courses_taught({{ course.id }})"
+                                                                type="button">
+                                                            <i class="fa fa-trash"/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Student Supervision</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                        <form onsubmit="save_student_supervision(event)" id="student_supervision">
+                                            <table class="table table-bordered table-striped" id="dataTable"
+                                                   width="100%"
+                                                   cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Reg No.</th>
+                                                        <th>Batch</th>
+                                                        <th>Semester</th>
+                                                        <th>Type</th>
+                                                        <th>Topic</th>
+                                                        <th>Keyword</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="appraisal_id"
+                                                                   name="appraisal_id"
+                                                                   t-att-value="appraisal_rec.id"
+                                                                   placeholder="appraisal_id" required="true"
+                                                                   type="text"
+                                                                   style="display:none"
+                                                            />
+                                                            <input class="form-control form-control-sm" id="name"
+                                                                   name="name"
+                                                                   placeholder="Name" required="true"
+                                                                   type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="reg_num"
+                                                                   name="reg_num"
+                                                                   placeholder="Register Number" required="true"
+                                                                   type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="batch"
+                                                                   name="batch"
+                                                                   placeholder="Batch" required="true"
+                                                                   type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="semester"
+                                                                   name="semester"
+                                                                   placeholder="Semester" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control form-control-sm" id="type"
+                                                                    name="type"
+                                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                                            >
+                                                                <option value="phd"
+                                                                >
+                                                                    PhD Thesis
+                                                                </option>
+                                                                <option value="ms"
+                                                                >
+                                                                    Ms Thesis
+                                                                </option>
+                                                                <option value="fyp"
+                                                                >
+                                                                    Final Year Project'
+                                                                </option>
+                                                                <option value="internship"
+                                                                >
+                                                                    Internship
+                                                                </option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="topic"
+                                                                   name="topic"
+                                                                   placeholder="Topic" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="keywords"
+                                                                   name="keywords"
+                                                                   placeholder="Keywords" required="true" type="text"
+                                                            />
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="row" style="padding-top:20px;justify-content:end">
+                                                <input id="employee_profile_save" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+
+                                                </input>
+                                            </div>
+                                        </form>
+
+                                    </t>
+                                    <table class="table table-bordered table-striped" id="student_supervision_table"
+                                           width="100%"
+                                           cellspacing="0">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Reg No.</th>
+                                                <th>Batch</th>
+                                                <th>Semester</th>
+                                                <th>Type</th>
+                                                <th>Topic</th>
+                                                <th>Keywords</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="appraisal_rec.student_supervision_ids" t-as="supervision">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="supervision.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="supervision.reg_num"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="supervision.batch"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="supervision.semester"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="supervision.type"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="supervision.topic"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="supervision.keywords"/>
+                                                    </td>
+                                                    <td style="text-align: center;">
+
+                                                        <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                type="button"
+                                                                t-attf-onclick="delete_student_supervision({{ supervision.id }})"
+                                                                t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None">
+                                                            <i class="fa fa-trash"/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Details of Research Publications</h6>
+                            </div>
+                            <div class="card-body">
+
+                                <form onsubmit="save_research_publications(event)" id="research_publications">
+                                    <div class="row" style="padding-left:20px;padding-right:20px;padding-bottom:20px">
+                                        <div class="col-sm-6">
+                                            <label for="employee_name">Type</label>
+                                            <select class="form-control form-control-sm" id="type"
+                                                    name="type"
+                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                            >
+                                                <option value="patent"
+                                                >
+                                                    Patent
+                                                </option>
+                                                <option value="journal"
+                                                >
+                                                    Journal
+                                                </option>
+                                                <option value="book"
+                                                >
+                                                    Book
+                                                </option>
+                                                <option value="chapter"
+                                                >
+                                                    Chapter
+                                                </option>
+                                                <option value="conference"
+                                                >
+                                                    Conference
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="employee_name">Level</label>
+                                            <select class="form-control form-control-sm" id="level"
+                                                    name="type"
+                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                            >
+                                                <option value="international"
+                                                >
+                                                    International
+                                                </option>
+                                                <option value="local"
+                                                >
+                                                    Local
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="employee_name">Rank</label>
+                                            <select class="form-control form-control-sm" id="rank"
+                                                    name="type"
+                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                            >
+                                                <option value="Q1"
+                                                >
+                                                    Q1 Category
+                                                </option>
+                                                <option value="Q2"
+                                                >
+                                                    Q2 Category
+                                                </option>
+                                                <option value="w"
+                                                >
+                                                    W Category
+                                                </option>
+                                                <option value="x"
+                                                >
+                                                    X Category
+                                                </option>
+                                                <option value="y"
+                                                >
+                                                    Y Category
+                                                </option>
+                                                <option value="other"
+                                                >
+                                                    Other
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="employee_name">Index</label>
+                                            <select class="form-control form-control-sm" id="index"
+                                                    name="type"
+                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                            >
+                                                <option value="isi"
+                                                >
+                                                    ISI
+                                                </option>
+                                                <option value="scopus"
+                                                >
+                                                    Scopus
+                                                </option>
+                                                <option value="hec"
+                                                >
+                                                    HEC
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <input class="form-control form-control-sm"
+                                               id="appraisal_id"
+                                               name="appraisal_id"
+                                               t-att-value="appraisal_rec.id"
+                                               placeholder="appraisal_id" required="true"
+                                               type="text"
+                                               style="display:none"
+                                        />
+                                        <div class="col-sm-6">
+                                            <label for="reg_num">PISSN No./EISSN No/Registration No.</label>
+                                            <input class="form-control form-control-sm" id="reg_num"
+                                                   name="reg_num"
+                                                   placeholder="Paper Name" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="name">Title of Paper/Article</label>
+                                            <input class="form-control form-control-sm" id="name"
+                                                   name="name"
+                                                   placeholder="Title of Paper/Article" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="published_in">Published in
+                                                (Journal/Conf./Institute Name)
+                                            </label>
+                                            <input class="form-control form-control-sm" id="published_in"
+                                                   name="published_in"
+                                                   placeholder="Published In" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="author_name">Name of Author (s)</label>
+                                            <input class="form-control form-control-sm" id="author_name"
+                                                   name="author_name"
+                                                   placeholder="Author Name" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="co_author_name">Name of Co-Author (s)</label>
+                                            <input class="form-control form-control-sm" id="co_author_name"
+                                                   name="co_author_name"
+                                                   placeholder="Co-Author Name" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="organizer">Organizer/ Publisher</label>
+                                            <input class="form-control form-control-sm" id="organizer"
+                                                   name="organizer"
+                                                   placeholder="Organizer" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="issue_number">Issue No</label>
+                                            <input class="form-control form-control-sm" id="issue_number"
+                                                   name="issue_number"
+                                                   placeholder="Issue No" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="vol_number">Vol No</label>
+                                            <input class="form-control form-control-sm" id="vol_number"
+                                                   name="vol_number"
+                                                   placeholder="Vol No" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="published_pages">Published Pages (PP)</label>
+                                            <input class="form-control form-control-sm" id="published_pages"
+                                                   name="published_pages"
+                                                   placeholder="Published Pages" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="publication_date">Publication/Registration Date</label>
+                                            <input class="form-control form-control-sm" id="publication_date"
+                                                   name="publication_date"
+                                                   placeholder="Published Date" required="true" type="date"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="keyword">Keywords/Specialization</label>
+                                            <input class="form-control form-control-sm" id="keyword"
+                                                   name="keyword"
+                                                   placeholder="Keywords/Specialization" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="url">URL (Journal/Conf/Institute Link)</label>
+                                            <input class="form-control form-control-sm" id="url"
+                                                   name="url"
+                                                   placeholder="URL (Journal/Conf/Institute Link)" required="true"
+                                                   type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="impact_factor">Impact Factor (Year of Publishing)</label>
+                                            <input class="form-control form-control-sm" id="impact_factor"
+                                                   name="impact_factor"
+                                                   placeholder="Impact Factor (Year of Publishing)" required="true"
+                                                   type="text"
+                                            />
+                                        </div>
+                                    </div>
+                                    <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                        <div class="row" style="padding-top:20px;justify-content:end">
+                                            <input id="funding_entrepreneurial" type="submit"
+                                                   class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                   value="Save">
+
+                                            </input>
+                                        </div>
+                                    </t>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+                        <h1 class="h3 mb-2 text-gray-800">Details of Research Publications</h1>
+                        <t t-foreach="appraisal_rec.research_publication_ids" t-as="publication">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <div class="row" style="padding-left:20px;padding-right:20px;padding-bottom:20px">
+                                        <div class="col-sm-6">
+                                            <label for="employee_name">Type</label>
+                                            <select class="form-control form-control-sm" id="type"
+                                                    name="type"
+                                                    disabled="1"
+                                            >
+                                                <option value="patent"
+                                                >
+                                                    Patent
+                                                </option>
+                                                <option value="journal"
+                                                >
+                                                    Journal
+                                                </option>
+                                                <option value="book"
+                                                >
+                                                    Book
+                                                </option>
+                                                <option value="chapter"
+                                                >
+                                                    Chapter
+                                                </option>
+                                                <option value="conference"
+                                                >
+                                                    Conference
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="employee_name">Level</label>
+                                            <select class="form-control form-control-sm" id="level"
+                                                    name="type"
+                                                    disabled="1"
+                                            >
+                                                <option value="international"
+                                                >
+                                                    International
+                                                </option>
+                                                <option value="local"
+                                                >
+                                                    Local
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="employee_name">Rank</label>
+                                            <select class="form-control form-control-sm" id="rank"
+                                                    name="type"
+                                                    disabled="1"
+                                            >
+                                                <option value="Q1"
+                                                >
+                                                    Q1 Category
+                                                </option>
+                                                <option value="Q2"
+                                                >
+                                                    Q2 Category
+                                                </option>
+                                                <option value="w"
+                                                >
+                                                    W Category
+                                                </option>
+                                                <option value="x"
+                                                >
+                                                    X Category
+                                                </option>
+                                                <option value="y"
+                                                >
+                                                    Y Category
+                                                </option>
+                                                <option value="other"
+                                                >
+                                                    Other
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="employee_name">Index</label>
+                                            <select class="form-control form-control-sm" id="index"
+                                                    name="type"
+                                                    disabled="1"
+                                            >
+                                                <option value="isi"
+                                                >
+                                                    ISI
+                                                </option>
+                                                <option value="scopus"
+                                                >
+                                                    Scopus
+                                                </option>
+                                                <option value="hec"
+                                                >
+                                                    HEC
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <input class="form-control form-control-sm"
+                                               id="appraisal_id"
+                                               name="appraisal_id"
+                                               t-att-value="appraisal_rec.id"
+                                               placeholder="appraisal_id" required="true"
+                                               type="text"
+                                               style="display:none"
+                                        />
+                                        <div class="col-sm-6">
+                                            <label for="reg_num">PISSN No./EISSN No/Registration No.</label>
+                                            <input class="form-control form-control-sm" id="reg_num"
+                                                   name="reg_num"
+                                                   t-att-value="publication.reg_num"
+                                                   disabled="1"
+                                                   placeholder="PISSN No./EISSN No/Registration No." required="true"
+                                                   type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="name">Title of Paper/Article</label>
+                                            <input class="form-control form-control-sm" id="name"
+                                                   name="name"
+                                                   t-att-value="publication.name"
+                                                   disabled="1"
+                                                   placeholder="Title of Paper/Article" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="published_in">Published in
+                                                (Journal/Conf./Institute Name)
+                                            </label>
+                                            <input class="form-control form-control-sm" id="published_in"
+                                                   name="published_in"
+                                                   t-att-value="publication.published_in"
+                                                   disabled="1"
+                                                   placeholder="Published In" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="author_name">Name of Author (s)</label>
+                                            <input class="form-control form-control-sm" id="author_name"
+                                                   name="author_name"
+                                                   t-att-value="publication.author_name"
+                                                   disabled="1"
+                                                   placeholder="Author Name" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="co_author_name">Name of Co-Author (s)</label>
+                                            <input class="form-control form-control-sm" id="co_author_name"
+                                                   name="co_author_name"
+                                                   t-att-value="publication.co_author_name"
+                                                   disabled="1"
+                                                   placeholder="Co-Author Name" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="organizer">Organizer/ Publisher</label>
+                                            <input class="form-control form-control-sm" id="organizer"
+                                                   name="organizer"
+                                                   t-att-value="publication.organizer"
+                                                   disabled="1"
+                                                   placeholder="Organizer" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="issue_number">Issue No</label>
+                                            <input class="form-control form-control-sm" id="issue_number"
+                                                   name="issue_number"
+                                                   t-att-value="publication.issue_number"
+                                                   disabled="1"
+                                                   placeholder="Issue No" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="vol_number">Vol No</label>
+                                            <input class="form-control form-control-sm" id="vol_number"
+                                                   name="vol_number"
+                                                   t-att-value="publication.vol_number"
+                                                   disabled="1"
+                                                   placeholder="Vol No" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="published_pages">Published Pages (PP)</label>
+                                            <input class="form-control form-control-sm" id="published_pages"
+                                                   name="published_pages"
+                                                   t-att-value="publication.published_pages"
+                                                   disabled="1"
+                                                   placeholder="Published Pages" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="publication_date">Publication/Registration Date</label>
+                                            <input class="form-control form-control-sm" id="publication_date"
+                                                   name="publication_date"
+                                                   t-att-value="publication.publication_date"
+                                                   disabled="1"
+                                                   placeholder="Published Date" required="true" type="date"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="publication_date">Keywords/Specialization</label>
+                                            <input class="form-control form-control-sm" id="keyword"
+                                                   name="keyword"
+                                                   t-att-value="publication.keyword"
+                                                   disabled="1"
+                                                   placeholder="Keywords/Specialization" required="true" type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="publication_date">URL (Journal/Conf/Institute Link)</label>
+                                            <input class="form-control form-control-sm" id="url"
+                                                   name="url"
+                                                   t-att-value="publication.url"
+                                                   disabled="1"
+                                                   placeholder="URL (Journal/Conf/Institute Link)" required="true"
+                                                   type="text"
+                                            />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="publication_date">Impact Factor (Year of Publishing)</label>
+                                            <input class="form-control form-control-sm" id="impact_factor"
+                                                   name="impact_factor"
+                                                   t-att-value="publication.impact_factor"
+                                                   disabled="1"
+                                                   placeholder="Impact Factor (Year of Publishing)" required="true"
+                                                   type="text"
+                                            />
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding-top:20px;justify-content:end">
+                                        <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                type="button"
+                                                t-attf-onclick="delete_research_publications({{ publication.id }})"
+                                                t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None">
+                                            <i class="fa fa-trash"/>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </t>
+
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Funding and Entrepreneurial Activity</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                        <form onsubmit="save_funding_entrepreneurial(event)"
+                                              id="funding_and_entrepreneurial">
+                                            <table class="table table-bordered table-striped" id="dataTable"
+                                                   width="100%"
+                                                   cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Type</th>
+                                                        <th>Level</th>
+                                                        <th>Date of Approval</th>
+                                                        <th>Amount</th>
+                                                        <th>Title</th>
+                                                        <th>Keyword</th>
+                                                        <th>Co-PIs</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="appraisal_id"
+                                                                   name="appraisal_id"
+                                                                   t-att-value="appraisal_rec.id"
+                                                                   placeholder="appraisal_id" required="true"
+                                                                   type="text"
+                                                                   style="display:none"
+                                                            />
+                                                            <select class="form-control form-control-sm" id="type"
+                                                                    name="type"
+                                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                                            >
+                                                                <option value="industrial"
+                                                                >
+                                                                    Industrial Project
+                                                                </option>
+                                                                <option value="rnd"
+                                                                >
+                                                                    RND Project
+                                                                </option>
+                                                                <option value="consultancy"
+                                                                >
+                                                                    Consultancy
+                                                                </option>
+                                                                <option value="startup"
+                                                                >
+                                                                    Start-Up
+                                                                </option>
+                                                                <option value="other"
+                                                                >
+                                                                    Other
+                                                                </option>
+
+                                                            </select>
+
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control form-control-sm" id="level"
+                                                                    name="level"
+                                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                                            >
+                                                                <option value="international"
+                                                                >
+                                                                    International
+                                                                </option>
+                                                                <option value="local"
+                                                                >
+                                                                    Local
+                                                                </option>
+
+
+                                                            </select>
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="approval_date"
+                                                                   name="approval_date"
+                                                                   placeholder="Approval Date" required="true"
+                                                                   type="date"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="amount"
+                                                                   name="amount"
+                                                                   placeholder="Amount" required="true"
+                                                                   type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="name"
+                                                                   name="name"
+                                                                   placeholder="Title/Name" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="keywords"
+                                                                   name="keywords"
+                                                                   placeholder="Keywords" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="copi"
+                                                                   name="copi"
+                                                                   placeholder="Co-Pi" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="row" style="padding-top:20px;justify-content:end">
+                                                <input id="funding_entrepreneurial" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+
+                                                </input>
+                                            </div>
+                                        </form>
+
+                                    </t>
+                                    <table class="table table-bordered table-striped" id="funding_entrepreneurial_table"
+                                           width="100%"
+                                           cellspacing="0">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Level</th>
+                                                <th>Date of Approval</th>
+                                                <th>Amount</th>
+                                                <th>Title</th>
+                                                <th>Keyword</th>
+                                                <th>Co-PIs</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="appraisal_rec.funding_activities_ids" t-as="funding_act">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="funding_act.type"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="funding_act.level"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="funding_act.approval_date"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="funding_act.amount"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="funding_act.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="funding_act.keywords"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="funding_act.copi"/>
+                                                    </td>
+
+                                                    <td style="text-align: center;">
+
+                                                        <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                type="button"
+                                                                t-attf-onclick="delete_funding_entrepreneurial({{ funding_act.id }})"
+                                                                t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None">
+                                                            <i class="fa fa-trash"/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Institutional Service</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                        <form onsubmit="save_institutional_service(event)"
+                                              id="institutional_service">
+                                            <table class="table table-bordered table-striped" id="dataTable"
+                                                   width="100%"
+                                                   cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Type</th>
+                                                        <th>Frequency</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                        <th>Description</th>
+                                                        <th>Keyword</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="appraisal_id"
+                                                                   name="appraisal_id"
+                                                                   t-att-value="appraisal_rec.id"
+                                                                   placeholder="appraisal_id" required="true"
+                                                                   type="text"
+                                                                   style="display:none"
+                                                            />
+                                                            <select class="form-control form-control-sm" id="type"
+                                                                    name="type"
+                                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                                            >
+                                                                <option value="hod"
+                                                                >
+                                                                    HOD/Chairman
+                                                                </option>
+                                                                <option value="c-governor"
+                                                                >
+                                                                    Committee Convenor
+                                                                </option>
+                                                                <option value="c-member"
+                                                                >
+                                                                    Committee Member
+                                                                </option>
+                                                                <option value="student_advisory"
+                                                                >
+                                                                    Student Advisory
+                                                                </option>
+
+
+                                                                <option value="co_supervision"
+                                                                >
+                                                                    Co-Supervision
+                                                                </option>
+                                                                <option value="co-pi"
+                                                                >
+                                                                    Co-PI
+                                                                </option>
+
+                                                            </select>
+
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control form-control-sm" id="frequency"
+                                                                    name="frequency"
+                                                                    t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                                            >
+                                                                <option value="regular"
+                                                                >
+                                                                    Regular
+                                                                </option>
+                                                                <option value="semester-wise"
+                                                                >
+                                                                    Semester Wise
+                                                                </option>
+                                                                <option value="monthly"
+                                                                >
+                                                                    Monthly
+                                                                </option>
+
+                                                                <option value="weekly"
+                                                                >
+                                                                    Weekly
+                                                                </option>
+
+                                                                <option value="daily"
+                                                                >
+                                                                    Daily
+                                                                </option>
+
+
+                                                            </select>
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="start_date"
+                                                                   name="start_date"
+                                                                   placeholder="Start Date" required="true"
+                                                                   type="date"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="end_date"
+                                                                   name="end_date"
+                                                                   placeholder="End Date" required="true"
+                                                                   type="date"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="description"
+                                                                   name="description"
+                                                                   placeholder="Description" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm" id="keywords"
+                                                                   name="keywords"
+                                                                   placeholder="Keywords" required="true" type="text"
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="row" style="padding-top:20px;justify-content:end">
+                                                <input id="funding_entrepreneurial" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+
+                                                </input>
+                                            </div>
+                                        </form>
+
+                                    </t>
+                                    <table class="table table-bordered table-striped" id="institutional_service_table"
+                                           width="100%"
+                                           cellspacing="0">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Frequency</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Description</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="appraisal_rec.institutional_services_ids"
+                                               t-as="institutional_service">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="institutional_service.type"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="institutional_service.frequency"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="institutional_service.start_date"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="institutional_service.end_date"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="institutional_service.description"/>
+                                                    </td>
+
+                                                    <td style="text-align: center;">
+
+                                                        <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                type="button"
+                                                                t-attf-onclick="delete_institutional_service({{ institutional_service.id }})"
+                                                                t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None">
+                                                            <i class="fa fa-trash"/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:20px;justify-content:center">
+                            <form onsubmit="faculty_submit_to_reporting(event)" id="submit_to_reporting_faculty">
+                                <input class="form-control form-control-sm" id="appraisal_id"
+                                       name="appraisal_id"
+                                       t-att-value="appraisal_rec.id"
+                                       placeholder="appraisal_id" required="true"
+                                       type="text"
+                                       style="display:none"
+                                />
+
+                                <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                    <input id="employee_appraisal_submit_reporting" type="submit"
+                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                           value="Submit">
+                                    </input>
+                                </t>
+
+                            </form>
+
+                        </div>
+                        <h1 class="h3 mb-2 text-gray-800">To be filled by reporting officer</h1>
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Personal Traits</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id and appraisal_rec.state=='reporting'">
+                                            <form onsubmit="save_personal_traits(event)"
+                                                  id="personal_trait">
+                                                <table class="table table-bordered table-striped" id="dataTable"
+                                                       width="100%"
+                                                       cellspacing="0">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Type</th>
+                                                            <th>Weightage</th>
+                                                            <th>Total Marks</th>
+                                                            <th>Obtained Marks</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="appraisal_id"
+                                                                       name="appraisal_id"
+                                                                       t-att-value="appraisal_rec.id"
+                                                                       placeholder="appraisal_id" required="true"
+                                                                       type="text"
+                                                                       style="display:none"
+                                                                />
+                                                                <input class="form-control form-control-sm"
+                                                                       id="name"
+                                                                       name="name"
+                                                                       placeholder="Type" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="weightage"
+                                                                       name="weightage"
+                                                                       placeholder="Weightage" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="marks"
+                                                                       name="marks"
+                                                                       placeholder="Total Marks" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="marks_obtained"
+                                                                       name="marks_obtained"
+                                                                       placeholder="Marks Obtained" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="row" style="padding-top:20px;justify-content:end">
+                                                    <input id="submit_button" type="submit"
+                                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                           value="Save">
+                                                    </input>
+                                                </div>
+                                            </form>
+                                        </t>
+                                        <table class="table table-bordered table-striped"
+                                               id="institutional_service_table"
+                                               width="100%"
+                                               cellspacing="0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Weightage</th>
+                                                    <th>Total Marks</th>
+                                                    <th>Obtained</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                <t t-foreach="appraisal_rec.personal_trait_ids"
+                                                   t-as="personal_trait">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="personal_trait.name"/>
+                                                        </td>
+                                                        <td>
+
+                                                            <t t-esc="personal_trait.weightage"/>
+                                                        </td>
+                                                        <td>
+
+                                                            <t t-esc="personal_trait.marks"/>
+                                                        </td>
+                                                        <td>
+
+                                                            <t t-esc="personal_trait.marks_obtained"/>
+                                                        </td>
+                                                        <td style="text-align: center;">
+
+                                                            <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                    type="button"
+                                                                    t-attf-onclick="delete_personal_traits({{ personal_trait.id }})"
+                                                                    t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='draft' else None">
+                                                                <i class="fa fa-trash"/>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--                        Add teaching experience-->
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">TEACHING</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id and appraisal_rec.state=='reporting'">
+                                            <form onsubmit="save_teaching(event)"
+                                                  id="teaching">
+                                                <table class="table table-bordered table-striped" id="dataTable"
+                                                       width="100%"
+                                                       cellspacing="0">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Course Title</th>
+                                                            <th>Weightage</th>
+                                                            <th>Credits</th>
+                                                            <th>Marks Obtained</th>
+                                                            <th>Student Feedback</th>
+                                                            <th>Class Audit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="appraisal_id"
+                                                                       name="appraisal_id"
+                                                                       t-att-value="appraisal_rec.id"
+                                                                       placeholder="appraisal_id" required="true"
+                                                                       type="text"
+                                                                       style="display:none"
+                                                                />
+                                                                <input class="form-control form-control-sm"
+                                                                       id="name"
+                                                                       name="name"
+                                                                       placeholder="Course Title" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="weightage"
+                                                                       name="weightage"
+                                                                       placeholder="Weightage" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="credits"
+                                                                       name="credits"
+                                                                       placeholder="Credits" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="marks_obtained"
+                                                                       name="marks_obtained"
+                                                                       placeholder="End Date" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="student_feedback_average"
+                                                                       name="student_feedback_average"
+                                                                       placeholder="Student Feedback" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="class_audit"
+                                                                       name="class_audit"
+                                                                       placeholder="Class Audit" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="row" style="padding-top:20px;justify-content:end">
+                                                    <input id="submit_button" type="submit"
+                                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                           value="Save">
+
+                                                    </input>
+                                                </div>
+                                            </form>
+                                        </t>
+
+                                        <table class="table table-bordered table-striped"
+                                               id="aar_teaching_services_table"
+                                               width="100%"
+                                               cellspacing="0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Course Title</th>
+                                                    <th>Weightage</th>
+                                                    <th>Credits</th>
+                                                    <th>Marks Obtained</th>
+                                                    <th>Student Feedback</th>
+                                                    <th>Class Audit</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                <t t-foreach="appraisal_rec.aar_teaching_ids"
+                                                   t-as="aar_teaching">
+                                                    <tr>
+                                                        <td>
+
+                                                            <t t-esc="aar_teaching.name"/>
+                                                        </td>
+                                                        <td>
+
+                                                            <t t-esc="aar_teaching.weightage"/>
+                                                        </td>
+                                                        <td>
+
+                                                            <t t-esc="aar_teaching.credits"/>
+                                                        </td>
+                                                        <td>
+
+                                                            <t t-esc="aar_teaching.marks_obtained"/>
+                                                        </td>
+                                                        <td>
+
+                                                            <t t-esc="aar_teaching.student_feedback_average"/>
+                                                        </td>
+                                                        <td>
+
+                                                            <t t-esc="aar_teaching.class_audit"/>
+                                                        </td>
+                                                        <td style="text-align: center;">
+
+                                                            <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                    type="button"
+                                                                    t-attf-onclick="delete_teaching({{ aar_teaching.id }})"
+                                                                    t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None">
+                                                                <i class="fa fa-trash"/>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+
+
+                                            </tbody>
+                                        </table>
+                                        <div class="row" style="justify-content:end">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--                        Add Student Supervision-->
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Student Supervision</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id or appraisal_rec.state=='reporting'">
+                                            <form onsubmit="save_aar_student_supervision(event)"
+                                                  id="aar_student_supervision">
+                                                <table class="table table-bordered table-striped" id="dataTable"
+                                                       width="100%"
+                                                       cellspacing="0">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Type</th>
+                                                            <th>Weightage</th>
+                                                            <th>Count</th>
+                                                            <th>Marks Obtained</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="appraisal_id"
+                                                                       name="appraisal_id"
+                                                                       t-att-value="appraisal_rec.id"
+                                                                       placeholder="appraisal_id" required="true"
+                                                                       type="text"
+                                                                       style="display:none"
+                                                                />
+                                                                <input class="form-control form-control-sm"
+                                                                       id="name"
+                                                                       name="name"
+                                                                       placeholder="Course Title" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="weightage"
+                                                                       name="weightage"
+                                                                       placeholder="Weightage" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="count"
+                                                                       name="count"
+                                                                       placeholder="Count" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="marks_obtained"
+                                                                       name="marks_obtained"
+                                                                       placeholder="Marks Obtained" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="row" style="padding-top:20px;justify-content:end">
+                                                    <input id="submit_button" type="submit"
+                                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                           value="Save">
+
+                                                    </input>
+                                                </div>
+                                            </form>
+
+                                        </t>
+                                        <table class="table table-bordered table-striped"
+                                               id="institutional_service_table"
+                                               width="100%"
+                                               cellspacing="0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Weightage</th>
+                                                    <th>Count</th>
+                                                    <th>Marks Obtained</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                <t t-foreach="appraisal_rec.aar_student_supervision_ids"
+                                                   t-as="aar_student_supervision">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="aar_student_supervision.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_student_supervision.weightage"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_student_supervision.count"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_student_supervision.marks_obtained"/>
+                                                        </td>
+                                                        <td style="text-align: center;">
+
+                                                            <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                    type="button"
+                                                                    t-attf-onclick="delete_aar_student_supervision({{ aar_student_supervision.id }})"
+                                                                    t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None">
+                                                                <i class="fa fa-trash"/>
+                                                            </button>
+                                                        </td>
+
+                                                    </tr>
+                                                </t>
+
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--                        Add Research Publications-->
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Research Publication</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id or appraisal_rec.state=='reporting'">
+                                            <form onsubmit="save_aar_research_publications(event)"
+                                                  id="aar_research_publications">
+                                                <table class="table table-bordered table-striped" id="dataTable"
+                                                       width="100%"
+                                                       cellspacing="0">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Type</th>
+                                                            <th>Weightage</th>
+                                                            <th>Count</th>
+                                                            <th>Marks Obtained</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="appraisal_id"
+                                                                       name="appraisal_id"
+                                                                       t-att-value="appraisal_rec.id"
+                                                                       placeholder="appraisal_id" required="true"
+                                                                       type="text"
+                                                                       style="display:none"
+                                                                />
+                                                                <select class="form-control form-control-sm" id="name"
+                                                                        name="name"
+
+                                                                >
+                                                                    <option value="Q1"
+                                                                    >
+                                                                        Q1 Category
+                                                                    </option>
+                                                                    <option value="Q2"
+                                                                    >
+                                                                        Q2 Category
+                                                                    </option>
+                                                                    <option value="w"
+                                                                    >
+                                                                        W Category
+                                                                    </option>
+                                                                    <option value="x"
+                                                                    >
+                                                                        X Category
+                                                                    </option>
+                                                                    <option value="y"
+                                                                    >
+                                                                        Y Category
+                                                                    </option>
+                                                                    <option value="other"
+                                                                    >
+                                                                        Other
+                                                                    </option>
+                                                                </select>
+
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="weightage"
+                                                                       name="weightage"
+                                                                       placeholder="Weightage" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="count"
+                                                                       name="count"
+                                                                       placeholder="Count" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="total_marks"
+                                                                       name="total_marks"
+                                                                       placeholder="Total Marks" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="row" style="padding-top:20px;justify-content:end">
+                                                    <input id="submit_button" type="submit"
+                                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                           value="Save">
+
+                                                    </input>
+                                                </div>
+                                            </form>
+
+                                        </t>
+                                        <table class="table table-bordered table-striped"
+                                               id="institutional_service_table"
+                                               width="100%"
+                                               cellspacing="0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Weightage</th>
+                                                    <th>Count</th>
+                                                    <th>Total Marks</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                <t t-foreach="appraisal_rec.publication_ids"
+                                                   t-as="aar_publication_id">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="aar_publication_id.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_publication_id.weightage"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_publication_id.count"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_publication_id.total_marks"/>
+                                                        </td>
+                                                        <td style="text-align: center;">
+
+                                                            <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                    type="button"
+                                                                    t-attf-onclick="delete_aar_research_publications({{ aar_publication_id.id }})"
+                                                                    t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None">
+                                                                <i class="fa fa-trash"/>
+                                                            </button>
+                                                        </td>
+
+                                                    </tr>
+                                                </t>
+
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  FUNDING & ENTREPRENEURIAL ACTIVITIES -->
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">FUNDING AND ENTREPRENEURIAL
+                                        ACTIVITIES
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id or appraisal_rec.state=='reporting'">
+                                            <form onsubmit="save_aar_funding_entrepreneurial(event)"
+                                                  id="aar_funding_entrepreneurial">
+                                                <table class="table table-bordered table-striped" id="dataTable"
+                                                       width="100%"
+                                                       cellspacing="0">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Type</th>
+                                                            <th>Amount</th>
+                                                            <th>Point</th>
+                                                            <th>Marks Obtained</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="appraisal_id"
+                                                                       name="appraisal_id"
+                                                                       t-att-value="appraisal_rec.id"
+                                                                       placeholder="appraisal_id" required="true"
+                                                                       type="text"
+                                                                       style="display:none"
+                                                                />
+                                                                <select class="form-control form-control-sm" id="name"
+                                                                        name="name"
+                                                                        t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                                                >
+                                                                    <option value="industrial"
+                                                                    >
+                                                                        Industrial Project
+                                                                    </option>
+                                                                    <option value="rnd"
+                                                                    >
+                                                                        RND Project
+                                                                    </option>
+                                                                    <option value="consultancy"
+                                                                    >
+                                                                        Consultancy
+                                                                    </option>
+                                                                    <option value="startup"
+                                                                    >
+                                                                        Start-Up
+                                                                    </option>
+                                                                    <option value="other"
+                                                                    >
+                                                                        Other
+                                                                    </option>
+
+                                                                </select>
+
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="amount"
+                                                                       name="amount"
+                                                                       placeholder="Amount" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="point"
+                                                                       name="point"
+                                                                       placeholder="Point" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="marks_obtained"
+                                                                       name="marks_obtained"
+                                                                       placeholder="Marks Obtained" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="row" style="padding-top:20px;justify-content:end">
+                                                    <input id="submit_button" type="submit"
+                                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                           value="Save">
+
+                                                    </input>
+                                                </div>
+                                            </form>
+
+                                        </t>
+                                        <table class="table table-bordered table-striped"
+                                               id="institutional_service_table"
+                                               width="100%"
+                                               cellspacing="0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Amount</th>
+                                                    <th>Point</th>
+                                                    <th>Marks Obtained</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                <t t-foreach="appraisal_rec.aar_funding_activity_ids"
+                                                   t-as="aar_funding_activity">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="aar_funding_activity.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_funding_activity.amount"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_funding_activity.point"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_funding_activity.marks_obtained"/>
+                                                        </td>
+                                                        <td style="text-align: center;">
+
+                                                            <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                    type="button"
+                                                                    t-attf-onclick="delete_aar_funding_entrepreneurial({{ aar_funding_activity.id }})"
+                                                                    t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None">
+                                                                <i class="fa fa-trash"/>
+                                                            </button>
+                                                        </td>
+
+                                                    </tr>
+                                                </t>
+
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--  AAr institutional ACTIVITIES -->
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">INSTITUTIONAL SERVICES</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id or appraisal_rec.state=='reporting'">
+                                            <form onsubmit="save_aar_institutional_services(event)"
+                                                  id="aar_institutional_services">
+                                                <table class="table table-bordered table-striped" id="dataTable"
+                                                       width="100%"
+                                                       cellspacing="0">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Weightage</th>
+                                                            <th>Count</th>
+                                                            <th>Marks Obtained</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="appraisal_id"
+                                                                       name="appraisal_id"
+                                                                       t-att-value="appraisal_rec.id"
+                                                                       placeholder="appraisal_id" required="true"
+                                                                       type="text"
+                                                                       style="display:none"
+                                                                />
+                                                                <select class="form-control form-control-sm" id="name"
+                                                                        name="name"
+                                                                        t-att-disabled="true if employee_id!=logged_in_employee_id and appraisal_rec.state!='draft' else None"
+                                                                >
+                                                                    <option value="hod"
+                                                                    >
+                                                                        HOD/Chairman
+                                                                    </option>
+                                                                    <option value="c-governor"
+                                                                    >
+                                                                        Committee Convenor
+                                                                    </option>
+                                                                    <option value="c-member"
+                                                                    >
+                                                                        Committee Member
+                                                                    </option>
+                                                                    <option value="student_advisory"
+                                                                    >
+                                                                        Student Advisory
+                                                                    </option>
+
+
+                                                                    <option value="co_supervision"
+                                                                    >
+                                                                        Co-Supervision
+                                                                    </option>
+                                                                    <option value="co-pi"
+                                                                    >
+                                                                        Co-PI
+                                                                    </option>
+
+                                                                </select>
+
+
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="amount"
+                                                                       name="amount"
+                                                                       placeholder="Amount" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="point"
+                                                                       name="point"
+                                                                       placeholder="Point" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm"
+                                                                       id="marks_obtained"
+                                                                       name="marks_obtained"
+                                                                       placeholder="Marks Obtained" required="true"
+                                                                       type="text"
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="row" style="padding-top:20px;justify-content:end">
+                                                    <input id="submit_button" type="submit"
+                                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                           value="Save">
+
+                                                    </input>
+                                                </div>
+                                            </form>
+
+                                        </t>
+                                        <table class="table table-bordered table-striped"
+                                               id="institutional_service_table"
+                                               width="100%"
+                                               cellspacing="0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Weightage</th>
+                                                    <th>Count</th>
+                                                    <th>Marks Obtained</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                <t t-foreach="appraisal_rec.aar_institutional_services_ids"
+                                                   t-as="aar_institutional_services">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="aar_institutional_services.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_institutional_services.weightage"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_institutional_services.count"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="aar_institutional_services.marks_obtained"/>
+                                                        </td>
+                                                        <td style="text-align: center;">
+
+                                                            <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                    type="button"
+                                                                    t-attf-onclick="delete_aar_institutional_services({{ aar_institutional_services.id }})"
+                                                                    t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None">
+                                                                <i class="fa fa-trash"/>
+                                                            </button>
+                                                        </td>
+
+                                                    </tr>
+                                                </t>
+
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Overall Score -->
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">OVERALL SCORE</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped"
+                                               id="institutional_service_table"
+                                               width="100%"
+                                               cellspacing="0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Personal Traits</th>
+                                                    <th>Teaching</th>
+                                                    <th>Student Supervision</th>
+                                                    <th>Research Output</th>
+                                                    <th>Funding and Entrepreneurial Activities</th>
+                                                    <th>Institutional Services</th>
+                                                    <th>Total Marks</th>
+                                                    <th>Grade</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="appraisal_rec.aar_personal_trait_marks"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="appraisal_rec.aar_teaching_marks"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="appraisal_rec.aar_student_supervision_marks"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="appraisal_rec.aar_publication_marks"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="appraisal_rec.aar_funding_activity_marks"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="appraisal_rec.aar_institutional_marks"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="appraisal_rec.aar_total_marks"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="appraisal_rec.overall_grade"/>
+                                                    </td>
+
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Comments / Recommendations by the
+                                        Reporting Officer
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <form onsubmit="save_signing_officer_recommendations(event)"
+                                          id="signing_officer_recommendations_form">
+                                        <input class="form-control form-control-sm" id="appraisal_id"
+                                               name="appraisal_id"
+                                               t-att-value="appraisal_rec.id"
+                                               placeholder="appraisal_id" required="true"
+                                               type="text"
+                                               style="display:none"
+                                        />
+                                        <input name="employee_id" id="employee_id" style="display:none"
+                                               t-att-value="employee_id"></input>
+                                        <input class="form-control form-control-sm"
+                                               t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id else None"
+                                               name="signing_authority_remarks"
+                                               t-att-value="appraisal_rec.signing_authority_remarks"></input>
+
+                                        <label for="signing_degree_of_contact">Degree of Contact with the Reported
+                                            Officer
+                                        </label>
+                                        <select class="form-control form-control-sm" id="signing_degree_of_contact"
+                                                name="signing_degree_of_contact"
+                                                t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id else None"
+                                        >
+                                            <option value="weak"
+                                                    t-att-selected="true if appraisal_rec.signing_degree_of_contact=='weak' else None"
+                                            >
+                                                Weak
+                                            </option>
+                                            <option value="fair"
+                                                    t-att-selected="true if appraisal_rec.signing_degree_of_contact=='fair' else None"
+                                            >
+                                                Fair
+                                            </option>
+                                            <option value="strong"
+                                                    t-att-selected="true if appraisal_rec.signing_degree_of_contact=='strong' else None"
+                                            >
+                                                Strong
+                                            </option>
+                                        </select>
+                                        <label for="counter_sign_authority">
+                                            Assign Counter-Sign Authority
+                                        </label>
+                                        <select class="form-control form-control-sm" id="counter_sign_authority"
+                                                name="counter_sign_authority"
+                                                t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None"
+                                        >
+
+                                            <t t-as="employee" t-foreach="employees">
+                                                <option t-att-selected="true if appraisal_rec.counter_sign_id.id==employee.id else None"
+                                                        t-att-value="employee.id">
+                                                    <span t-esc="employee.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                        <div class="row" style="justify-content:end">
+                                            <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id and appraisal_rec.state=='reporting'">
+                                                <input id="section_data_fill" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+                                                </input>
+                                            </t>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:20px;justify-content:center">
+                            <form onsubmit="faculty_submit_to_counter(event)" id="faculty_submit_to_counter">
+                                <input class="form-control form-control-sm" id="appraisal_id"
+                                       name="appraisal_id"
+                                       t-att-value="appraisal_rec.id"
+                                       placeholder="appraisal_id" required="true"
+                                       type="text"
+                                       style="display:none"
+                                />
+
+                                <t t-if="appraisal_rec.counter_sign_id.id==logged_in_employee_id and appraisal_rec.state=='reporting'">
+                                    <input id="employee_appraisal_submit_reporting" type="submit"
+                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                           value="Submit">
+                                    </input>
+                                </t>
+
+                            </form>
+
+                        </div>
+
+                        <h1 class="h3 mb-2 text-gray-800">To be filled by counter signing officer</h1>
+
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Comments / Recommendations by the
+                                        Countersigning Officer
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <form onsubmit="save_counter_sign_recommendations(event)"
+                                          id="counter_sign_recommendations_form">
+                                        <input class="form-control form-control-sm" id="appraisal_id"
+                                               name="appraisal_id"
+                                               t-att-value="appraisal_rec.id"
+                                               placeholder="appraisal_id" required="true"
+                                               type="text"
+                                               style="display:none"
+                                        />
+                                        <input name="employee_id" id="employee_id" style="display:none"
+                                               t-att-value="employee_id"></input>
+                                        <input class="form-control form-control-sm"
+                                               t-att-disabled="true if appraisal_rec.counter_sign_id.id!=logged_in_employee_id else None"
+                                               name="counter_sign_remarks"
+                                               t-att-value="appraisal_rec.counter_sign_remarks"></input>
+
+                                        <label for="counter_sign_authority">
+                                            Assign Senior Counter-Sign Authority
+                                        </label>
+                                        <select class="form-control form-control-sm" id="senior_counter_sign_id"
+                                                name="senior_counter_sign_id"
+                                                t-att-disabled="true if appraisal_rec.counter_sign_id.id!=logged_in_employee_id and appraisal_rec.state!='reporting' else None"
+                                        >
+
+                                            <t t-as="employee" t-foreach="employees">
+                                                <option t-att-selected="true if appraisal_rec.senior_counter_sign_id.id==employee.id else None"
+                                                        t-att-value="employee.id">
+                                                    <span t-esc="employee.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                        <div class="row" style="justify-content:end">
+                                            <t t-if="appraisal_rec.counter_sign_id.id==logged_in_employee_id and appraisal_rec.state=='reporting'">
+                                                <input id="section_data_fill" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+                                                </input>
+                                            </t>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:20px;justify-content:center">
+                            <form onsubmit="faculty_submit_to_senior_counter(event)" id="faculty_submit_to_senior_counter">
+                                <input class="form-control form-control-sm" id="appraisal_id"
+                                       name="appraisal_id"
+                                       t-att-value="appraisal_rec.id"
+                                       placeholder="appraisal_id" required="true"
+                                       type="text"
+                                       style="display:none"
+                                />
+
+                                <t t-if="appraisal_rec.counter_sign_id.id==logged_in_employee_id and appraisal_rec.state=='counter-sign'">
+                                    <input id="employee_appraisal_submit_reporting" type="submit"
+                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                           value="Submit">
+                                    </input>
+                                </t>
+
+                            </form>
+
+                        </div>
+
+                        <h3 class="h3 mb-2 text-gray-800">To be filled by senior counter sign authority</h3>
+                        <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Comments / Recommendations by the
+                                        Senior Countersigning Officer
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <form onsubmit="save_senior_counter_sign_recommendations(event)"
+                                          id="senior_counter_sign_recommendations_form">
+                                        <input class="form-control form-control-sm" id="appraisal_id"
+                                               name="appraisal_id"
+                                               t-att-value="appraisal_rec.id"
+                                               placeholder="appraisal_id" required="true"
+                                               type="text"
+                                               style="display:none"
+                                        />
+                                        <input name="employee_id" id="employee_id" style="display:none"
+                                               t-att-value="employee_id"></input>
+                                        <input class="form-control form-control-sm"
+                                               t-att-disabled="true if appraisal_rec.senior_counter_sign_id.id!=logged_in_employee_id else None"
+                                               name="senior_counter_sign_remarks"
+                                               t-att-value="appraisal_rec.senior_counter_sign_remarks"></input>
+                                        <label for="signing_degree_of_contact">Degree of Contact with the Reported
+                                            Officer
+                                        </label>
+                                        <select class="form-control form-control-sm"
+                                                id="senior_counter_sign_recommendation"
+                                                name="senior_counter_sign_recommendation"
+                                                t-att-disabled="true if appraisal_rec.senior_counter_sign_id.id!=logged_in_employee_id else None"
+                                        >
+                                            <option value="lenient"
+                                                    t-att-selected="true if appraisal_rec.signing_degree_of_contact=='weak' else None"
+                                            >
+                                                Lenient
+                                            </option>
+                                            <option value="fair"
+                                                    t-att-selected="true if appraisal_rec.signing_degree_of_contact=='fair' else None"
+                                            >
+                                                Fair
+                                            </option>
+                                            <option value="strict"
+                                                    t-att-selected="true if appraisal_rec.signing_degree_of_contact=='strong' else None"
+                                            >
+                                                Strict
+                                            </option>
+                                        </select>
+
+                                        <div class="row" style="justify-content:end">
+                                            <t t-if="appraisal_rec.senior_counter_sign_id.id==logged_in_employee_id and appraisal_rec.state=='reporting'">
+                                                <input id="section_data_fill" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+                                                </input>
+                                            </t>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- /.container-fluid -->
+
+
+                </div>
+                <!-- End of Main Content -->
+
+            </div>
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+
+        <!-- Page level plugins -->
+        <script src="/odoocms_web_bootstrap/static/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="/odoocms_web_bootstrap/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Page level custom scripts -->
+        <script src="/odoocms_web_bootstrap/static/js/demo/datatables-demo.js"></script>
+        <script src="/employee_portal/static/js/appraisal_api_functions.js"></script>
+
+    </template>
+</odoo>

@@ -1,0 +1,354 @@
+<odoo>
+
+<template name="leave_card" id="leave_card">
+	<div class="media align-items-center">
+		<span class="badge badge-dot badge-danger"/>
+		<!--<a class="avatar avatar-lg status-success" href="#">
+			<img src="../../../images/avatar/1.jpg" alt="...">
+		</a>-->
+		<!-- Main Card -->
+		<div class="media-body">
+			<p>
+				<a href="#"><strong><t t-esc="leave['leave_name']"/></strong></a>
+				<small class="sidetitle"><t t-esc="leave['state']"/></small>
+			</p>
+			<p>Number of days: <t t-esc="leave['number_of_days']"/></p>
+			<p>Purpose: <t t-esc="leave['leave_purpose']"/></p>
+			<p>From: <t t-esc="leave['date_from']"/> To: <t t-esc="leave['date_to']"/></p>
+			<!--
+			<nav class="nav mt-2">
+				<a class="nav-link" href="#"><i class="fa fa-facebook"/></a>
+				<a class="nav-link" href="#"><i class="fa fa-twitter"/></a>
+				<a class="nav-link" href="#"><i class="fa fa-github"/></a>
+				<a class="nav-link" href="#"><i class="fa fa-linkedin"/></a>
+			</nav>
+			-->
+		</div>
+		<!-- Right Options -->
+		<div class="media-right gap-items">
+			<!--
+			<a class="media-action lead" href="#" data-bs-toggle="tooltip" title="Orders"><i class="ti-shopping-cart"/></a>
+			<a class="media-action lead" href="#" data-bs-toggle="tooltip" title="Receipts"><i class="ti-receipt"/></a>
+			-->
+			<div class="btn-group">
+				<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+				<div class="dropdown-menu dropdown-menu-end">
+					<!--
+					<a class="dropdown-item" href="#"><i class="fa fa-fw fa-user"/> Cancel</a>
+					<a class="dropdown-item" href="#"><i class="fa fa-fw fa-comments"/> Messages</a>
+					<a class="dropdown-item" href="#"><i class="fa fa-fw fa-phone"/> Call</a>
+					<div class="dropdown-divider"/>
+					-->
+					<a class="dropdown-item" href="#"><i class="fa fa-fw fa-remove"/> Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template id="pending_leave_request" name="">
+	<div class="box">
+		<div class="box-header with-border">
+			<h4 class="box-title">Pending Tasks</h4>
+		</div>
+		<div class="media-list media-list-divided media-list-hover">
+			<t t-if="leaves_progress or special_progress">
+				<t t-foreach="leaves_progress" t-as="leave">
+					<t t-call="ess_portal.leave_card"/>
+				</t>
+				<t t-foreach="special_progress" t-as="leave">
+					<t t-call="ess_portal.leave_card"/>
+				</t>
+			</t>
+			<t t-if="not leaves_progress and not special_progress">
+				<div class="media align-items-center">
+					<div class="media-body">
+						<p>
+							<a href="#"><strong>No request.</strong></a>
+						</p>
+					</div>
+				</div>
+			</t>
+		</div>
+	</div>
+</template>
+
+<template id="new_leave_request" name="leave_request">
+	<div id="leave_req" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="leave_req" aria-hidden="true">
+		<div class="modal-dialog">
+			<form class="form-horizontal" id="form_leave_request">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">Leave Request</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label">Leave Type</label>
+									<select  id="leave_type" name="leave_type" class="form-select" required="">
+										<option value="">Select</option>
+										<optgroup label="Regular Leaves">
+											<t t-foreach="leave_regular" t-as="leave">
+												<option t-att-type="leave.holiday_status_id.name" t-att-value="leave.holiday_status_id.id"><t t-esc="leave.name"/></option>
+											</t>
+										</optgroup>
+
+										<optgroup label="Special Leaves">
+											<t t-foreach="leave_special" t-as="leave">
+												<option t-att-value="leave.id"><t t-esc="leave.name"/></option>
+											</t>
+										</optgroup>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6" id="halfday_div">
+								<br/>
+								<div class="form-group">
+									<input name="half_leave" class="form-control" type="checkbox" id="half_leave"/>
+									<label for="half_leave" class="me-30">Half Day Leave</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label" id="date_from_label">Date From</label>
+									<input type="date" name="date_from"  class="form-control" placeholder="" required=""/>
+								</div>
+							</div>
+							<div class="col-md-6" id="date_to_div">
+								<div class="form-group">
+									<label class="form-label">Date To</label>
+									<input type="date" id="date_to" name="date_to"  class="form-control" placeholder="" required=""/>
+								</div>
+							</div>
+							<div class="col-md-6" id="halfday_shift_div">
+								<div class="form-group">
+									<label class="form-label">Shift</label>
+									<select class="form-select" id="halfday_shift" name="half_day_leave_shift">
+										<option value="">Select</option>
+										<option value="am">Morning</option>
+										<option value="pm">Evening</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label class="form-label">Contact Number</label>
+									<input type="text" name="contact_no" class="form-control" placeholder="Contact Number During Leave" required=""/>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label class="form-label">Next On Duty</label>
+									<select name="next_on_duty" class="form-select" required="">
+										<option value="">Select</option>
+										<t t-foreach="next_on_duty_emp" t-as="emp">
+											<option t-att-value="emp.id"><t t-esc="emp.name"/></option>
+										</t>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label class="form-label">Relevant Document</label>
+										<input type="file" id="upload_documents" name="upload_documents" class="form-control"/>
+									</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label">Leave Purpose</label>
+									<textarea name="leave_purpose" rows="4" class="form-control" placeholder="" required=""/>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label">Work Pending to be managed by next on duty</label>
+									<textarea name="work_load" rows="4" class="form-control" placeholder="" required=""/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success" >Submit</button>
+						<button type="button" class="btn btn-danger float-end" data-bs-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>
+
+<template name="leave_history_table" id="leave_history_table">
+	<div class="row">
+		<div class="table-responsive">
+			<table id="example5" class="table table-bordered table-striped" style="width:100%">
+				<thead>
+					<tr>
+						<!--<th> Request Date </th>-->
+						<th> Leave Type </th>
+						<th> From-To(Date) </th>
+						<th> No of Days </th>
+						<th>Purpose</th>
+						<th>Status</th>
+						<!--<th>Checkout Status</th>-->
+					</tr>
+				</thead>
+				<tbody>
+					<t t-foreach="leave_recs" t-as="rec">
+						<tr>
+							<td><t t-esc="rec['leave_name']"/></td>
+							<td><t t-esc="rec['date_from']"/> <br/><t t-esc="rec['date_to']"/></td>
+							<td><t t-esc="rec['number_of_days']"/></td>
+							<td><t t-esc="rec['leave_purpose']"/></td>
+							<td><t t-esc="rec['state']"/></td>
+						</tr>
+					</t>
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+</template>
+
+<template id="leave_history" name="leave_history">
+	<div class="col-12">
+		<div class="box">
+			<div class="box-header with-border">
+				<h4 class="box-title">Leave History</h4>
+			</div>
+			<div class="box-body">
+				<ul class="nav nav-pills  mb-20">
+					<li class=" nav-item"> <a href="#navpills2-1" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Regular Leaves</a> </li>
+					<li class="nav-item"> <a href="#navpills2-2" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Special Leaves</a> </li>
+				</ul>
+				<div class="tab-content">
+					<div id="navpills2-1" class="tab-pane active">
+						<t t-call="ess_portal.leave_history_table">
+							<t t-set="leave_recs" t-value="leaves_history"/>
+						</t>
+					</div>
+					<div id="navpills2-2" class="tab-pane">
+						<t t-call="ess_portal.leave_history_table">
+							<t t-set="leave_recs" t-value="special_history"/>
+						</t>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template id="ess_portal_leave" name="Employee Portal Leave">
+	<t t-call="web.layout">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<t t-set="head">
+			<!-- <t t-call-assets="ess_portal_assets.ess_assets" t-js="false"/>-->
+			<link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+			<link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+			<link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+			<link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+			<style>
+				.logo_img {
+					max-width: 64% !important;
+				}
+				.main-header > div .logo {
+					line-height: normal;
+					height: auto;
+					background: #112c4f !important;
+				}
+				@media (max-width: 767px)
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+
+				@media (min-width: 576px)
+					.modal-dialog {
+						width: 700px !important;
+						margin: 1.75rem auto;
+					}
+			</style>
+		</t>
+
+		<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+			<div class="wrapper">
+				<div id="loader"/>
+
+				<t t-call="ess_portal.ess_header_menu"/>
+				<t t-call="ess_portal.ess_side_menu"/>
+
+				<!-- Content Wrapper. Contains page content -->
+				<div class="content-wrapper">
+					<div class="container-full">
+						<div class="content-header">
+							<div class="d-flex align-items-center">
+								<div class="me-auto">
+									<h4 class="page-title">Leave</h4>
+									<div class="d-inline-block align-items-center">
+										<nav>
+											<ol class="breadcrumb">
+												<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"/></a></li>
+												<!--<li class="breadcrumb-item" aria-current="page">Extra</li>-->
+												<li class="breadcrumb-item active" aria-current="page">Leave Management</li>
+											</ol>
+										</nav>
+									</div>
+								</div>
+							</div>
+						</div>
+						<section class="content">
+							<div class="row">
+								<div class="col-lg-9 col-md-8">
+									<t t-call="ess_portal.pending_leave_request"/>
+								</div>
+								<div class="col-lg-3 col-md-4">
+									<div class="box no-shadow">
+										<div class="box-body">
+											<!--<a class="btn btn-outline btn-success mb-5 d-flex justify-content-between" href="javascript:void(0)">Online <span class="pull-right">103</span></a>
+										    <a class="btn btn-outline btn-danger mb-5 d-flex justify-content-between" href="javascript:void(0)">Offline <span class="pull-right">19</span></a>
+										    <a class="btn btn-outline btn-info mb-5 d-flex justify-content-between" href="javascript:void(0)">Available <span class="pull-right">623</span></a>
+										    <a class="btn btn-outline btn-primary mb-5 d-flex justify-content-between" href="javascript:void(0)">Private <span class="pull-right">53</span></a>
+										    <a class="btn btn-warning mt-10 d-flex justify-content-between" href="javascript:void(0)">All Contacts <span class="pull-right">123</span></a>-->
+										    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#leave_req" class="btn btn-success mt-10 d-block text-center">+ New Request</a>
+									    </div>
+									</div>
+								</div>
+
+								<t t-call="ess_portal.new_leave_request"/>
+							</div>
+
+							<div class="row">
+								<t t-call="ess_portal.leave_history"/>
+							</div>
+						</section>
+				  	</div>
+				</div>
+				<!-- /.content-wrapper -->
+
+				<footer class="main-footer">
+					<div class="pull-right d-none d-sm-inline-block">
+					   <!-- <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+						  <li class="nav-item">
+							<a class="nav-link" href="https://themeforest.net/item/crmi-bootstrap-admin-dashboard-template/33405709" target="_blank">Purchase Now</a>
+						  </li>
+						</ul>-->
+					</div>
+					&amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+			   </footer>
+
+			  <t t-call="ess_portal.ess_quick_action"/>
+  <t t-call="ess_portal.ess_right_menu"/>
+			</div>
+
+			<t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+			<script src="/ess_portal/static/js/leave.js"/>
+
+		</body>
+	</t>
+</template>
+
+</odoo>

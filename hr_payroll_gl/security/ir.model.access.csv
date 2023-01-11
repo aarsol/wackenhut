@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_hr_employee_account_heads_user,hr.employee.account.heads.user.access,model_hr_employee_account_heads,base.group_user,1,1,1,1
+access_hr_payroll_rule_heads_user,hr.payroll.rule.heads.user.access,model_hr_payroll_rule_heads,base.group_user,1,1,1,1

@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="personal_traits_form" model="ir.ui.view">
+            <field name="name">personal.traits.form</field>
+            <field name="model">personal.traits</field>
+            <field name="arch" type="xml">
+                <form string="Personal Traits">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="weightage"></field>
+                            </group>
+                            <group>
+                                <field name="marks"></field>
+                                <field name="marks_obtained"></field>
+                            </group>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="personal_traits_tree" model="ir.ui.view">
+            <field name="name">personal.traits.tree</field>
+            <field name="model">personal.traits</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Personal Traits">
+                    <field name="name"></field>
+                    <field name="weightage"></field>
+                    <field name="marks"></field>
+                    <field name="marks_obtained"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_personal_traits" model="ir.actions.act_window">
+            <field name="name">Personal Traits</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">personal.traits</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--        Student Teaching Views -->
+
+        <record id="aar_teaching_form" model="ir.ui.view">
+            <field name="name">aar.teaching.form</field>
+            <field name="model">aar.teaching</field>
+            <field name="arch" type="xml">
+                <form string="Student Teaching">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="weightage"></field>
+                            </group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="marks_obtained"></field>
+                            </group>
+                            <group>
+                                <field name="student_feedback_average"></field>
+                                <field name="class_audit"></field>
+                            </group>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_teaching_tree" model="ir.ui.view">
+            <field name="name">aar.teaching.tree</field>
+            <field name="model">aar.teaching</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Student Teaching">
+                    <field name="name"></field>
+                    <field name="weightage"></field>
+                    <field name="credits"></field>
+                    <field name="marks_obtained"></field>
+                    <field name="student_feedback_average"></field>
+                    <field name="class_audit"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_teaching" model="ir.actions.act_window">
+            <field name="name">Student Teaching</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.teaching</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--        Student Supervision Views -->
+
+        <record id="aar_student_supervision_form" model="ir.ui.view">
+            <field name="name">aar.student.supervision.form</field>
+            <field name="model">aar.student.supervision</field>
+            <field name="arch" type="xml">
+                <form string="Student Supervision">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="weightage"></field>
+                            </group>
+                            <group>
+                                <field name="count"></field>
+                                <field name="marks_obtained"></field>
+                            </group>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_student_supervision_tree" model="ir.ui.view">
+            <field name="name">aar.student.supervision.tree</field>
+            <field name="model">aar.student.supervision</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Student Supervision">
+                    <field name="name"></field>
+                    <field name="weightage"></field>
+                    <field name="count"></field>
+                    <field name="marks_obtained"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_student_supervision" model="ir.actions.act_window">
+            <field name="name">Student Supervision</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.student.supervision</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--        Research Publications Views -->
+
+        <record id="aar_research_publications_form" model="ir.ui.view">
+            <field name="name">aar.research.publications.form</field>
+            <field name="model">aar.research.publications</field>
+            <field name="arch" type="xml">
+                <form string="Research Publications">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="weightage"></field>
+                            </group>
+                            <group>
+                                <field name="count"></field>
+                                <field name="total_marks"></field>
+                            </group>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_research_publications_tree" model="ir.ui.view">
+            <field name="name">aar.research.publications.tree</field>
+            <field name="model">aar.research.publications</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Research Publications">
+                    <field name="name"></field>
+                    <field name="weightage"></field>
+                    <field name="count"></field>
+                    <field name="total_marks"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_research_publications" model="ir.actions.act_window">
+            <field name="name">Research Publications</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.research.publications</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--        FUNDING & ENTREPRENEURIAL ACTIVITIES  Views -->
+
+        <record id="aar_funding_activities_form" model="ir.ui.view">
+            <field name="name">aar.funding.activities.form</field>
+            <field name="model">aar.funding.activities</field>
+            <field name="arch" type="xml">
+                <form string="Funding and Entrepreneurial Activities">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="amount"></field>
+                            </group>
+                            <group>
+                                <field name="point"></field>
+                                <field name="marks_obtained"></field>
+                            </group>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_funding_activities_tree" model="ir.ui.view">
+            <field name="name">aar.funding.activities.tree</field>
+            <field name="model">aar.funding.activities</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Funding and Entrepreneurial Activities">
+                    <field name="name"></field>
+                    <field name="amount"></field>
+                    <field name="point"></field>
+                    <field name="marks_obtained"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_funding_activities" model="ir.actions.act_window">
+            <field name="name">Funding Activities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.funding.activities</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--   Institutional Services  Views -->
+
+        <record id="aar_institutional_services_form" model="ir.ui.view">
+            <field name="name">aar.institutional.services.form</field>
+            <field name="model">aar.institutional.services</field>
+            <field name="arch" type="xml">
+                <form string="Institutional Services">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="weightage"></field>
+                            </group>
+                            <group>
+                                <field name="count"></field>
+                                <field name="marks_obtained"></field>
+                            </group>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_institutional_services_tree" model="ir.ui.view">
+            <field name="name">aar.institutional.services.tree</field>
+            <field name="model">aar.institutional.services</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Institutional Services">
+                    <field name="name"></field>
+                    <field name="weightage"></field>
+                    <field name="count"></field>
+                    <field name="marks_obtained"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_institutional_services" model="ir.actions.act_window">
+            <field name="name">Institutional Services</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.funding.activities</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--   Faculty Appraisal  Views -->
+
+        <record id="aar_faculty_appraisal_form" model="ir.ui.view">
+            <field name="name">aar.appraisal.faculty.form</field>
+            <field name="model">aar.appraisal.faculty</field>
+            <field name="arch" type="xml">
+                <form string="Faculty Appraisal">
+                    <header>
+                        <field name="state"
+                               widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="employee_id"></field>
+                                <field name="start_date"></field>
+                                <field name="end_date"></field>
+                                <field name="birthday"></field>
+                                <field name="designation"></field>
+                                <field name="h_index"></field>
+                                <field name="focus_area"></field>
+                                <field name="active"></field>
+
+                            </group>
+                            <group>
+                                <field name="reporting_id"></field>
+                                <field name="payscale"></field>
+                                <field name="counter_sign_id"></field>
+                                <field name="senior_counter_sign_id"></field>
+                                <field name="joining_date"></field>
+                                <field name="email"></field>
+                                <field name="phone"></field>
+                                <field name="qualification"></field>
+                                <field name="specialization"></field>
+                                <field name="citations"></field>
+                                <!--                                <field name="grandTotalMarks"></field>-->
+                                <!--                                <field name="totalObtainedMarks"></field>-->
+                            </group>
+
+                        </group>
+                        <group>
+                            <group>
+                                <field name="aar_personal_trait_marks"></field>
+                                <field name="aar_teaching_marks"></field>
+                                <field name="aar_student_supervision_marks"></field>
+                                <field name="aar_publication_marks"></field>
+
+                            </group>
+                            <group>
+                                <field name="aar_funding_activity_marks"></field>
+                                <field name="aar_institutional_marks"></field>
+                                <field name="aar_total_marks"></field>
+                                <field name="overall_grade"></field>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="courses_taught_ids"></field>
+                            <field name="student_supervision_ids"></field>
+                            <field name="research_publication_ids"></field>
+                            <field name="funding_activities_ids"></field>
+                            <field name="institutional_services_ids"></field>
+                        </group>
+                        <group>
+                            <field name="personal_trait_ids"></field>
+                            <field name="aar_student_supervision_ids"></field>
+                            <field name="publication_ids"></field>
+                            <field name="aar_funding_activity_ids"></field>
+                            <field name="aar_institutional_services_ids"></field>
+                            <field name="aar_teaching_ids"></field>
+                            <field name="signing_authority_remarks"></field>
+                            <field name="signing_degree_of_contact"></field>
+                            <field name="counter_sign_remarks"></field>
+                            <field name="senior_counter_sign_remarks"></field>
+                            <field name="senior_counter_sign_recommendation"></field>
+
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_appraisal_faculty_tree" model="ir.ui.view">
+            <field name="name">aar.appraisal.faculty.tree</field>
+            <field name="model">aar.appraisal.faculty</field>
+            <field name="arch" type="xml">
+                <tree string="Faculty Appraisal">
+                    <field name="name"></field>
+                    <field name="personal_trait_ids"></field>
+                    <field name="publication_ids"></field>
+                    <field name="aar_funding_activity_ids"></field>
+                    <field name="aar_institutional_services_ids"></field>
+                    <field name="aar_teaching_ids"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_appraisal_faculty" model="ir.actions.act_window">
+            <field name="name">Faculty Appraisal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.appraisal.faculty</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--   Conference Participation Views -->
+
+        <record id="aar_participation_form" model="ir.ui.view">
+            <field name="name">aar.participation.form</field>
+            <field name="model">aar.participation</field>
+            <field name="arch" type="xml">
+                <form string="Conference Participation">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="country_id"></field>
+                            </group>
+                            <group>
+                                <field name="start_date"></field>
+                                <field name="end_date"></field>
+                            </group>
+                            <group>
+                                <field name="duration"></field>
+                            </group>
+
+
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_participation_tree" model="ir.ui.view">
+            <field name="name">aar.participation.tree</field>
+            <field name="model">aar.participation</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Conference Participation">
+                    <field name="name"></field>
+                    <field name="country_id"></field>
+                    <field name="start_date"></field>
+                    <field name="end_date"></field>
+                    <field name="duration"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_participation" model="ir.actions.act_window">
+            <field name="name">Conference Participation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.participation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--   Meetings Attended Views -->
+
+        <record id="aar_committee_membership_form" model="ir.ui.view">
+            <field name="name">aar.committee.membership.form</field>
+            <field name="model">aar.committee.membership</field>
+            <field name="arch" type="xml">
+                <form string="Committee Membership">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="meetings_attended"></field>
+                            </group>
+                            <group>
+                                <field name="meetings_held"></field>
+                            </group>
+                            <label for="reason">Reason</label>
+                            <field name="reason"></field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_committee_membership_tree" model="ir.ui.view">
+            <field name="name">aar.committee.membership.tree</field>
+            <field name="model">aar.committee.membership</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Conference Participation">
+                    <field name="name"></field>
+                    <field name="meetings_held"></field>
+                    <field name="meetings_attended"></field>
+                    <field name="reason"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_committee_membership" model="ir.actions.act_window">
+            <field name="name">Committee Membership</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.committee.membership</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--   Meetings Attended Views -->
+
+        <record id="aar_appraisal_employee_form" model="ir.ui.view">
+            <field name="name">aar.appraisal.employee.form</field>
+            <field name="model">aar.appraisal.employee</field>
+            <field name="arch" type="xml">
+                <form string="Performance Evaluation">
+                    <header>
+                        <field name="state"
+                               widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"></field>
+                                <field name="employee_id"></field>
+                                <field name="start_date"></field>
+                                <field name="end_date"></field>
+                                <field name="birthday"></field>
+                                <field name="active"></field>
+
+                            </group>
+                            <group>
+                                <field name="reporting_id"></field>
+                                <field name="payscale"></field>
+                                <field name="counter_sign_id"></field>
+                                <field name="senior_counter_sign_id"></field>
+                                <field name="senior_counter_sign_id_two"></field>
+                                <field name="senior_counter_sign_id_three"></field>
+                                <field name="joining_date"></field>
+                                <field name="grandTotalMarks"></field>
+                                <field name="totalObtainedMarks"></field>
+                                <field name="percentage_marks"></field>
+                                <field name="marks_grading"></field>
+                            </group>
+                        </group>
+                        <label for="participation_ids">Participation in Conferences</label>
+                        <field name="participation_ids"></field>
+
+                        <label for="committee_membership_ids">Statuary Committees Employee was member of</label>
+                        <field name="committee_membership_ids"></field>
+                        <group>
+                            <field name="post_description"></field>
+                            <field name="additional_duties"></field>
+                            <field name="achievements"></field>
+                        </group>
+                        <label for="section_ids">Performance Evaluation</label>
+                        <field name="section_ids">
+                                <tree editable="0" string="Sections">
+                                    <field name="name"/>
+                                    <field name="selected_name"/>
+                                    <field name="selected_marks"/>
+                                </tree>
+                        </field>
+                        <label for="reporting_observations">Observations of reporting officer</label>
+                        <field name="reporting_observations"></field>
+                        <label for="counter_sign_observations">Total Marks of Counter Sign Questions</label>
+                        <field name="counter_sign_observations"></field>
+                        <group>
+                            <!--                            <label for="evaluation_quality">Quality of Evaluation</label>-->
+                            <field name="evaluation_quality"></field>
+                        </group>
+                        <label for="senior_counter_sign_remarks">Senior Counter Sign Remarks</label>
+                        <field name="senior_counter_sign_remarks"></field>
+                        <label for="senior_counter_sign_recommendation">Senior Counter Sign Recommendation</label>
+                        <field name="senior_counter_sign_recommendation"></field>
+
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_appraisal_employee_tree" model="ir.ui.view">
+            <field name="name">aar.appraisal.employee.tree</field>
+            <field name="model">aar.appraisal.employee</field>
+            <field name="arch" type="xml">
+                <tree string="Performance Evaluation">
+                    <field name="name"></field>
+                    <field name="participation_ids"></field>
+                    <field name="committee_membership_ids"></field>
+                    <field name="totalObtainedMarks"></field>
+                    <field name="state"
+                    ></field>
+                    <!--                    <field name="reason"></field>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_appraisal_employee" model="ir.actions.act_window">
+            <field name="name">Performance Evaluation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.appraisal.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!--   Appraisal Section Views -->
+
+        <record id="aar_section_form" model="ir.ui.view">
+            <field name="name">aar.section.form</field>
+            <field name="model">aar.section</field>
+            <field name="arch" type="xml">
+                <form string="Appraisal Question Sections">
+                    <sheet>
+                        <group>
+                            <field name="name"></field>
+                        </group>
+                        <label for="section_question_ids">Section Questions</label>
+                        <field name="section_question_ids"></field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_section_tree" model="ir.ui.view">
+            <field name="name">aar.section.tree</field>
+            <field name="model">aar.section</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Performance Evaluation">
+                    <field name="name"></field>
+                    <field name="section_question_ids" ></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_section" model="ir.actions.act_window">
+            <field name="name">Aar Sections</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.section</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!--   Appraisal Section Questions Views -->
+
+        <record id="aar_section_question_form" model="ir.ui.view">
+            <field name="name">aar.section.question.form</field>
+            <field name="model">aar.section.question</field>
+            <field name="arch" type="xml">
+                <form string="Appraisal Section Questions">
+                    <sheet>
+                        <group>
+                            <field name="name"></field>
+                            <field name="marks"></field>
+                            <field name="totalMarks"></field>
+                            <field name="section_id"></field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aar_section_question_tree" model="ir.ui.view">
+            <field name="name">aar.section.question.tree</field>
+            <field name="model">aar.section.question</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Appraisal Section Questions">
+                    <field name="name"></field>
+                    <field name="marks"></field>
+                    <field name="totalMarks"></field>
+                    <field name="section_id"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aar_section_question" model="ir.actions.act_window">
+            <field name="name">Aar Section Questions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aar.section.question</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <menuitem action="action_aar_appraisal_faculty" id="menu_aar_appraisal" name="AAR Appraisal"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_aar_appraisal" action="action_aar_appraisal_employee" id="aar_appraisal_employee"
+                  name="Performance Evaluation"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_aar_appraisal" id="menu_configurations" name="Configurations"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem parent="menu_configurations" action="action_personal_traits" id="menu_personal_traits"
+                  name="Personal Traits"
+                  groups="base.group_user" sequence="10"/>
+        <menuitem action="action_aar_teaching" parent="menu_configurations"
+                  id="menu_aar_teaching" name="Student Teaching"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem action="action_aar_student_supervision" parent="menu_configurations" id="menu_aar_student_supervision"
+                  name="Student Supervision"
+                  groups="base.group_user" sequence="10"/>
+
+
+        <menuitem action="action_aar_research_publications" parent="menu_configurations"
+                  id="menu_aar_research_publications" name="Research Publications"
+                  groups="base.group_user" sequence="10"/>
+
+
+        <menuitem action="action_aar_funding_activities" parent="menu_configurations" id="menu_aar_funding_activities"
+                  name="Funding Activities"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem action="action_aar_institutional_services" parent="menu_configurations"
+                  id="menu_aar_institutional_services" name="Institutional Services"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem action="action_aar_participation" parent="menu_configurations"
+                  id="menu_aar_participation" name="Conference Participation"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem action="action_aar_committee_membership" parent="menu_configurations"
+                  id="menu_aar_committee_membership" name="Committee Membership"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem action="action_aar_section" parent="menu_configurations"
+                  id="menu_aar_section" name="Aar Sections"
+                  groups="base.group_user" sequence="10"/>
+
+        <menuitem action="action_aar_section_question" parent="menu_configurations"
+                  id="menu_aar_section_question" name="Aar Questions"
+                  groups="base.group_user" sequence="10"/>
+
+
+    </data>
+</odoo>

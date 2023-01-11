@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<record id="view_generate_employee_income_tax_wiz" model="ir.ui.view">
+			<field name="name">generate.employee.income.tax.wiz.view</field>
+			<field name="model">generate.employee.income.tax.wiz</field>
+			<field name="arch" type="xml">
+				<form string="Employee Income Tax Generation">
+					<sheet>
+						<p>This wizard will Generate the Income Entries for Employee.
+							You Can also generated Income of a specific employee By Selecting the Type
+							<b>Specific Employee.</b></p>
+						<group>
+							<group>
+								<field name="tax_id" required="1"
+									   options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+								<field name="type" required="1"/>
+								<field name="employee_id"
+									   attrs="{'invisible':[('type','=','All Employee')],
+									   			'required':[('type','=','Specific Employee')]}"
+									   options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+							</group>
+							<group>
+							</group>
+						</group>
+					</sheet>
+					<footer>
+						<button name="generate_income_tax" string="Generate Income Tax" type="object" class="btn-primary"/>
+						<button string="Cancel" class="btn-default" special="cancel" />
+					</footer>
+			   </form>
+			</field>
+		</record>
+
+		<record id="action_generate_employee_income_tax_wiz" model="ir.actions.act_window">
+            <field name="name">Generate Employee Income Tax</field>
+            <field name="res_model">generate.employee.income.tax.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+		<menuitem
+                id="menu_hr_employee_generate_income_tax"
+                name="Generate Income Tax"
+                action="action_generate_employee_income_tax_wiz"
+                parent="menu_hr_income_tax_main"
+                sequence="100"/>
+
+    </data>
+</odoo>

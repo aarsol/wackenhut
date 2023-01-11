@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--***** HR Contract Form View *****-->
+    <record id="inherited_view_hr_contract_form" model="ir.ui.view">
+        <field name="name">inherited.hr.contract.form.view</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="create_employee_tax_schedule" type="object" states="open" string="Create/Recompute Income Tax" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

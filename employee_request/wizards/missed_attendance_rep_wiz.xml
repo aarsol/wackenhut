@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <record id="view_missed_attendance_rep_wiz" model="ir.ui.view">
+            <field name="name">missed.attendance.rep.wiz.view</field>
+            <field name="model">missed.attendance.rep.wiz</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_from" required="1"/>
+                                <field name="date_to" required="1"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="employee_ids" string="Employee(s)">
+                                <field name="employee_ids"/>
+                            </page>
+                            <page name="department_ids" string="Departments">
+                                <field name="department_ids"/>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button name="print_report" string="Print" type="object" class="btn-primary"/>
+                            <button string="Cancel" special="cancel" class="btn btn-secondary"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_missed_attendance_rep_wiz" model="ir.actions.act_window">
+            <field name="name">Missed Attendance Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">missed.attendance.rep.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_missed_attendance_rep_wiz"
+                action="action_missed_attendance_rep_wiz"
+                name="Missed Attendance Report"
+                parent="hr.hr_menu_hr_reports"
+                sequence="374"/>
+    </data>
+</odoo>

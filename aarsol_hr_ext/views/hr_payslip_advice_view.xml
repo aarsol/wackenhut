@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_bank_advice_tree" model="ir.ui.view">
+            <field name="name">hr.payroll.advice.tree</field>
+            <field name="model">hr.payroll.advice</field>
+            <field name="arch" type="xml">
+                <tree string="Bank Advice">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    <field name="bank_id"/>
+                    <field name="state"/>
+                    <field name="total" sum="sum_total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_bank_advice_form" model="ir.ui.view">
+            <field name="name">hr.payroll.advice.form</field>
+            <field name="model">hr.payroll.advice</field>
+            <field name="arch" type="xml">
+                <form string="Bank Advice">
+                    <header>
+                        <button name="confirm_sheet" string="Confirm Sheet" states="draft" type="object" class="oe_highlight"/>
+                        <button name="compute_advice" string="Compute Advice" states="draft" type="object" class="oe_highlight"/>
+                        <button name="cancel_sheet" string="Cancel Advice" states="draft" type="object"/>
+                        <button name="set_to_draft" string="Set to Draft" states="cancel,confirm" type="object"/>
+                        <button name="send_payslip_sms" string="Send SMS" attrs="{'invisible':[('send_sms','=', True)]}" type="object"/>
+                        <button name="send_payslip_email" string="Send Email" type="object" attrs="{'invisible':[('send_email','=', True)]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <field name="bank_id" required="1"
+                                       options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                                <field name="number"/>
+                            </group>
+                        </group>
+
+                        <notebook colspan="4">
+                            <page string="Payment Lines">
+                                <field name="line_ids" colspan="4" nolabel="1">
+                                    <tree string="Payment Lines" editable="bottom">
+                                        <field name="employee_id" options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                                        <field name="slip_id" options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                                        <field name="name"/>
+                                        <field name="account_title"/>
+                                        <field name="ifsc" invisible="1"/>
+                                        <field name="ifsc_code" attrs="{'invisible':[('ifsc','=', False)]}"/>
+                                        <field name="bysal"/>
+                                        <field name="debit_credit"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Other Information">
+                                <group>
+                                    <group>
+                                        <field name="company_id" on_change="onchange_company_id(company_id)" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                        <field name="cheque_nos"/>
+                                        <field name="send_sms"/>
+                                        <field name="send_email"/>
+                                    </group>
+                                    <group>
+                                        <field name="neft"/>
+                                        <field name="batch_id" options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                                    </group>
+                                </group>
+                                <separator colspan="4" string="Letter Details"/>
+                                <field name="note" colspan="4" nolabel="1"/>
+                            </page>
+                        </notebook>
+                        <div class="oe_title float-right">
+                            <h2>
+                                <field class="float-right" name="total"/>
+                            </h2>
+                        </div>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_payroll_advice_filter" model="ir.ui.view">
+            <field name="name">hr.payroll.advice.select</field>
+            <field name="model">hr.payroll.advice</field>
+            <field name="arch" type="xml">
+                <search string="Search Payment advice">
+                    <group>
+                        <filter string="Draft" name="draft_advices" domain="[('state','=','draft')]" help="Draft Advices"/>
+                        <filter string="Confirm" name="confirm_advices" domain="[('state','=','confirm')]" help="Confirm Advices"/>
+                        <separator orientation="vertical"/>
+                        <field name="date"/>
+                        <field name="number"/>
+                        <field name="name"/>
+                        <field name="bank_id"/>
+                        <field name="batch_id"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By">
+                        <filter string="Bank" name="bank_id" context="{'group_by':'bank_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Status" name="state" context="{'group_by':'state'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Company" name="company_id" groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_view_hr_bank_advice" model="ir.actions.act_window">
+            <field name="name">Payment Advices</field>
+            <field name="res_model">hr.payroll.advice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_bank_advice_tree"/>
+            <field name="search_view_id" ref="view_hr_payroll_advice_filter"/>
+        </record>
+        <menuitem
+                name='Payment Advices'
+                id="hr_menu_payment_advice"
+                action="action_view_hr_bank_advice"
+                parent="hr_menu_payment_advice_main"
+                groups="hr_payroll.group_hr_payroll_manager,account.group_account_manager"
+        />
+
+        <record id="view_advice_line_form" model="ir.ui.view">
+            <field name="name">advice.line.form</field>
+            <field name="model">hr.payroll.advice.line</field>
+            <field name="arch" type="xml">
+                <form string="Advice Lines">
+                    <sheet>
+                        <label for="advice_id" class="oe_edit_only"/>
+                        <h1>
+                            <field name="advice_id"/>
+                        </h1>
+                        <group>
+                            <field name="employee_id" on_change="onchange_employee_id(employee_id)"/>
+                            <field name="slip_id"/>
+                            <field name="name"/>
+                            <field name="ifsc" invisible="1"/>
+                            <field name="ifsc_code" attrs="{'invisible':[('ifsc','=', False)]}"/>
+                            <field name="bysal"/>
+                            <field name="debit_credit"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

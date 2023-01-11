@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inherit_view_hr_department_form" model="ir.ui.view">
+            <field name="name">inherit.hr.department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name='parent_id' position="after">
+                        <field name="location_type_id" options="{'no_create':True}"/>
+                        <field name="province_id" options="{'no_create':True}"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="inherit_view_hr_department_tree" model="ir.ui.view">
+            <field name="name">inherit.hr.department.tree</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name='parent_id' position="after">
+                        <field name="location_type_id" options="{'no_create':True}"/>
+                        <field name="province_id" options="{'no_create':True}"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

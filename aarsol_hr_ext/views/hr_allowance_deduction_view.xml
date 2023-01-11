@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- HR Salary Percentage Type -->
+        <record id="view_hr_salary_percentage_type_tree" model="ir.ui.view">
+            <field name="name">hr.salary.percentage.type.tree</field>
+            <field name="model">hr.salary.percentage.type</field>
+            <field name="arch" type="xml">
+                <tree string="Calculation Based on">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="is_fixed"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_salary_percentage_type_form" model="ir.ui.view">
+            <field name="name">hr.salary.percentage.type.form</field>
+            <field name="model">hr.salary.percentage.type</field>
+            <field name="arch" type="xml">
+                <form string="Calculation Based on">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="code" required="0"/>
+                            </group>
+                            <group>
+                                <field name="is_fixed"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_salary_percentage_type_search" model="ir.ui.view">
+            <field name="name">hr.salary.percentage.type.search</field>
+            <field name="model">hr.salary.percentage.type</field>
+            <field name="arch" type="xml">
+                <search string="Calculation Based on">
+                    <field name="name"/>
+                    <field name="code"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- HR Salary Percentage -->
+        <record id="view_hr_salary_percentage_form" model="ir.ui.view">
+            <field name="name">hr.salary.percentage.form</field>
+            <field name="model">hr.salary.percentage</field>
+            <field name="arch" type="xml">
+                <form string="Calculation">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="value"/>
+                            </group>
+                            <group>
+                                <field name="min_value"/>
+                                <field name="max_value"/>
+                            </group>
+                        </group>
+                        <field name="domain" widget="domain" options="{'model': 'hr.employee', 'in_dialog': True}"/>
+                        <notebook>
+                            <page string="History">
+                                <field name="history_ids" readonly="1">
+                                    <tree create="false" delete="false" edit="false">
+                                        <field name="date"/>
+                                        <field name="domain" widget="domaintree"
+                                               options="{'model': 'hr.employee', 'in_dialog': true}"/>
+                                        <field name="value"/>
+                                        <field name="min_value"/>
+                                        <field name="max_value"/>
+                                        <field name="new_domain" widget="domaintree"
+                                               options="{'model': 'hr.employee', 'in_dialog': true}"/>
+                                        <field name="new_value"/>
+                                        <field name="new_min_value"/>
+                                        <field name="new_max_value"/>
+                                    </tree>
+                                    <form create="false" delete="false" edit="false">
+                                        <sheet>
+                                            <group>
+                                                <field name="date" readonly="1"/>
+                                                <group>
+                                                    <field name="domain" readonly="1"
+                                                           widget="domain" options="{'model': 'hr.employee', 'in_dialog': True}"/>
+                                                    <field name="value" readonly="1"/>
+                                                    <field name="min_value" readonly="1"/>
+                                                    <field name="max_value" readonly="1"/>
+                                                </group>
+                                                <group>
+                                                    <field name="new_domain" readonly="1"
+                                                           widget="domain" options="{'model': 'hr.employee', 'in_dialog': True}"/>
+                                                    <field name="new_value" readonly="1"/>
+                                                    <field name="new_min_value" readonly="1"/>
+                                                    <field name="new_max_value" readonly="1"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Note">
+                                <group>
+                                    <field name="note" widget="html" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- HR Salary Allowances -->
+        <record id="view_hr_salary_allowances_tree" model="ir.ui.view">
+            <field name="name">hr.salary.allowances.tree.view</field>
+            <field name="model">hr.salary.allowances</field>
+            <field name="arch" type="xml">
+                <tree string="Salary Allowances" decoration-primary="state == 'draft'" decoration-success="state == 'lock'">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="percentage_type_id"/>
+                    <field name="taxable"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="active"/>
+                    <field name="state" widget="badge" decoration-primary="state == 'draft'" decoration-success="state == 'lock'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_salary_allowances_form" model="ir.ui.view">
+            <field name="name">hr.salary.allowances.form.view</field>
+            <field name="model">hr.salary.allowances</field>
+            <field name="arch" type="xml">
+                <form string="Salary Allowances">
+                    <header>
+                        <button name="action_lock" type="object" class="oe_highlight" string="Lock" states="draft" groups="hr.group_hr_user"/>
+                        <button name="action_unlock" type="object" class="oe_highlight" string="UnLock" states="lock" groups="hr.group_hr_user"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="code" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_start" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_end" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="percentage_type_id" required="1" string="Calculation Based on" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="taxable" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="special_flag" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="active" widget="boolean_toggle" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="percentage_ids" string="Calculations">
+                                <field name="percentage_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree>
+                                        <field name="domain" widget="domaintree"
+                                               options="{'model': 'hr.employee', 'in_dialog': true}"/>
+                                        <field name="value"/>
+                                        <field name="min_value"/>
+                                        <field name="max_value"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="lines" string="Employees/Contracts">
+                                <field name="lines" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom" create="false" delete="false">
+                                        <field name="employee_id" readonly="1"/>
+                                        <field name="contract_id" readonly="1"/>
+                                        <field name="payscale_id" readonly="1"/>
+
+                                        <field name="type"/>
+                                        <field name="amount_fixed"
+                                               attrs="{'readonly': [('type','=','formula')],
+                                                'required': [('type','=','fixed')]}"/>
+                                        <field name="amount_formula" readonly="1"/>
+                                        <field name="amount" readonly="1"/>
+                                        <field name="expired" optional="hide"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="rules" string="Salary Rules">
+                                <field name="rule_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="salary_structure_id"/>
+                                        <field name="account_id"/>
+                                        <field name="salary_rule_id" readonly="1"/>
+                                    </tree>
+                                    <form string="Salary Rule">
+                                        <group>
+                                            <group>
+                                                <field name="salary_structure_id" readonly="1"/>
+                                                <field name="account_id" readonly="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="salary_rule_id" readonly="1"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="notes" string="Other Info">
+                                <field name="note" widget="html" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_salary_allowances_search" model="ir.ui.view">
+            <field name="name">hr.salary.allowances.search</field>
+            <field name="model">hr.salary.allowances</field>
+            <field name="arch" type="xml">
+                <search string="Salary Allowances">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- HR Salary Deductions -->
+        <record id="view_hr_salary_deductions_tree" model="ir.ui.view">
+            <field name="name">hr.salary.deductions.tree.view</field>
+            <field name="model">hr.salary.deductions</field>
+            <field name="arch" type="xml">
+                <tree string="Salary Deductions" decoration-primary="state == 'draft'" decoration-success="state == 'lock'">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="percentage_type_id"/>
+                    <field name="taxable"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="active"/>
+                    <field name="state" widget="badge" decoration-primary="state == 'draft'" decoration-success="state == 'lock'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_salary_deductions_form" model="ir.ui.view">
+            <field name="name">hr.salary.deductions.form.view</field>
+            <field name="model">hr.salary.deductions</field>
+            <field name="arch" type="xml">
+                <form string="Salary Deductions">
+                    <header>
+                        <button name="action_lock" type="object" class="oe_highlight" string="Lock" states="draft" groups="hr.group_hr_user"/>
+                        <button name="action_unlock" type="object" class="oe_highlight" string="UnLock" states="lock" groups="hr.group_hr_user"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="code" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_start" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_end" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="percentage_type_id" required="1" string="Calculation Based on" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="taxable" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="active" widget="boolean_toggle" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="percentage_ids" string="Calculations">
+                                <field name="percentage_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree>
+                                        <field name="domain" widget="domaintree"
+                                               options="{'model': 'hr.employee', 'in_dialog': true}"/>
+                                        <field name="value"/>
+                                        <field name="min_value"/>
+                                        <field name="max_value"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="lines" string="Employees/Contracts">
+                                <field name="lines" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom" create="false" delete="false">
+                                        <field name="employee_id" readonly="1"/>
+                                        <field name="contract_id" readonly="1"/>
+                                        <field name="payscale_id" readonly="1"/>
+
+                                        <field name="type"/>
+                                        <field name="amount_fixed"
+                                               attrs="{'readonly': [('type','=','formula')],
+                                                'required': [('type','=','fixed')]}"/>
+                                        <field name="amount_formula" readonly="1"/>
+                                        <field name="amount" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="rules" string="Salary Rules">
+                                <field name="rule_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="salary_structure_id"/>
+                                        <field name="account_id"/>
+                                        <field name="salary_rule_id" readonly="1"/>
+                                    </tree>
+                                    <form string="Salary Rule">
+                                        <group>
+                                            <group>
+                                                <field name="salary_structure_id" readonly="1"/>
+                                                <field name="account_id" readonly="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="salary_rule_id" readonly="1"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="notes" string="Other Info">
+                                <field name="note" widget="html" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_salary_deductions_search">
+            <field name="name">hr.salary.deductions.search</field>
+            <field name="model">hr.salary.deductions</field>
+            <field name="arch" type="xml">
+                <search string="Salary Deductions">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_hr_emp_salary_allowances_form" model="ir.ui.view">
+            <field name="name">hr.emp.salary.allowances.form.view</field>
+            <field name="model">hr.emp.salary.allowances</field>
+            <field name="arch" type="xml">
+                <form string="EMP Salary Allowances">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="contract_id" readonly="1"/>
+                                <field name="payscale_id" readonly="1"/>
+                                <field name="allowance_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="type" readonly="1"/>
+                                <field name="amount" readonly="1"/>
+                                <field name="expired" readonly="1" widget="toggle_boolean"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="History">
+                                <field name="history_ids" readonly="1">
+                                    <tree create="false" delete="false" edit="false">
+                                        <field name="date"/>
+                                        <field name="type"/>
+                                        <field name="amount"/>
+                                        <field name="payscale_id"/>
+                                        <field name="new_type"/>
+                                        <field name="new_amount"/>
+                                    </tree>
+                                    <form create="false" delete="false" edit="false">
+                                        <sheet>
+                                            <group>
+                                                <field name="date" readonly="1"/>
+                                                <field name="payscale_id" readonly="1"/>
+                                                <group>
+                                                    <field name="type" readonly="1"/>
+                                                    <field name="amount" readonly="1"/>
+                                                </group>
+                                                <group>
+                                                    <field name="new_type" readonly="1"/>
+                                                    <field name="new_amount" readonly="1"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_emp_salary_deductions_form" model="ir.ui.view">
+            <field name="name">hr.emp.salary.deductions.form.view</field>
+            <field name="model">hr.emp.salary.deductions</field>
+            <field name="arch" type="xml">
+                <form string="EMP Salary Deductions">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="contract_id" readonly="1"/>
+                                <field name="payscale_id" readonly="1"/>
+                                <field name="deduction_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="type" readonly="1"/>
+                                <field name="amount" readonly="1"/>
+                                <field name="expired" readonly="1" widget="toggle_boolean"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="History">
+                                <field name="history_ids" readonly="1">
+                                    <tree create="false" delete="false" edit="false">
+                                        <field name="date"/>
+                                        <field name="type"/>
+                                        <field name="amount"/>
+                                        <field name="payscale_id"/>
+                                        <field name="new_type"/>
+                                        <field name="new_amount"/>
+                                    </tree>
+                                    <form create="false" delete="false" edit="false">
+                                        <sheet>
+                                            <group>
+                                                <field name="date" readonly="1"/>
+                                                <field name="payscale_id" readonly="1"/>
+                                                <group>
+                                                    <field name="type" readonly="1"/>
+                                                    <field name="amount" readonly="1"/>
+                                                </group>
+                                                <group>
+                                                    <field name="new_type" readonly="1"/>
+                                                    <field name="new_amount" readonly="1"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_benefit_change_tree" model="ir.ui.view">
+            <field name="name">hr.benefit.change.tree</field>
+            <field name="model">hr.benefit.change</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Benefit Change">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="allowance_id"/>
+                    <field name="deduction_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_benefit_change_form" model="ir.ui.view">
+            <field name="name">hr.benefit.change.form</field>
+            <field name="model">hr.benefit.change</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Benefit Change">
+                    <header groups="base.group_user">
+                        <button name="action_approve" type="object" string="Approve" states="draft" class="oe_highlight"/>
+                        <field name="state" readonly="1" widget="statusbar"
+                               statusbar_visible="draft,approve"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="date"/>
+                            </group>
+
+                            <group>
+                                <field name="allowance_id" attrs="{'invisible':[('name','!=', 'allowance')],'required':[('name','=', 'allowance')] }"/>
+                                <field name="deduction_id" attrs="{'invisible':[('name','!=', 'deduction')],'required':[('name','=', 'deduction')]}"/>
+                            </group>
+                            <group>
+                                <field name="reason"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Payscale and Amount Details">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="payscale_id"/>
+                                        <field name="new_amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field groups="base.group_user" name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_salary_percentage_type" model="ir.actions.act_window">
+            <field name="name">Calculation Based on</field>
+            <field name="res_model">hr.salary.percentage.type</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="action_hr_salary_allowances" model="ir.actions.act_window">
+            <field name="name">Salary Allowances</field>
+            <field name="res_model">hr.salary.allowances</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_salary_deductions">
+            <field name="name">Salary Deductions</field>
+            <field name="res_model">hr.salary.deductions</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="action_hr_deduction_allowance_change" model="ir.actions.act_window">
+            <field name="name">Allowance/Deduction Amount Changes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.benefit.change</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                name="Allowances &amp; Deductions"
+                id="menu_hr_allowances_deductions"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration"
+                sequence="100"/>
+
+        <menuitem
+                name="Calculation Based on"
+                id="menu_hr_salary_percentage_type"
+                action="action_hr_salary_percentage_type"
+                parent="menu_hr_allowances_deductions"
+                sequence="10"/>
+
+        <menuitem
+                name="Salary Allowances"
+                id="menu_hr_salary_allowances"
+                action="action_hr_salary_allowances"
+                parent="menu_hr_allowances_deductions"
+                sequence="20"/>
+
+        <menuitem
+                name="Salary Deduction"
+                id="menu_hr_salary_deduction"
+                action="action_hr_salary_deductions"
+                parent="menu_hr_allowances_deductions"
+                sequence="30"/>
+
+        <menuitem
+                id="menu_hr_deduction_allowance_change"
+                name="Allowances/Deduction Change"
+                parent="menu_hr_allowances_deductions"
+                action="action_hr_deduction_allowance_change"
+                sequence="50"/>
+
+    </data>
+</odoo>

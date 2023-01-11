@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--***** HR Employee Form View *****-->
+    <record id="opf_view_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.opf.form.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="mobile_phone" position="before">
+                <field name="code" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <field name="gender" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <field name="father_name" required="1" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <field name="birthday" required="1" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+            </field>
+
+            <field name="work_email" position="after">
+                <field name="work_location_id" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+            </field>
+
+            <field name="parent_id" position="after">
+                <field name="employee_type" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <field name="province" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <field name="location_type_id" required="1" attrs="{'readonly':[('profile_state','=','lock')]}"
+                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                <field name="location_id" required="1" attrs="{'readonly':[('profile_state','=','lock')]}"
+                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+            </field>
+
+            <xpath expr="//page[@name='personal_information']/group/group[2]/field[@name='birthday']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <field name="coach_id" position="after">
+                <field name="employee_category" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <!--                <field name="branch_id" attrs="{'readonly':[('profile_state','=','lock')],'invisible':[('employee_category','!=','Education')], 'required':[('employee_category','=','Education')]}"-->
+                <!--                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>-->
+                <field name="admin_teaching_staff" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+            </field>
+
+            <xpath expr="//notebook/page[@name='hr_settings']//group[@name='payroll_group']/field[@name='job_id']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='hr_settings']//group[@name='active_group']/field[@name='user_id']" position="attributes">
+                <attribute name="options">{'no_quick_create':True,'no_create_edit':True,'no_create':True}</attribute>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='personal_information']//field[@name='address_home_id']" position="attributes">
+                <attribute name="string">Permanent Address</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='personal_information']//field[@name='private_email']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+
+            <field name="registration_number" position="attributes">
+                <attribute name="string">EOBI Reg#</attribute>
+            </field>
+
+            <!--            <field name="work_location" position="after">-->
+            <!--                <field name="teaching_section"/>-->
+            <!--            </field>-->
+
+            <field name="registration_number" position="after">
+                <field name="is_company_vehicle" widget="boolean_toggle"
+                       attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <field name="charge_eobi" widget="boolean_toggle"
+                       attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <!--                <field name="is_airport_duty" widget="boolean_toggle"-->
+                <!--                       attrs="{'readonly':[('profile_state','=','lock')]}"/>-->
+                <field name="is_transport_availed" widget="boolean_toggle"
+                       attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <field name="transport_area" options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"
+                       attrs="{'readonly':[('profile_state','=','lock')],
+                       'invisible':[('is_transport_availed','!=',True)],
+                       'required':[('is_transport_availed','=',True)]}"/>
+                <field name="is_union_member" widget="boolean_toggle"
+                       attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                <field name="union_id" options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"
+                       attrs="{'readonly':[('profile_state','=','lock')],
+                       'invisible':[('is_union_member','!=',True)],
+                       'required':[('is_union_member','=',True)]}"/>
+            </field>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Employment Documents" name="employee_documents">
+                    <field name="employee_document_ids">
+                        <tree editable="bottom">
+                            <field name="serial_no" readonly="1"/>
+                            <field name="name" required="1"/>
+                            <field name="date"/>
+                            <field name="file_attachment"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="serial_no"/>
+                                    <field name="name"/>
+                                </group>
+                                <group>
+                                    <field name="date"/>
+                                    <field name="file_attachment"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!--***** HR Employee Tree View *****-->
+    <record id="opf_view_employee_tree" model="ir.ui.view">
+        <field name="name">hr.employee.opf.tree.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="father_name"/>
+                <field name="salary_grade" invisible="1"/>
+            </field>
+            <field name="parent_id" position="after">
+                <field name="location_type_id"/>
+                <field name="province"/>
+                <field name="location_id"/>
+                <field name="employee_type"/>
+                <field name="employee_category"/>
+                <!--                <field name="branch_id" optional="hide"/>-->
+            </field>
+
+            <field name="work_email" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+        </field>
+    </record>
+
+    <!--    <record id="opf_hr_employee_search_view" model="ir.ui.view">-->
+    <!--        <field name="name">opf.hr.employee.search.view</field>-->
+    <!--        <field name="model">hr.employee</field>-->
+    <!--        <field name="inherit_id" ref="hr.view_employee_filter"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <data>-->
+    <!--                <field name="name" position="after">-->
+    <!--                    <field name="father_name"/>-->
+    <!--                    <field name="mobile_phone"/>-->
+    <!--                    <field name="work_phone"/>-->
+    <!--                    <field name="work_email"/>-->
+    <!--                    <field name="location_type_id"/>-->
+    <!--                    <field name="province"/>-->
+    <!--                    <field name="location_id"/>-->
+    <!--                    <field name="employee_type"/>-->
+    <!--                    <field name="employee_category"/>-->
+    <!--&lt;!&ndash;                    <field name="branch_id"/>&ndash;&gt;-->
+    <!--                </field>-->
+
+    <!--                <xpath expr="//filter[@name='message_needaction']" position="before">-->
+    <!--                    <filter name="date_of_birth" string="Date of Birth" date="birthday"/>-->
+    <!--                    <separator/>-->
+    <!--                </xpath>-->
+
+    <!--                <xpath expr="//filter[@name='group_job']" position="after">-->
+    <!--                    <separator/>-->
+    <!--                    <filter name="group_gender" string="Gender" domain="[]" context="{'group_by': 'gender'}"/>-->
+    <!--                    <filter name="group_marital_status" string="Marital Status" domain="[]" context="{'group_by': 'marital'}"/>-->
+    <!--                    <separator/>-->
+    <!--                    <filter name="group_birthday" string="Date of Birth" domain="[]" context="{'group_by': 'birthday'}"/>-->
+    <!--                    <separator/>-->
+    <!--                    <filter name="group_location_type" string="Location Type" domain="[]" context="{'group_by': 'location_type_id'}"/>-->
+    <!--                    <filter name="group_province" string="Province" domain="[]" context="{'group_by': 'province'}"/>-->
+    <!--                    <filter name="group_location" string="Location" domain="[]" context="{'group_by': 'location_id'}"/>-->
+    <!--                    <filter name="group_employee_type" string="Employee Type" domain="[]" context="{'group_by': 'employee_type'}"/>-->
+    <!--                    <filter name="group_employee_category" string="Employee Category" domain="[]" context="{'group_by': 'employee_category'}"/>-->
+    <!--&lt;!&ndash;                    <filter name="group_branch" string="Branch" domain="[]" context="{'group_by': 'branch_id'}"/>&ndash;&gt;-->
+
+    <!--                    <separator/>-->
+    <!--                </xpath>-->
+    <!--                <xpath expr="//searchpanel/field[@name='department_id']" position="replace">-->
+    <!--                    <field name="location_type_id" icon="fa-users" enable_counters="1"/>-->
+    <!--                    <field name="province" icon="fa-users" enable_counters="1"/>-->
+    <!--                    <field name="department_id" icon="fa-users" enable_counters="1" select="multi"-->
+    <!--                           domain="[('location_type_id', '=', location_type_id),('province_id','=',province)]"/>-->
+
+    <!--                </xpath>-->
+    <!--            </data>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+
+    <!--***** HR Leaves Form View *****-->
+<!--    <record id="opf_edit_holiday_status_form" model="ir.ui.view">-->
+<!--        <field name="name">opf.hr.leave.type.form.view</field>-->
+<!--        <field name="model">hr.leave.type</field>-->
+<!--        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="validity_stop" position="after">-->
+<!--                <field name="unpaid"/>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="opf_view_holiday_status_normal_tree" model="ir.ui.view">-->
+<!--        <field name="name">opf.hr.leave.type.normal.tree</field>-->
+<!--        <field name="model">hr.leave.type</field>-->
+<!--        <field name="inherit_id" ref="hr_holidays.view_holiday_status_normal_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="validity_stop" position="after">-->
+<!--                <field name="unpaid"/>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!--***** HR Contract *****-->
+    <record id="opf_hr_contract_view_form" model="ir.ui.view">
+        <field name="name">opf.hr.contract.view.form</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="replace">
+                <button name="action_open" type="object" states="draft" string="Open Contract" class="oe_highlight" groups="hr.group_hr_user"/>
+                <button name="action_close" type="object" states="open" string="Close Contract" class="oe_highlight" groups="hr.group_hr_user"/>
+                <button name="action_cancel" type="object" states="open" string="Cancel Contract" class="oe_highlight" groups="hr.group_hr_user"/>
+                <field name="state" widget="statusbar"/>
+            </xpath>
+            <field name="name" position="replace">
+                <field name="name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </field>
+            <field name="employee_id" position="replace">
+                <field name="employee_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </field>
+            <field name="job_id" position="replace">
+                <field name="job_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </field>
+            <field name="structure_type_id" position="replace">
+                <field name="structure_type_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </field>
+            <field name="date_start" position="replace">
+                <field name="date_start" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </field>
+            <field name="personal_pay_amount" position="after">
+                <field name="adhoc_allowance_2016" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="hr_contract.action_hr_contract" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="res_model">hr.contract</field>
+        <field name="view_mode">tree,form,activity</field>
+        <field name="domain">[('employee_id', '!=', False)]</field>
+        <field name="context">{'search_default_current':1, 'search_default_group_by_state': 1}</field>
+        <field name="search_view_id" ref="hr_contract.hr_contract_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new contract
+            </p>
+        </field>
+    </record>
+
+
+    <!-- Promote Form View -->
+    <record id="opf_view_hr_grade_promote_form" model="ir.ui.view">
+        <field name="name">opf.hr.grade.promote.form</field>
+        <field name="model">hr.grade.change</field>
+        <field name="inherit_id" ref="aarsol_hr_ext.view_hr_grade_promote_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/field[@name='line_ids']//tree/field[@name='employee_id']" position="after">
+                <field name="location_type_id" required="1" options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                <field name="location_id" required="1" options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

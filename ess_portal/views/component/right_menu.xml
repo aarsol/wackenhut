@@ -1,0 +1,307 @@
+<odoo>
+     <template id="ess_right_menu" name="">
+         <div class="modal modal-right fade" id="quick_user_toggle" tabindex="-1">
+	  <div class="modal-dialog">
+		<div class="modal-content slim-scroll3">
+		  <div class="modal-body p-30 bg-white">
+			<div class="d-flex align-items-center justify-content-between pb-30">
+				<h4 class="m-0">User Profile <small class="text-fade fs-12 ms-5">/</small></h4>
+				<a href="#" class="btn btn-icon btn-danger-light btn-sm no-shadow" data-bs-dismiss="modal">
+					<span class="fa fa-close"/>
+				</a>
+			</div>
+            <div>
+                <div class="d-flex flex-row">
+                    <div class=""><img t-if="employee.image_1920" t-att-src="image_data_uri(employee.image_1920)"  alt="user" class="rounded bg-danger-light w-150" height="90"/></div>
+                    <div class="ps-20">
+                        <h5 class="mb-0"><t t-esc="employee.name"/></h5>
+                        <p class="my-5 text-fade"><t t-esc="employee.code"/></p>
+                        <p class="my-5 text-fade"><t t-esc="employee.job_id.name"/></p>
+                        <a><span class="icon-Mail-notification me-5 text-success"><span class="path1"/><span class="path2"/></span><small><t t-esc="employee.work_email"/></small></a>
+                        <!--<button class="btn btn-success-light btn-sm mt-5"><i class="ti-plus"></i> Follow</button>-->
+                        <a class="btn btn-danger-light btn-sm mt-5" href="/web/session/logout?redirect=/"><i class="ti-lock"/> Logout</a>
+                    </div>
+                </div>
+			</div>
+              <div class="dropdown-divider my-30"/>
+              <div>
+                <div class="d-flex align-items-center mb-30">
+                    <div class="me-15 bg-primary-light h-50 w-50 l-h-60 rounded text-center">
+                          <span class="ti-user fs-24"><span class="path1"/><span class="path2"/></span>
+                    </div>
+                    <div class="d-flex flex-column fw-500">
+                        <a href="/employee/profile" class="text-dark hover-primary mb-1 fs-16">My Profile</a>
+                        <span class="text-fade">Resume, Personal Profile and more.</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-30">
+                    <div class="me-15 bg-danger-light h-50 w-50 l-h-60 rounded text-center">
+                        <span class="ti-home fs-24"><span class="path1"/><span class="path2"/></span>
+                    </div>
+                    <div class="d-flex flex-column fw-500">
+                        <a href="/employee/family" class="text-dark hover-danger mb-1 fs-16">My Family</a>
+                        <span class="text-fade">Family members</span>
+                    </div>
+                </div>
+               <!-- <div class="d-flex align-items-center mb-30">
+                    <div class="me-15 bg-success-light h-50 w-50 l-h-60 rounded text-center">
+                        <span class="icon-Group-chat fs-24"><span class="path1"></span><span class="path2"></span></span>
+                    </div>
+                    <div class="d-flex flex-column fw-500">
+                        <a href="#" class="text-dark hover-success mb-1 fs-16">My Activities</a>
+                        <span class="text-fade">Logs and notifications</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-30">
+                    <div class="me-15 bg-info-light h-50 w-50 l-h-60 rounded text-center">
+                        <span class="icon-Attachment1 fs-24"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>
+                    </div>
+                    <div class="d-flex flex-column fw-500">
+                        <a href="#" class="text-dark hover-info mb-1 fs-16">My Tasks</a>
+                        <span class="text-fade">latest tasks and projects</span>
+                    </div>
+                </div>-->
+              </div>
+              <div class="dropdown-divider my-30"/>
+              <div>
+              <!--  <div class="media-list">
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">10:10</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-primary">
+                        <p>Morbi quis ex eu arcu auctor sagittis.</p>
+                        <span class="text-fade">by Johne</span>
+                      </div>
+                    </a>
+
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">08:40</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-success">
+                        <p>Proin iaculis eros non odio ornare efficitur.</p>
+                        <span class="text-fade">by Amla</span>
+                      </div>
+                    </a>
+
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">07:10</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-info">
+                        <p>In mattis mi ut posuere consectetur.</p>
+                        <span class="text-fade">by Josef</span>
+                      </div>
+                    </a>
+
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">01:15</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-danger">
+                        <p>Morbi quis ex eu arcu auctor sagittis.</p>
+                        <span class="text-fade">by Rima</span>
+                      </div>
+                    </a>
+
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">23:12</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-warning">
+                        <p>Morbi quis ex eu arcu auctor sagittis.</p>
+                        <span class="text-fade">by Alaxa</span>
+                      </div>
+                    </a>
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">10:10</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-primary">
+                        <p>Morbi quis ex eu arcu auctor sagittis.</p>
+                        <span class="text-fade">by Johne</span>
+                      </div>
+                    </a>
+
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">08:40</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-success">
+                        <p>Proin iaculis eros non odio ornare efficitur.</p>
+                        <span class="text-fade">by Amla</span>
+                      </div>
+                    </a>
+
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">07:10</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-info">
+                        <p>In mattis mi ut posuere consectetur.</p>
+                        <span class="text-fade">by Josef</span>
+                      </div>
+                    </a>
+
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">01:15</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-danger">
+                        <p>Morbi quis ex eu arcu auctor sagittis.</p>
+                        <span class="text-fade">by Rima</span>
+                      </div>
+                    </a>
+
+                    <a class="media media-single px-0" href="#">
+                      <h4 class="w-50 text-gray fw-500">23:12</h4>
+                      <div class="media-body ps-15 bs-5 rounded border-warning">
+                        <p>Morbi quis ex eu arcu auctor sagittis.</p>
+                        <span class="text-fade">by Alaxa</span>
+                      </div>
+                    </a>
+                  </div>-->
+            </div>
+		  </div>
+		</div>
+	  </div>
+  </div>
+         <div class="modal modal-right fade" id="quick_shop_toggle" tabindex="-1">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			  <div class="px-15 d-flex w-p100 align-items-center justify-content-between">
+				<h4 class="m-0">Shopping Cart</h4>
+				<a href="#" class="btn btn-icon btn-danger-light btn-sm no-shadow" data-bs-dismiss="modal">
+					<span class="fa fa-close"></span>
+				</a>
+			  </div>
+		  </div>
+		  <div class="modal-body px-30 pb-30 bg-white slim-scroll4">
+				<div class="d-flex align-items-center justify-content-between pb-15">
+					<div class="d-flex flex-column me-2">
+						<a href="#" class="fw-600 fs-18 text-hover-primary">Product Name</a>
+						<span class="text-muted">When an unknown printer</span>
+						<div class="d-flex align-items-center mt-2">
+							<span class="fw-600 me-5 fs-18">$ 125</span>
+							<span class="text-muted me-5">for</span>
+							<span class="fw-600 me-2 fs-18">4</span>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon me-2">
+								<i class="fa fa-minus"></i>
+							</a>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon">
+								<i class="fa fa-plus"></i>
+							</a>
+						</div>
+					</div>
+					<a href="#" class="flex-shrink-0">
+						<img src="/ess_portal_assets/static/images/product/product-1.png" class="avatar h-100 w-100" alt="" />
+					</a>
+				</div>
+			  <div class="dropdown-divider"></div>
+				<div class="d-flex align-items-center justify-content-between py-15">
+					<div class="d-flex flex-column me-2">
+						<a href="#" class="fw-600 fs-18 text-hover-primary">Product Name</a>
+						<span class="text-muted">When an unknown printer</span>
+						<div class="d-flex align-items-center mt-2">
+							<span class="fw-600 me-5 fs-18">$ 125</span>
+							<span class="text-muted me-5">for</span>
+							<span class="fw-600 me-2 fs-18">4</span>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon me-2">
+								<i class="fa fa-minus"></i>
+							</a>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon">
+								<i class="fa fa-plus"></i>
+							</a>
+						</div>
+					</div>
+					<a href="#" class="flex-shrink-0">
+						<img src="/ess_portal_assets/static/images/product/product-2.png" class="avatar h-100 w-100" alt="" />
+					</a>
+				</div>
+			  <div class="dropdown-divider"></div>
+				<div class="d-flex align-items-center justify-content-between py-15">
+					<div class="d-flex flex-column me-2">
+						<a href="#" class="fw-600 fs-18 text-hover-primary">Product Name</a>
+						<span class="text-muted">When an unknown printer</span>
+						<div class="d-flex align-items-center mt-2">
+							<span class="fw-600 me-5 fs-18">$ 125</span>
+							<span class="text-muted me-5">for</span>
+							<span class="fw-600 me-2 fs-18">4</span>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon me-2">
+								<i class="fa fa-minus"></i>
+							</a>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon">
+								<i class="fa fa-plus"></i>
+							</a>
+						</div>
+					</div>
+					<a href="#" class="flex-shrink-0">
+						<img src="/ess_portal_assets/static/images/product/product-3.png" class="avatar h-100 w-100" alt="" />
+					</a>
+				</div>
+			  <div class="dropdown-divider"></div>
+				<div class="d-flex align-items-center justify-content-between py-15">
+					<div class="d-flex flex-column me-2">
+						<a href="#" class="fw-600 fs-18 text-hover-primary">Product Name</a>
+						<span class="text-muted">When an unknown printer</span>
+						<div class="d-flex align-items-center mt-2">
+							<span class="fw-600 me-5 fs-18">$ 125</span>
+							<span class="text-muted me-5">for</span>
+							<span class="fw-600 me-2 fs-18">4</span>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon me-2">
+								<i class="fa fa-minus"></i>
+							</a>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon">
+								<i class="fa fa-plus"></i>
+							</a>
+						</div>
+					</div>
+					<a href="#" class="flex-shrink-0">
+						<img src="/ess_portal_assets/static/images/product/product-4.png" class="avatar h-100 w-100" alt="" />
+					</a>
+				</div>
+			  <div class="dropdown-divider"></div>
+				<div class="d-flex align-items-center justify-content-between py-15">
+					<div class="d-flex flex-column me-2">
+						<a href="#" class="fw-600 fs-18 text-hover-primary">Product Name</a>
+						<span class="text-muted">When an unknown printer</span>
+						<div class="d-flex align-items-center mt-2">
+							<span class="fw-600 me-5 fs-18">$ 125</span>
+							<span class="text-muted me-5">for</span>
+							<span class="fw-600 me-2 fs-18">4</span>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon me-2">
+								<i class="fa fa-minus"></i>
+							</a>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon">
+								<i class="fa fa-plus"></i>
+							</a>
+						</div>
+					</div>
+					<a href="#" class="flex-shrink-0">
+						<img src="/ess_portal_assets/static/images/product/product-5.png" class="avatar h-100 w-100" alt="" />
+					</a>
+				</div>
+			  <div class="dropdown-divider"></div>
+				<div class="d-flex align-items-center justify-content-between py-15">
+					<div class="d-flex flex-column me-2">
+						<a href="#" class="fw-600 fs-18 text-hover-primary">Product Name</a>
+						<span class="text-muted">When an unknown printer</span>
+						<div class="d-flex align-items-center mt-2">
+							<span class="fw-600 me-5 fs-18">$ 125</span>
+							<span class="text-muted me-5">for</span>
+							<span class="fw-600 me-2 fs-18">4</span>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon me-2">
+								<i class="fa fa-minus"></i>
+							</a>
+							<a href="#" class="btn btn-sm btn-success-light btn-icon">
+								<i class="fa fa-plus"></i>
+							</a>
+						</div>
+					</div>
+					<a href="#" class="flex-shrink-0">
+						<img src="/ess_portal_assets/static/images/product/product-6.png" class="avatar h-100 w-100" alt="" />
+					</a>
+				</div>
+		  </div>
+		  <div class="modal-footer modal-footer-uniform">
+			  <div class="d-flex align-items-center justify-content-between mb-10">
+				<span class="fw-600 text-muted fs-16 me-2">Total</span>
+				<span class="fw-600 text-end">$1248.00</span>
+			  </div>
+			  <div class="d-flex align-items-center justify-content-between mb-15">
+				<span class="fw-600 text-muted fs-16 me-2">Sub total</span>
+				<span class="fw-600 text-primary text-end">$4125.00</span>
+			  </div>
+			  <div class="text-end">
+				<button type="button" class="btn btn-primary">Place Order</button>
+			  </div>
+		  </div>
+		</div>
+	  </div>
+  </div>
+     </template>
+</odoo>

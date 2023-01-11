@@ -1,0 +1,98 @@
+<odoo>
+    <template id="ucp_employee_request.missed_attendance_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        #tbl1 > thead
+                        {
+                        border-top : 1px solid black;
+                        }
+                    </style>
+
+                    <div class="row" style="width:100%">
+                        <div class="col-12" style="text-align:center">
+                            <h3>Missed Attendance Report</h3>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <table class="table table-sm" id="tbl1">
+                        <tr>
+                            <td style="font-size:10px; font-weight:bold; text-align:left; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                <nobr>Sr#</nobr>
+                            </td>
+                            <td style="font-size:10px; font-weight:bold; text-align:left; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                <nobr>Employee Code</nobr>
+                            </td>
+                            <td style="font-size:10px; font-weight:bold; text-align:left; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                <nobr>Employee Name</nobr>
+                            </td>
+                            <td style="font-size:10px; font-weight:bold; text-align:left; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                Designation
+                            </td>
+                            <td style="font-size:10px; font-weight:bold; text-align:left; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                <nobr>Proposed Date Time</nobr>
+                            </td>
+                            <td style="font-size:10px; font-weight:bold;text-align:left;  border-top: 1px solid black; border-bottom: 1px solid black;">
+                                <nobr>Machine Date Time</nobr>
+                            </td>
+                            <td style="font-size:10px; font-weight:bold; text-align:left; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                <nobr>Difference</nobr>
+                            </td>
+                            <td style="font-size:10px; font-weight:bold; text-align:center; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                <nobr>Attendance Type</nobr>
+                            </td>
+                            <td style="font-size:10px; font-weight:bold;text-align:left; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                <nobr>Applied Date Time</nobr>
+                            </td>
+                            <td style="font-size:10px; font-weight:bold; text-align:left; border-top: 1px solid black; border-bottom: 1px solid black;">
+                                Status
+                            </td>
+                        </tr>
+
+                        <tbody>
+                            <t t-foreach="lines" t-as="line">
+                                <tr>
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <span t-esc="line_index + 1"/>
+                                    </td>
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <t t-esc="line['code']"/>
+                                    </td>
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <t t-esc="line['employee']"/>
+                                    </td>
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <t t-esc="line['job']"/>
+                                    </td>
+
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <t t-esc="line['proposed']"/>
+                                    </td>
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <t t-esc="line['machine_datetime']"/>
+                                    </td>
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <t t-esc="line['difference']"/>
+                                    </td>
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <t t-esc="line['att_type']"/>
+                                    </td>
+
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;">
+                                        <t t-esc="line['applied_date']"/>
+                                    </td>
+                                    <td style="border-bottom: 1px solid black;font-size:12px; text-align:left;text-transform: capitalize;">
+                                        <t t-esc="line['status']"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

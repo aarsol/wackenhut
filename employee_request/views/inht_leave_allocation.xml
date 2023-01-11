@@ -1,0 +1,56 @@
+<odoo>
+    <data>
+        <!-- Inherit and add field in hr leave allocation  -->
+        <record id="leave_allocation_inht_form_view" model="ir.ui.view">
+            <field name="name">leave_allocation_inht_form_view</field>
+            <field name="model">hr.leave.allocation</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_allocation_view_form_manager"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="employment_nature" attrs="{'invisible': [('holiday_type', '!=', 'nature')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Inherit and add customize HR leave Type Model-->
+
+        <record id="leave_type_inht_form_view" model="ir.ui.view">
+            <field name="name">leave_type_inht_form_view</field>
+            <field name="model">hr.leave.type</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='request_unit']" position="after">
+                    <field name="special_leave"/>
+                    <field name="annual_leave"/>
+                    <field name="visiting_leave"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit and customize in HR Leave Model -->
+        <record id="hr_leave_form_view_anwaar_ext" model="ir.ui.view">
+            <field name="name">hr_leave_form_anwaar_view</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[3]" position="attributes">
+                    <attribute name="string">Remarks</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="next_on_duty"/>
+                    <field name="work_pending"/>
+                    <field name="leave_purpose"/>
+                </xpath>
+
+                <xpath expr="//field[@name='payslip_status']" position="after">
+                    <field name="upload_documents"/>
+                    <field name="contact_address"/>
+<!--                    <field name="contract_type" invisible="1"/>-->
+<!--                    <field name="probation" invisible="1"/>-->
+                    <field name="leave_id" invisible="1"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

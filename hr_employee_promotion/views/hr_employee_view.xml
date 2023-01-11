@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- HR Employee -->
+        <record id="hr_promotion_view_employee_form" model="ir.ui.view">
+            <field name="name">hr.promotion.hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+<!--                    <page name="employee_promotion_ids" string="Promotions">-->
+<!--                        <field name="promotion_ids" readonly="1">-->
+<!--                            <tree>-->
+<!--                                <field name="sequence" widget="handle"/>-->
+<!--                                <field name="name"/>-->
+<!--                                <field name="promotion_date"/>-->
+<!--                                <field name="promotion_type"/>-->
+<!--                                <field name="department_id"/>-->
+<!--                                <field name="new_department_id"/>-->
+<!--                                <field name="job_id"/>-->
+<!--                                <field name="new_job_id"/>-->
+<!--                                <field name="contract_id"/>-->
+<!--                                <field name="new_contract_id"/>-->
+<!--                                <field name="current_salary"/>-->
+<!--                                <field name="new_salary"/>-->
+<!--                                <field name="state"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </page>-->
+
+<!--                    <page name="employee_demotion_ids" string="Demotions">-->
+<!--                        <field name="demotion_ids" readonly="1">-->
+<!--                            <tree>-->
+<!--                                <field name="sequence" widget="handle"/>-->
+<!--                                <field name="name"/>-->
+<!--                                <field name="demotion_date"/>-->
+<!--                                <field name="promotion_type"/>-->
+<!--                                <field name="department_id"/>-->
+<!--                                <field name="new_department_id"/>-->
+<!--                                <field name="job_id"/>-->
+<!--                                <field name="new_job_id"/>-->
+<!--                                <field name="contract_id"/>-->
+<!--                                <field name="new_contract_id"/>-->
+<!--                                <field name="current_salary"/>-->
+<!--                                <field name="new_salary"/>-->
+<!--                                <field name="state"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </page>-->
+
+                    <page name="employee_transfer_ids" string="Transfer History">
+                        <field name="transfer_ids" readonly="1">
+                            <tree>
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="transfer_date" string="Date"/>
+                                <field name="transfer_type" string="Type"/>
+                                <field name="department_id"/>
+                                <field name="new_department_id"/>
+                                <field name="job_id"/>
+                                <field name="new_job_id"/>
+                                <field name="contract_id"/>
+                                <field name="new_contract_id"/>
+                                <field name="current_salary"/>
+                                <field name="new_salary"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

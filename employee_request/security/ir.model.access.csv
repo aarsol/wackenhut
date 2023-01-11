@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_noc_request,noc.request,model_noc_request,base.group_user,1,1,1,0
+access_medical_advance,medical.advance,model_medical_advance,base.group_user,1,1,1,0
+
+access_travel_request,travel.request,model_travel_request,base.group_user,1,1,1,0
+access_marriage_grant,marriage.grant,model_marriage_grant,base.group_user,1,1,1,0
+
+access_resign_request,resign.request,model_resign_request,base.group_user,1,1,1,0
+access_missed_attendance,missed.attendance,model_missed_attendance,base.group_user,1,1,1,0
+
+access_special_hr_leave,special.hr.leave,model_special_hr_leave,base.group_user,1,1,1,0
+access_loan_request,loan.request,model_loan_request,base.group_user,1,1,1,0
+
+access_missed_attendance_rep_wiz,access.missed_attendance.rep.wiz,model_missed_attendance_rep_wiz,base.group_user,1,1,1,0

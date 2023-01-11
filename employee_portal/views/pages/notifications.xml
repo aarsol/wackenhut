@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="employee_notifications" name="Employee Notifications">
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <t t-call="employee_portal.employee_dashboard_sidebar"/>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <t t-call="employee_portal.dashboard_topbar"/>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Notifications</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <t t-if="notifications">
+                                        <t t-foreach="notifications" t-as="notice">
+                                            <div class="card" style="border: 1px solid #0000003d; padding-left: 1%; padding-top: 1%; padding-bottom: 1%; padding-right: 1%;">
+                                                <h4 style="    background: rgb(78 115 223 / 25%);">
+                                                    <t t-esc="notice.name"/>
+                                                </h4>
+
+                                                <p style="font-size: 10px;">Posted on:
+                                                    <t t-esc="notice.date"/>
+                                                </p>
+
+                                                <p>
+                                                    <span t-style="color: #858796!important; font-size: 18px!important"
+                                                          t-raw="notice.description"/>
+
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </t>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+            </div>
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+
+        <!-- Page level plugins -->
+        <script src="/odoocms_web_bootstrap/static/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="/odoocms_web_bootstrap/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="/odoocms_web_bootstrap/static/js/demo/datatables-demo.js"></script>
+
+    </template>
+</odoo>

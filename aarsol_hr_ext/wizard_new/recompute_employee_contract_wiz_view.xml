@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_recompute_employee_contract_wiz" model="ir.ui.view">
+            <field name="name">recompute.employee.contract.wiz.view</field>
+            <field name="model">recompute.employee.contract.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Recompute Contracts">
+                    <notebook>
+                        <page name="contract_ids" string="Contracts">
+                            <field name="contract_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="employee_id"/>
+                                    <field name="job_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="wage"/>
+                                    <field name="allowances_amount"/>
+                                    <field name="deductions_amount"/>
+                                    <field name="monetization_amount"/>
+                                    <field name="gross_salary"/>
+                                    <field name="net_salary"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="action_recompute_employee_contracts" string="Recompute Contracts" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_recompute_employee_contract_wiz" model="ir.actions.act_window">
+            <field name="name">Recompute ALW/DED</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">recompute.employee.contract.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_contract"/>
+            <field name="binding_view_types">form,list</field>
+        </record>
+
+    </data>
+</odoo>

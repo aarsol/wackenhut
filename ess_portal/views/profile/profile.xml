@@ -1,0 +1,500 @@
+<odoo>
+	<template name="ess_resume" id="ess_resume">
+		<div class="box p-15">
+			<div class="row">
+				<div class="col-lg-8 col-sm-12"/>
+				<div class="col-lg-4 col-sm-12">
+				  <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#new_resume_record" class="btn btn-success mt-10 d-block text-center mb-2">+ New Record</a>
+				</div>
+				<div id="new_resume_record" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="new_resume_record" aria-hidden="true">
+					<div class="modal-dialog">
+						<form class="form-horizontal" id="form_resume_record">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="myModalLabel">New Record</h4>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="form-label">Name</label>
+												<div class="controls">
+													<input name="resume_name" type="text" class="form-control" placeholder="" required=""/>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">Type</label>
+												<div class="controls">
+													<select class="form-select" name="resume_type" id="resume_type" required="">
+														<option value="">Select</option>
+														<t t-foreach="resume_types" t-as="resume_t">
+															<option t-att-type="resume_t.name" t-att-value="resume_t.id"><t t-esc="resume_t.name"/></option>
+														</t>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6"/>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">Date Start</label>
+												<div class="controls">
+													<input name="date_start" type="date" class="form-control" placeholder="" required=""/>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">Date Stop</label>
+												<div class="controls">
+													<input name="date_stop" type="date" class="form-control" placeholder=""/>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="resume_experience">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Job Position</label>
+													<div class="controls">
+														<input name="job_position" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">City</label>
+													<div class="controls">
+														<input name="city" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">Reporting To</label>
+												<div class="controls">
+													<input name="reporting_to" type="text" class="form-control" placeholder=""/>
+												</div>
+											</div>
+										</div>
+										</div>
+									</div>
+
+									<div id="resume_education">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Degree Level</label>
+													<div class="controls">
+														<select class="form-select" name="degree_level">
+															<option value="">Select</option>
+															<option value="matric">Matric</option>
+															<option value="olevel">O Levels</option>
+															<option value="inter">Intermediate</option>
+															<option value="alevel">A Levels</option>
+															<option value="bachelor2year">Bachelors 2 Years</option>
+															<option value="bachelor4year">Bachelors 4 Years</option>
+															<option value="masters">Masters</option>
+															<option value="mphil">MS/Mphil</option>
+															<option value="phd">PhD</option>
+															<option value="postdoc">Post.Doc</option>
+															<option value="llb">LLB</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Passing Year</label>
+													<div class="controls">
+														<input name="passing_year" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Institute</label>
+													<div class="controls">
+														<input name="institute" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Borad</label>
+													<div class="controls">
+														<input name="board" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Subjects</label>
+													<div class="controls">
+														<input name="subjects" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="resume_training">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Organization</label>
+													<div class="controls">
+														<input name="organization" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Certificate</label>
+													<div class="controls">
+														<input name="certificate" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="resume_publication">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="form-label">Subjects</label>
+													<div class="controls">
+														<input name="subjects" type="text" class="form-control" placeholder=""/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+							  	<button type="submit" class="btn btn-success" >Add</button>
+							  	<button type="button" class="btn btn-danger float-end" data-bs-dismiss="modal">Cancel</button>
+						  </div>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="timeline timeline-single-column timeline-single-full-column">
+				<t t-foreach="resume_lines" t-as="line">
+					<span class="timeline-label">
+						<span class="badge badge-info badge-pill"><t t-esc="line['resume_type']"/></span>
+					</span>
+					<t t-foreach="line['resume_lines']" t-as="resume_line">
+						<div class="timeline-item">
+							<div class="timeline-point timeline-point-success">
+								<i class="fa fa-calendar-o"/>
+							</div>
+							<div class="timeline-event">
+								<div class="timeline-heading">
+									<h4 class="timeline-title"><a href="#">From: <t t-esc="resume_line.date_start"/> - To:
+										<t t-if="resume_line.date_end" t-esc="resume_line.date_end"/>
+										<t t-if="not resume_line.date_end">Current</t></a><!--<small> uploaded new photos</small>--></h4>
+								</div>
+								<div class="timeline-body">
+									<t t-esc="resume_line.name"/>
+								</div>
+								<!--<div class="timeline-footer">
+									<p class="text-end"><i class="fa fa-clock-o"/> 8 days ago</p>
+								</div> -->
+							</div>
+						</div>
+					</t>
+				</t>
+			</div>
+		</div>
+	</template>
+
+    <template id="ess_portal_profile" name="Employee Portal Profile">
+        <t t-call="web.layout">
+			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <t t-set="head">
+                <link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+        		<link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+        		<link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+        		<link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+				<style>
+					.logo_img {
+						max-width: 64% !important;
+					}
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+					@media (max-width: 767px)
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+				</style>
+            </t>
+
+			<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+				<div class="wrapper">
+					<div id="loader"/>
+
+					<t t-call="ess_portal.ess_header_menu"/>
+					<t t-call="ess_portal.ess_side_menu"/>
+
+					<div class="content-wrapper">
+					  <div class="container-full">
+						<!-- Content Header (Page header) -->
+						<div class="content-header">
+							<div class="d-flex align-items-center">
+								<div class="me-auto">
+									<h4 class="page-title">Profile</h4>
+									<div class="d-inline-block align-items-center">
+										<nav>
+											<ol class="breadcrumb">
+												<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"/></a></li>
+												<!--<li class="breadcrumb-item" aria-current="page">Extra</li>-->
+												<li class="breadcrumb-item active" aria-current="page">Profile</li>
+											</ol>
+										</nav>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<!-- Main content -->
+						<section class="content">
+						  <div class="row">
+							  <div class="col-12 col-lg-7 col-xl-8">
+								  <div class="nav-tabs-custom">
+									  <ul class="nav nav-tabs">
+								  		<li><a href="#personal_information" data-bs-toggle="tab">Personal Information</a></li>
+								  		<!--<li><a  href="#family" data-bs-toggle="tab">Family Information</a></li>-->
+								  		<li><a  class="active" href="#resume" data-bs-toggle="tab">Resume</a></li>
+									  </ul>
+									  <div class="tab-content">
+										  <div class="tab-pane" id="personal_information">
+									<form class="form">
+											<div class="box-body">
+												<h4 class="box-title text-info mb-0"><i class="ti-user me-15"/> Personal Info</h4>
+												<hr class="my-15"/>
+												<div class="row">
+												  <div class="col-md-12">
+													<div class="form-group">
+													  <label class="form-label">Name</label>
+													  <input type="text" readonly="true" t-att-value="employee.name" class="form-control" placeholder="Full Name"/>
+													</div>
+												  </div>
+												</div>
+												<div class="row">
+												  <div class="col-md-6">
+													<div class="form-group">
+													  <label class="form-label">CNIC</label>
+													  <input type="text" readonly="true" t-att-value="employee.cnic" class="form-control" placeholder="CNIC"/>
+													</div>
+												  </div>
+												  <div class="col-md-6">
+													<div class="form-group">
+													  <label class="form-label">Date of Birth</label>
+													  <input type="date" readonly="true" t-att-value="employee.birthday"  class="form-control" placeholder="Dob"/>
+													</div>
+												  </div>
+												</div>
+												<div class="row">
+												  <div class="col-md-6">
+													<div class="form-group">
+													  <label class="form-label">Blood Group</label>
+														<t t-set="blood_group" t-value="dict(employee.fields_get(allfields=['blood_group'])['blood_group']['selection'])"/>
+													  <select readonly="true" class="form-control">
+														  <t t-foreach="blood_group" t-as="bgroup">
+																   <option t-att-selected="bgroup == employee.blood_group" t-att-value="bgroup">
+																	  <t t-esc="bgroup_value"/>
+																   </option>
+														  </t>
+
+											</select>
+													</div>
+												  </div>
+												  <div class="col-md-6">
+													<div class="form-group">
+													  <label class="form-label">Gender</label>
+													  <t t-set="gender" t-value="dict(employee.fields_get(allfields=['gender'])['gender']['selection'])"/>
+													  <select readonly="true" class="form-control">
+														  <t t-foreach="gender" t-as="gen">
+																   <option t-att-selected="gen == employee.gender" t-att-value="gen">
+																	  <t t-esc="gen_value"/>
+																   </option>
+														  </t>
+
+											</select>
+													</div>
+												  </div>
+												</div>
+												<div class="row">
+												  <div class="col-md-6">
+													<div class="form-group">
+													  <label class="form-label">Religion</label>
+
+													  <select readonly="true" class="form-control">
+														  <t t-foreach="religion" t-as="rel">
+																   <option t-att-selected="rel.id == employee.religion.id" t-att-value="rel">
+																	  <t t-esc="rel.name"/>
+																   </option>
+														  </t>
+
+											</select>
+													</div>
+												  </div>
+												  <div class="col-md-6">
+													<div class="form-group">
+													  <label class="form-label">Dual Nationality</label> <br/>
+														<input class="form-control" type="checkbox" t-att-checked="employee.dual_nationality" id="checkbox_123"/>
+														<label for="checkbox_123" class="me-30">Dual National</label>
+
+													</div>
+												  </div>
+												</div>
+												<div class="row">
+												  <div class="col-md-12">
+													<div class="form-group">
+													  <label class="form-label">Father Name</label>
+														<input type="text" readonly="true" t-att-value="employee.father_name" class="form-control" placeholder="Full Name"/>
+													</div>
+												  </div>
+
+												</div>
+												<h4 class="box-title text-info mb-0 mt-20"><i class="ti-save me-15"></i>Contact Info</h4>
+												<hr class="my-15"/>
+												<div class="row">
+												  <div class="col-md-6">
+													<div class="form-group">
+													  <label class="form-label">E-mail</label>
+													  <input type="text" readonly="true" class="form-control" t-att-value="employee.work_email" placeholder="E-mail"/>
+													</div>
+												  </div>
+												  <div class="col-md-6">
+													<div class="form-group">
+													  <label class="form-label">Mobile Number</label>
+													  <input type="text" readonly="true" t-att-value="employee.mobile_phone" class="form-control"  placeholder="Mobile"/>
+													</div>
+												  </div>
+												</div>
+												<div class="row">
+												  <div class="col-md-12">
+													<div class="form-group">
+													  <label class="form-label">Address</label>
+													  <input type="text" class="form-control" readonly="true" t-att-value="employee.street" placeholder="Address"/>
+													</div>
+												  </div>
+												</div>
+											</div>
+											<!-- /.box-body -->
+											<!--<div class="box-footer">
+												<button type="button" class="btn btn-warning me-1">
+												  <i class="ti-trash"></i> Cancel
+												</button>
+												<button type="submit" class="btn btn-primary">
+												  <i class="ti-save-alt"></i> Save
+												</button>
+											</div>-->
+										</form>
+
+								  </div>
+										  <div class="active tab-pane" id="resume">
+											  <t t-call="ess_portal.ess_resume"/>
+										  </div>
+									  </div>
+								  </div>
+							  </div>
+
+							  <div class="col-12 col-lg-5 col-xl-4">
+								 <div class="box box-widget widget-user">
+									<!-- Add the bg color to the header using any of the bg-* classes -->
+									<div class="widget-user-header bg-img bbsr-0 bber-0" style="background: url('/ess_portal_assets/static/images/gallery/full/10.jpg') center center;" data-overlay="5">
+									  <h3 class="widget-user-username text-white"><t t-esc="employee.department_id.name"/></h3>
+									  <h6 class="widget-user-desc text-white"><t t-esc="employee.department_id.company_id.name"/></h6>
+									</div>
+									<div class="widget-user-image">
+									  <img class="rounded-circle" src="/ess_portal_assets/static/images/user3-128x128.jpg" alt="User Avatar"/>
+									</div>
+									<div class="box-footer">
+									  <div class="row">
+										<div class="col-sm-6">
+										  <div class="description-block">
+											<h5 class="description-header"><t t-esc="employee.joining_date"/></h5>
+											<span class="description-text">Date of Joining</span>
+										  </div>
+										  <!-- /.description-block -->
+										</div>
+										<!-- /.col -->
+										<!--<div class="col-sm-4 be-1 bs-1">
+										  <div class="description-block">
+											<h5 class="description-header">550</h5>
+											<span class="description-text">FOLLOWERS</span>
+										  </div>
+										  &lt;!&ndash; /.description-block &ndash;&gt;
+										</div>-->
+										<!-- /.col -->
+										<div class="col-sm-6">
+										  <div class="description-block">
+											<h5 class="description-header">
+											<t  t-esc="dict(employee.fields_get(allfields=['employment_nature'])['employment_nature']['selection'])[employee.employment_nature]"/>
+											</h5>
+											<span class="description-text">Employment Nature</span>
+										  </div>
+										  <!-- /.description-block -->
+										</div>
+										<!-- /.col -->
+									  </div>
+									  <!-- /.row -->
+									</div>
+								  </div>
+
+								  <div class="box">
+									<div class="box-body box-profile">
+									  <div class="row">
+										<div class="col-12">
+											<div>
+												<p>Work Email :<span class="text-gray ps-10"><t t-esc="employee.address_id.email"/></span> </p>
+												<p>Work Phone :<span class="text-gray ps-10"><t t-esc="employee.work_phone"/></span></p>
+												<p>Work Address :<span class="text-gray ps-10"><t t-esc="employee.address_id.street"/>,<t t-esc="employee.address_id.street2"/>,<t t-esc="employee.address_id.city"/></span></p>
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div>
+												<div class="map-box">
+													<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d217759.99380853778!2d74.3343893!3d31.482940349999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190483e58107d9%3A0xc23abe6ccc7e2462!2sLahore%2C%20Punjab!5e0!3m2!1sen!2s!4v1664095300056!5m2!1sen!2s" width="100%" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"/>
+												</div>
+											</div>
+										</div>
+									  </div>
+									</div>
+								  </div>
+							  </div>
+						  </div>
+						</section>
+					  </div>
+					</div>
+
+					<footer class="main-footer">
+					  &amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+					</footer>
+
+   					<t t-call="ess_portal.ess_quick_action"/>
+  					<t t-call="ess_portal.ess_right_menu"/>
+				</div>
+				<t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+				<script src="/ess_portal/static/js/family.js"/>
+            </body>
+        </t>
+    </template>
+</odoo>

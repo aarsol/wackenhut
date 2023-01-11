@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="employee_appraisal_details" name="Appraisal Details">
+        <style>
+            #dataTable_length{
+            display:none !important;
+            }
+            #dataTable_filter{
+            display:none !important;
+            }
+
+        </style>
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <t t-call="employee_portal.employee_dashboard_sidebar"/>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <t t-call="employee_portal.dashboard_topbar"/>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- Page Heading -->
+                        <h1 class="h3 mb-2 text-gray-800">Appraisal Details</h1>
+                        <div class="card shadow mb-4">
+                            <div class="row" style="padding-left:20px;padding-right:20px;padding-bottom:20px">
+                                <div style="margin-top:20;width:100%"></div>
+                                <div class="col-sm-6">
+                                    <label for="employee_name">Employee Name</label>
+                                    <input class="form-control form-control-sm" id="employee_name"
+                                           name="employee_name"
+                                           t-att-value="appraisal_rec.employee_id.name"
+                                           placeholder="Employee Name"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="payscale">Payscale</label>
+                                    <input class="form-control form-control-sm" id="payscale"
+                                           name="payscale"
+                                           t-att-value="appraisal_rec.payscale"
+                                           placeholder="Payscale"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="joining_date">Employment Date</label>
+                                    <input class="form-control form-control-sm" id="joining_date"
+                                           name="joining_date"
+                                           t-att-value="appraisal_rec.joining_date"
+                                           placeholder="Employment Date"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="birthday">Date Of Birth</label>
+                                    <input class="form-control form-control-sm" id="payscale"
+                                           name="birthday"
+                                           t-att-value="appraisal_rec.birthday"
+                                           placeholder="Birthday"
+                                           type="text"
+                                           disabled="1"
+                                    />
+                                </div>
+                            </div>
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Conferences Attended</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                        <form onsubmit="save_appraisal_participation(event)" id="conference_attended">
+                                            <table class="table table-bordered table-striped" id="dataTable"
+                                                   width="100%"
+                                                   cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Title</th>
+                                                        <th>Country</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="appraisal_id"
+                                                                   name="appraisal_id"
+                                                                   t-att-value="appraisal_rec.id"
+                                                                   placeholder="appraisal_id" required="true"
+                                                                   type="text"
+                                                                   style="display:none"
+                                                            />
+                                                            <input class="form-control form-control-sm" id="name"
+                                                                   name="name"
+                                                                   placeholder="Title" required="true"
+                                                                   type="text"
+                                                            />
+
+                                                        </td>
+                                                        <td>
+                                                            <select id="country_id" name="country_id"
+                                                            >
+                                                                <t t-as="country" t-foreach="countries">
+                                                                    <option t-att-value="country.id">
+                                                                        <span t-esc="country.name"/>
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm" id="start_date"
+                                                                   name="start_date"
+                                                                   placeholder="Start Date" required="true" type="date"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm" id="end_date"
+                                                                   name="end_date"
+                                                                   placeholder="End Date" required="true" type="date"
+                                                            />
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="row" style="padding-top:20px;justify-content:end">
+                                                <input id="employee_profile_save" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+                                                </input>
+                                            </div>
+                                        </form>
+
+                                    </t>
+                                    <table class="table table-bordered table-striped" id="participationTable"
+                                           width="100%"
+                                           cellspacing="0">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Country</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Duration</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="appraisal_rec.participation_ids" t-as="participation">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="participation.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="participation.country_id.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="participation.start_date"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="participation.end_date"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="participation.duration"/>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None"
+                                                                t-attf-onclick="delete_conferences_participation({{ participation.id }})"
+                                                                type="button">
+                                                            <i class="fa fa-trash"/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Committee Membership</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                        <form onsubmit="save_committee_membership(event)" id="committee_membership">
+                                            <table class="table table-bordered table-striped" id="dataTable"
+                                                   width="100%"
+                                                   cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Meetings Held</th>
+                                                        <th>Meetings Attended</th>
+                                                        <th>Absence Reasons</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="appraisal_id"
+                                                                   name="appraisal_id"
+                                                                   t-att-value="appraisal_rec.id"
+                                                                   placeholder="appraisal_id" required="true"
+                                                                   type="text"
+                                                                   style="display:none"
+                                                            />
+                                                            <input class="form-control form-control-sm" id="name"
+                                                                   name="name"
+                                                                   placeholder="Title" required="true"
+                                                                   type="text"
+                                                            />
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm"
+                                                                   id="meetings_held"
+                                                                   name="meetings_held"
+                                                                   placeholder="Meetings Held" required="true"
+                                                                   type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm"
+                                                                   id="meetings_attended"
+                                                                   name="meetings_attended"
+                                                                   placeholder="Meetings Attended" required="true"
+                                                                   type="text"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                            <input class="form-control form-control-sm" id="reason"
+                                                                   name="reason"
+                                                                   placeholder="Reason" required="true" type="text"
+                                                            />
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="row" style="padding-top:20px;justify-content:end">
+                                                <input id="employee_profile_save" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+
+                                                </input>
+                                            </div>
+                                        </form>
+
+                                    </t>
+                                    <table class="table table-bordered table-striped" id="committeeTable"
+                                           width="100%"
+                                           cellspacing="0">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Meetings Held</th>
+                                                <th>Meetings Attended</th>
+                                                <th>Absence Reasons</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="appraisal_rec.committee_membership_ids" t-as="committee">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="committee.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="committee.meetings_held"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="committee.meetings_attended"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="committee.reason"/>
+                                                    </td>
+                                                    <td style="text-align: center;">
+
+                                                        <button style="font-size: 16px;background-color: #d9534f;color: white;border-color: red;width:40px !important;min-width:40px"
+                                                                type="button"
+                                                                t-attf-onclick="delete_committee_membership({{ committee.id }})"
+                                                                t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None">
+                                                            <i class="fa fa-trash"/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <form onsubmit="save_description_data(event)" id="description_data">
+                                        <input class="form-control form-control-sm" id="appraisal_id"
+                                               name="appraisal_id"
+                                               t-att-value="appraisal_rec.id"
+                                               placeholder="appraisal_id" required="true"
+                                               type="text"
+                                               style="display:none"
+                                        />
+                                        <label for="post_description">
+                                            Post related job description of the
+                                            officer during the period of report
+                                        </label>
+                                        <input class="form-control form-control-sm" id="post_description"
+                                               name="post_description"
+                                               t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None"
+                                               t-att-value="appraisal_rec.post_description"></input>
+                                        <label for="additional_duties">
+                                            Detail of additional duties
+                                            assigned/performed by the Officer during the report period
+                                        </label>
+                                        <input class="form-control form-control-sm" id="additional_duties"
+                                               name="additional_duties"
+                                               t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None"
+                                               t-att-value="appraisal_rec.additional_duties"
+                                        ></input>
+                                        <label for="achievements">
+                                            Significant achievements during the
+                                            evaluation period
+                                        </label>
+                                        <input class="form-control form-control-sm" id="achievements"
+                                               name="achievements"
+                                               t-att-disabled="true if employee_id!=logged_in_employee_id or appraisal_rec.state!='draft' else None"
+                                               t-att-value="appraisal_rec.achievements"
+                                        ></input>
+                                        <div class="row" style="padding-top:20px;justify-content:end">
+                                            <t t-if="employee_id==logged_in_employee_id and appraisal_rec.state=='draft'">
+                                                <input id="employee_profile_save" type="submit"
+                                                       class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                                       value="Save">
+                                                </input>
+                                            </t>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:20px;justify-content:center">
+                            <form onsubmit="submit_to_reporting(event)" id="submit_to_reporting">
+                                <input class="form-control form-control-sm" id="appraisal_id"
+                                       name="appraisal_id"
+                                       t-att-value="appraisal_rec.id"
+                                       placeholder="appraisal_id" required="true"
+                                       type="text"
+                                       style="display:none"
+                                />
+                                <t t-if="appraisal_rec.state=='draft'">
+                                    <input id="employee_appraisal_submit_reporting" type="submit"
+                                           class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                           value="Submit">
+                                    </input>
+                                </t>
+
+                            </form>
+
+                        </div>
+                        <h1 class="h3 mb-2 text-gray-800">To be filled by reporting officer</h1>
+                        <div class="card shadow mb-4">
+
+                            <form onsubmit="save_section_answers(event)" id="section_questions">
+                                <t t-foreach="section_names" t-as="section">
+                                    <div class="card-header py-3">
+                                        <h6 t-esc="section" class="m-0 font-weight-bold text-primary">
+
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <t t-foreach="sections" t-as="question">
+                                            <t t-if="question.section_id.name==section">
+                                                <div class="row">
+                                                    <div class="col-sm-10">
+                                                        <p t-esc="question.name"></p>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input style="display:none" name="section"
+                                                               t-att-value="question.section_id.id"></input>
+                                                        <input style="display:none" name="question"
+                                                               t-att-value="question.id"></input>
+
+                                                        <select class="form-control form-control-sm"
+                                                                id="marks"
+                                                                name="marks"
+                                                                t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None"
+                                                        >
+                                                            <option t-att-selected="true if question.marks==5 else None"
+                                                                    t-att-value="1">
+                                                                1
+                                                            </option>
+                                                            <option t-att-selected="true if question.marks==5 else None"
+                                                                    t-att-value="2">
+                                                                2
+                                                            </option>
+                                                            <option t-att-selected="true if question.marks==5 else None"
+                                                                    t-att-value="3">
+                                                                3
+                                                            </option>
+                                                            <option t-att-selected="true if question.marks==5 else None"
+                                                                    t-att-value="4">
+                                                                4
+                                                            </option>
+                                                            <option t-att-selected="true if question.marks==5 else None"
+                                                                    t-att-value="5">
+                                                                5
+                                                            </option>
+                                                        </select>
+
+                                                        <!--                                                        <input class="form-control form-control-sm"-->
+                                                        <!--                                                               t-att-value="question.marks"-->
+                                                        <!--                                                               t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None"-->
+                                                        <!--                                                               id="marks"-->
+                                                        <!--                                                               name="marks"></input>-->
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+
+
+                                    </div>
+                                </t>
+                                <div class="card-body">
+                                    <label for="achievements">
+                                        Observations of reporting officer
+                                    </label>
+
+
+                                    <input class="form-control form-control-sm" id="reporting_observations"
+                                           t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None"
+                                           t-att-value="appraisal_rec.reporting_observations"
+                                           name="reporting_observations"></input>
+
+                                    <label for="counter_sign_authority">
+                                        Assign Counter-Sign Authority
+                                    </label>
+                                    <input name="employee_id" id="employee_id" style="display:none" t-att-value="employee_id"></input>
+                                    <select class="form-control form-control-sm" id="counter_sign_authority"
+                                            name="counter_sign_authority"
+                                            t-att-disabled="true if appraisal_rec.reporting_id.id!=logged_in_employee_id or appraisal_rec.state!='reporting' else None"
+                                    >
+
+                                        <t t-as="employee" t-foreach="employees">
+                                            <option t-att-selected="true if appraisal_rec.counter_sign_id.id==employee.id else None"
+                                                    t-att-value="employee.id">
+                                                <span t-esc="employee.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="row" style="justify-content:end">
+                                    <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id and appraisal_rec.state=='reporting'">
+                                        <input id="section_data_fill" type="submit"
+                                               class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                               value="Save">
+                                        </input>
+                                    </t>
+                                </div>
+                            </form>
+
+                            <div class="row" style="padding-top:20px;justify-content:center">
+                                <form onsubmit="submit_to_counter(event)" id="submit_to_counter">
+                                    <input class="form-control form-control-sm" id="appraisal_id"
+                                           name="appraisal_id"
+                                           t-att-value="appraisal_rec.id"
+                                           placeholder="appraisal_id" required="true"
+                                           type="text"
+                                           style="display:none"
+                                    />
+                                    <t t-if="appraisal_rec.state=='reporting'">
+                                        <input id="employee_appraisal_submit_reporting" type="submit"
+                                               class="btn btn-primary px-4" style="margin-right:2.25rem"
+                                               value="Submit">
+                                        </input>
+                                    </t>
+
+                                </form>
+                            </div>
+
+                        </div>
+                        <h1 class="h3 mb-2 text-gray-800">To be filled by counter signing officer</h1>
+                        <h3 class="h3 mb-2 text-gray-800">Please Give Marks Between 1-5</h3>
+                        <div class="card shadow mb-4">
+
+                            <form onsubmit="save_counter_sign_data(event)" id="appraisal_counter_sign">
+                                <div class="card-body">
+                                    <input class="form-control form-control-sm"
+                                           id="appraisal_id"
+                                           name="appraisal_id"
+                                           t-att-value="appraisal_rec.id"
+                                           placeholder="appraisal_id" required="true"
+                                           type="text"
+                                           style="display:none"
+                                    />
+                                    <label for="counter_sign_observations">
+                                       	How well do you know the officer? If you disagree with the assessment of
+the reporting officer, please give reasons
+                                    </label>
+                                    <input class="form-control form-control-sm" id="reporting_observations"
+                                           t-att-disabled="true if appraisal_rec.counter_sign_id.id!=logged_in_employee_id else None"
+                                           t-att-value="appraisal_rec.counter_sign_observations"
+                                           name="counter_sign_observations"></input>
+
+                                    <label for="counter_sign_observations">
+                                        Evaluation Quality
+                                    </label>
+
+
+                                    <select class="form-control form-control-sm" id="evaluation_quality"
+                                            name="evaluation_quality"
+                                            t-att-disabled="true if appraisal_rec.counter_sign_id.id!=logged_in_employee_id else None"
+                                    >
+                                        <option value="exaggerated"
+                                                t-att-selected="true if appraisal_rec.evaluation_quality=='exaggerated' else None"
+                                        >
+                                            Exaggerated
+                                        </option>
+                                        <option value="fair"
+                                                t-att-selected="true if appraisal_rec.evaluation_quality=='fair' else None"
+                                        >
+                                            Fair
+                                        </option>
+                                        <option value="biased"
+                                                t-att-selected="true if appraisal_rec.evaluation_quality=='biased' else None"
+                                        >
+                                            Biased
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="row" style="justify-content:end">
+                                    <t t-if="appraisal_rec.reporting_id.id==logged_in_employee_id">
+                                        <input id="section_data_fill" type="submit"
+                                               class="btn btn-primary px-4" style="margin-right:2.25rem" value="Save">
+                                        </input>
+                                    </t>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <!-- /.container-fluid -->
+
+
+                </div>
+                <!-- End of Main Content -->
+
+            </div>
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+
+        <!-- Page level plugins -->
+        <script src="/odoocms_web_bootstrap/static/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="/odoocms_web_bootstrap/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Page level custom scripts -->
+        <script src="/odoocms_web_bootstrap/static/js/demo/datatables-demo.js"></script>
+        <script src="/employee_portal/static/js/appraisal_api_functions.js"></script>
+
+    </template>
+</odoo>

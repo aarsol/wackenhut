@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="hr_gratuity.action_gratuity_report" model="ir.actions.report">
+            <field name="name">Gratuity Report</field>
+            <field name="model">gratuity.report.wiz</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hr_gratuity.gratuity_report</field>
+            <field name="report_file">hr_gratuity.gratuity_report</field>
+        </record>
+    </data>
+</odoo>

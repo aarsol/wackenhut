@@ -1,0 +1,215 @@
+<odoo>
+    <template id="ess_portal_reports" name="Employee Portal Leave">
+        <t t-call="web.layout">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <t t-set="head">
+                <link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+        		<link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+        		<link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+        		<link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+				<style>
+					.logo_img {
+						max-width: 64% !important;
+					}
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+										background: #112c4f !important;
+					}
+					@media (max-width: 767px)
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+				</style>
+            </t>
+
+			<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+				<div class="wrapper">
+					<div id="loader"/>
+
+  					<t t-call="ess_portal.ess_header_menu"/>
+
+					<!-- Left side column. contains the logo and sidebar -->
+					<t t-call="ess_portal.ess_side_menu"/>
+
+					<!-- Content Wrapper. Contains page content -->
+					<div class="content-wrapper">
+					  <div class="container-full">
+						<!-- Content Header (Page header) -->
+						<div class="content-header">
+							<div class="d-flex align-items-center">
+								<div class="me-auto">
+									<h4 class="page-title">Reports</h4>
+									<div class="d-inline-block align-items-center">
+										<nav>
+											<ol class="breadcrumb">
+												<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"/></a></li>
+												<!--<li class="breadcrumb-item" aria-current="page">Extra</li>-->
+												<li class="breadcrumb-item active" aria-current="page">My Reports </li>
+											</ol>
+										</nav>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<!-- Main content -->
+						<section class="content">
+						 <div class="row">
+							 <div class="col-lg-4 col-md-6">
+								<div class="box">
+										<div class="box-header with-border">
+										  <h4 class="box-title">Attendance Report</h4>
+										</div>
+										<!-- /.box-header -->
+										<form class="form" action="/employee/attendance/detail/download/" target="_blank">
+											<div class="box-body">
+												<div class="form-group">
+													<label class="form-label">Date From</label>
+													<div class="input-group mb-3">
+														<span class="input-group-text"><i class="ti-date"/></span>
+														<input type="date" name="date_from" class="form-control" required=""/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="form-label">Date To</label>
+													<div class="input-group mb-3">
+														<span class="input-group-text"><i class="ti-date"/></span>
+														<input type="date" name="date_to" class="form-control" required=""/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="form-label">Department</label>
+													<select  id="dept_ids" name="dept_ids" class="form-select">
+														<option value="">Select</option>
+														<optgroup label="Department List">
+															<t t-foreach="departments" t-as="dept">
+																<option t-att-value="dept.id"><t t-esc="dept.name"/></option>
+															</t>
+														</optgroup>
+													</select>
+												</div>
+
+											</div>
+											<!-- /.box-body -->
+											<div class="box-footer">
+												<button type="submit" class="btn btn-warning me-1">
+												  <i class="ti-printer"/> Download/Print
+												</button>
+											</div>
+										</form>
+									  </div>
+							 </div>
+							 <div class="col-lg-4 col-md-6">
+								<div class="box">
+										<div class="box-header with-border">
+										  <h4 class="box-title">Manual Attendance Report</h4>
+										</div>
+										<!-- /.box-header -->
+										<form class="form" action="/employee/manual/attendance/download/" target="_blank">
+											<div class="box-body">
+												<div class="form-group">
+													<label class="form-label">Date From</label>
+													<div class="input-group mb-3">
+														<span class="input-group-text"><i class="ti-date"/></span>
+														<input type="date" name="date_from" class="form-control" required=""/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="form-label">Date To</label>
+													<div class="input-group mb-3">
+														<span class="input-group-text"><i class="ti-date"/></span>
+														<input type="date" name="date_to" class="form-control" required=""/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="form-label">Department</label>
+													<select  id="dept_ids" name="dept_ids" class="form-select">
+														<option value="">Select</option>
+														<optgroup label="Department List">
+															<t t-foreach="departments" t-as="dept">
+																<option t-att-value="dept.id"><t t-esc="dept.name"/></option>
+															</t>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+											<!-- /.box-body -->
+											<div class="box-footer">
+												<button type="submit" class="btn btn-warning me-1">
+												  <i class="ti-printer"/> Download/Print
+												</button>
+											</div>
+										</form>
+									  </div>
+							 </div>
+							 <div class="col-lg-4 col-md-6">
+								<div class="box">
+										<div class="box-header with-border">
+										  <h4 class="box-title">Attendance Summary</h4>
+										</div>
+										<!-- /.box-header -->
+										<form class="form" action="/employee/attendance/summary/download/" target="_blank">
+											<div class="box-body">
+												<div class="form-group">
+													<label class="form-label">Date From</label>
+													<div class="input-group mb-3">
+														<span class="input-group-text"><i class="ti-date"/></span>
+														<input type="date" name="date_from" class="form-control" required=""/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="form-label">Date To</label>
+													<div class="input-group mb-3">
+														<span class="input-group-text"><i class="ti-date"/></span>
+														<input type="date" name="date_to" class="form-control" required=""/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="form-label">Department</label>
+													<select  id="dept_ids" name="dept_ids" class="form-select">
+														<option value="">Select</option>
+														<optgroup label="Department List">
+															<t t-foreach="departments" t-as="dept">
+																<option t-att-value="dept.id"><t t-esc="dept.name"/></option>
+															</t>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+
+											<div class="box-footer">
+												<button type="submit" class="btn btn-warning me-1">
+												  <i class="ti-printer"/> Download/Print
+												</button>
+											</div>
+										</form>
+									  </div>
+							 </div>
+							</div>
+
+						</section>
+						<!-- /.content -->
+					  </div>
+					</div>
+					<!-- /.content-wrapper -->
+
+					<footer class="main-footer">
+					  &amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+					</footer>
+
+					<t t-call="ess_portal.ess_quick_action"/>
+					<t t-call="ess_portal.ess_right_menu"/>
+				</div>
+                <t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+				<!--<script src="/ess_portal_assets/static/src/js/pages/advanced-form-element.js"/>-->
+                <script src="/ess_portal/static/js/request.js"/>
+				<script src="/ess_portal_assets/static/assets/vendor_components/datatable/datatables.min.js"/>
+				<script src="/ess_portal_assets/static/src/js/pages/data-table.js"/>
+            </body>
+        </t>
+    </template>
+</odoo>

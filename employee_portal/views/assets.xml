@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id='custom_assets_portal' name='Custom Portal Assets'>
+        <!-- Custom fonts for this template-->
+        <link href="/employee_portal/static/css/custom_dashboard.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="/employee_portal/static/custom.js"></script>
+
+
+    </template>
+
+
+</odoo>

@@ -1,0 +1,294 @@
+<odoo>
+    <template id="ess_portal_attendance" name="Employee Portal Leave">
+        <t t-call="web.layout">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <t t-set="head">
+                <link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+                <link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+                <link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+                <link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+				<style>
+					.logo_img {
+                        max-width: 64% !important;
+                    }
+					.main-header > div .logo {
+                        line-height: normal;
+                        height: auto;
+                                        background: #112c4f !important;
+                    }
+					@media (max-width: 767px)
+                    .main-header > div .logo {
+                        line-height: normal;
+                        height: auto;
+                        background: #112c4f !important;
+                    }
+				</style>
+            </t>
+
+            <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+                <div class="wrapper">
+	                <div id="loader"/>
+
+                    <t t-call="ess_portal.ess_header_menu"/>
+                    <t t-call="ess_portal.ess_side_menu"/>
+
+                    <div class="content-wrapper">
+                      <div class="container-full">
+                        <div class="content-header">
+                            <div class="d-flex align-items-center">
+                                <div class="me-auto">
+                                    <h4 class="page-title">Leave</h4>
+                                    <div class="d-inline-block align-items-center">
+                                        <nav>
+                                            <ol class="breadcrumb">
+                                                <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"/></a></li>
+                                                <!--<li class="breadcrumb-item" aria-current="page">Extra</li>-->
+                                                <li class="breadcrumb-item active" aria-current="page">Attendance Management</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Main content -->
+                        <section class="content">
+                             <div class="row">
+                                <div class="col-12">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                          <h3 class="box-title">Daily Attendance</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table id="example5" class="table table-bordered table-striped" style="width:100%">
+                                                    <thead>
+                                                        <tr class="bg-info">
+                                                            <td style="width: 15%;">Date</td>
+                                                            <td style="width: 15%;">Check In</td>
+                                                            <td style="width: 15%;">Check Out</td>
+                                                            <td style="width: 15%;">Hours</td>
+                                                            <td style="width: 40%;">Exception</td>
+                                                        </tr>
+                                                    </thead>
+                                                      <tbody>
+                                                          <t t-foreach="attendance_rec" t-as="rec">
+                                                              <tr t-if="rec.check_in">
+                                                                <td><t t-esc="rec.check_in and (rec.check_in+datetime.timedelta(hours=5, minutes=1)).strftime('%d-%b')"/></td>
+            <!--                                                    <td t-if="rec.type == 'absent'" colspan="4">Time Punch Missing</td>-->
+            <!--                                                    <td t-if="rec.type == 'public_holiday'" colspan="4">Public Holiday</td>-->
+            <!--                                                    <td t-if="rec.type == 'weekend'" colspan="4">Week End</td>-->
+            <!--                                                    <td t-if="rec.type == 'leave'" colspan="4"><t t-esc="rec.holiday_id.holiday_status_id.name"/></td>-->
+
+                                                                <t t-if="rec.type == 'regular'">
+                                                                    <td><t t-esc="(rec.check_in and (rec.check_in+datetime.timedelta(hours=5)).strftime('%H:%M') or '-') if rec.status in ('in_time','late') else '-'"/></td>
+                                                                    <td><t t-esc="(rec.check_out and (rec.check_out+datetime.timedelta(hours=5)).strftime('%H:%M') or '-') if rec.check_out_status in ('in_time','early_out') else '-'"/></td>
+                                                                    <td><t t-esc="rec.worked_hours and '{0:,.2f}'.format(float(rec.worked_hours))"/></td>
+                                                                    <td>
+                                                                        <span t-if="rec.status=='absent' or rec.check_out_status=='absent'" class="badge badge-danger">Missing</span>
+                                                                        <span t-if="rec.status=='late'" class="badge badge-warning">Late</span>
+                                                                        <span t-if="rec.check_out_status=='early_out'" class="badge badge-info">Early-out</span>
+                                                                    </td>
+                                                                </t>
+                                                                  <t t-else="">
+                                                                      <td>-</td>
+                                                                      <td>-</td>
+                                                                      <td>-</td>
+                                                                      <td t-if="rec.type == 'absent'">Time Punch Missing</td>
+                                                                      <td t-if="rec.type == 'public_holiday'">Public Holiday</td>
+                                                                      <td t-if="rec.type == 'weekend'">Week End</td>
+                                                                      <td t-if="rec.type == 'leave'"><t t-esc="rec.holiday_id.holiday_status_id.name"/></td>
+                                                                  </t>
+                                                            </tr>
+                                                          </t>
+                                                      </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Check In</th>
+                                                        <th>Check Out</th>
+                                                        <th>Hours</th>
+                                                        <th>Exception</th>
+                                                    </tr>
+                                                </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                <!-- /.box-body -->
+                              </div>
+                                </div>
+                             </div>
+
+                        </section>
+                        <!-- /.content -->
+                      </div>
+                    </div>
+
+                    <footer class="main-footer">
+                      &amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+                    </footer>
+                    <t t-call="ess_portal.ess_quick_action"/>
+                    <t t-call="ess_portal.ess_right_menu"/>
+                </div>
+
+                <t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+                <script src="/ess_portal_assets/static/assets/vendor_components/datatable/datatables.min.js"/>
+            	<script src="/ess_portal_assets/static/src/js/pages/data-table.js"/>
+
+            </body>
+        </t>
+    </template>
+    <template id="ess_portal_attendance_subordinate" name="Employee Portal Leave">
+        <t t-call="web.layout">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <t t-set="head">
+<!-- <t t-call-assets="ess_portal_assets.ess_assets" t-js="false"/>-->
+                <link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+        <link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+        <link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+        <link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+				<style>
+					.logo_img {
+    max-width: 64% !important;
+}
+					.main-header > div .logo {
+    line-height: normal;
+    height: auto;
+					background: #112c4f !important;
+}
+					@media (max-width: 767px)
+.main-header > div .logo {
+    line-height: normal;
+    height: auto;
+    background: #112c4f !important;
+}
+				</style>
+                 <!--<title>ESS Profile</title>-->
+            </t>
+            <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+                <div class="wrapper">
+	                <div id="loader"/>
+
+                    <t t-call="ess_portal.ess_header_menu"/>
+                    <t t-call="ess_portal.ess_side_menu"/>
+
+                    <div class="content-wrapper">
+                      <div class="container-full">
+                        <!-- Content Header (Page header) -->
+                        <div class="content-header">
+                            <div class="d-flex align-items-center">
+                                <div class="me-auto">
+                                    <h4 class="page-title">Leave</h4>
+                                    <div class="d-inline-block align-items-center">
+                                        <nav>
+                                            <ol class="breadcrumb">
+                                                <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                                                <!--<li class="breadcrumb-item" aria-current="page">Extra</li>-->
+                                                <li class="breadcrumb-item active" aria-current="page">Attendance Subordinate</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Main content -->
+                        <section class="content">
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="box">
+                                    <div class="box-header with-border">
+                                      <h3 class="box-title">Daily Attendance</h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+                                          <table id="example5" class="table table-bordered table-striped" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Department</th>
+                                                    <th>Date</th>
+                                                    <th>In</th>
+                                                    <th>Out</th>
+                                                    <th>Hours</th>
+                                                    <th>Exception</th>
+                                                </tr>
+                                            </thead>
+                                              <tbody>
+                                                  <t t-foreach="attendances" t-as="rec">
+                                                    <tr t-if="rec.check_in">
+                                                        <td><t t-esc="rec.employee_id.name"/></td>
+                                                        <td><t t-esc="rec.employee_id.department_id.name"/></td>
+                                                        <td><t t-esc="rec.check_in and (rec.check_in+datetime.timedelta(hours=5, minutes=1)).strftime('%d-%b')"/></td>
+<!--                                                        <td t-if="rec.type == 'absent'" colspan="4">Time Punch Missing</td>-->
+<!--                                                        <td t-if="rec.type == 'public_holiday'" colspan="4">Public Holiday</td>-->
+<!--                                                        <td t-if="rec.type == 'weekend'" colspan="4">Week End</td>-->
+<!--                                                        <td t-if="rec.type == 'leave'" colspan="4"><t t-esc="rec.holiday_id.holiday_status_id.name"/></td>-->
+
+                                                        <t t-if="rec.type == 'regular'">
+                                                            <td><t t-esc="(rec.check_in and (rec.check_in+datetime.timedelta(hours=5)).strftime('%H:%M') or '-') if rec.status in ('in_time','late') else '-'"/></td>
+                                                            <td><t t-esc="(rec.check_out and (rec.check_out+datetime.timedelta(hours=5)).strftime('%H:%M') or '-') if rec.check_out_status in ('in_time','early_out') else '-'"/></td>
+                                                            <td><t t-esc="rec.worked_hours and '{0:,.2f}'.format(float(rec.worked_hours))"/></td>
+                                                            <td>
+                                                                <span t-if="rec.status=='absent' or rec.check_out_status=='absent'" class="badge badge-danger">Missing</span>
+                                                                <span t-if="rec.status=='late'" class="badge badge-warning">Late</span>
+                                                                <span t-if="rec.check_out_status=='early_out'" class="badge badge-info">Early-out</span>
+                                                            </td>
+                                                        </t>
+                                                        <t t-else="">
+                                                          <td>-</td>
+                                                          <td>-</td>
+                                                          <td>-</td>
+                                                          <td t-if="rec.type == 'absent'">Time Punch Missing</td>
+                                                          <td t-if="rec.type == 'public_holiday'">Public Holiday</td>
+                                                          <td t-if="rec.type == 'weekend'">Week End</td>
+                                                          <td t-if="rec.type == 'leave'"><t t-esc="rec.holiday_id.holiday_status_id.name"/></td>
+                                                      </t>
+                                                    </tr>
+                                                  </t>
+                                              </tbody>
+                                              <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Department</th>
+                                                    <th>Date</th>
+                                                    <th>In</th>
+                                                    <th>Out</th>
+                                                    <th>Hours</th>
+                                                    <th>Exception</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                          </div>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+                      <!-- /.row -->
+
+                    </section>
+                    <!-- /.content -->
+                  </div>
+              </div>
+
+                    <footer class="main-footer">
+                        &amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+                    </footer>
+                    <t t-call="ess_portal.ess_quick_action"/>
+                    <t t-call="ess_portal.ess_right_menu"/>
+                </div>
+
+                <t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+				<script src="/ess_portal_assets/static/assets/vendor_components/datatable/datatables.min.js"/>
+            	<script src="/ess_portal_assets/static/src/js/pages/data-table.js"/>
+            </body>
+        </t>
+    </template>
+</odoo>

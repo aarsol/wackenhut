@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id='ess_assets' name='ESS Portal Assets' groups="base.group_user">
+    <!--<template id='ess_assets' name='ESS Portal Assets'>-->
+        <t t-call-assets="ess_portal_assets.ess_assets"/>
+       <!-- <link rel="icon" href="/ess_portal_assets/static/images/favicon.ico"/>
+        <link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+        <link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+        <link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+
+
+        <script src="/ess_portal_assets/static/src/js/vendors.min.js"/>
+        &lt;!&ndash;<script src="/ess_portal_assets/static/src/js/pages/chat-popup.js"/>&ndash;&gt;
+        <script src="/ess_portal_assets/static/assets/icons/feather-icons/feather.min.js"/>
+        &lt;!&ndash; CRMi App &ndash;&gt;
+        <script src="/ess_portal_assets/static/src/js/template.js"/>
+        <script src="/ess_portal_assets/static/src/js/pages/timeline.js"/>
+        <script src="/ess_portal_assets/static/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
+        <script src="/ess_portal_assets/static/src/custom_alerts.js"/>-->
+    </template>
+</odoo>

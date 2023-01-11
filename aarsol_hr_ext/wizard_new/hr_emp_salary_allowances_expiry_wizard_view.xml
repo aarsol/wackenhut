@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_emp_salary_allowances_expiry_wizard_form" model="ir.ui.view">
+            <field name="name">hr.emp.salary.allowances.expiry.wizard.view</field>
+            <field name="model">hr.emp.salary.allowances.expiry.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Employee Contract Expiry in Salary Allowances">
+                    <group>
+                        <group>
+                            <field name="date" required="1"/>
+                            <field name="allowance_id" readonly="1"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Calculation" name="percentage_ids">
+                            <field name="percentage_ids" domain="[('allowance_id','=',allowance_id)]">
+                                <tree>
+                                    <field name="domain"/>
+                                    <field name="value"/>
+                                    <field name="min_value"/>
+                                    <field name="max_value"/>
+                                    <field name="allowance_id"/>
+                                    <field name="note"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="action_expiry_allowances" string="Expire Employee/Contract" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_emp_salary_allowances_expiry_wizard" model="ir.actions.act_window">
+            <field name="name">Employee/Contract Expire</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.emp.salary.allowances.expiry.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_salary_allowances"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="view_id" ref="view_hr_emp_salary_allowances_expiry_wizard_form"/>
+        </record>
+
+
+        <record id="view_hr_emp_salary_deductions_expiry_wizard_form" model="ir.ui.view">
+            <field name="name">hr.emp.salary.deductions.expiry.wizard.view</field>
+            <field name="model">hr.emp.salary.allowances.expiry.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Employee Contract Expiry in Salary Deductions">
+                    <group>
+                        <group>
+                            <field name="date" required="1"/>
+                            <field name="deduction_id" readonly="1"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Calculation" name="percentage_ids">
+                            <field name="percentage_ids" domain="[('deduction_id','=',deduction_id)]">
+                                <tree>
+                                    <field name="domain"/>
+                                    <field name="value"/>
+                                    <field name="min_value"/>
+                                    <field name="max_value"/>
+                                    <field name="deduction_id"/>
+                                    <field name="note"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="action_expiry_allowances" string="Expire Employee/Contract" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_emp_salary_deductions_expiry_wizard" model="ir.actions.act_window">
+            <field name="name">Employee/Contract Expire</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.emp.salary.allowances.expiry.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_salary_deductions"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="view_id" ref="view_hr_emp_salary_deductions_expiry_wizard_form"/>
+        </record>
+
+    </data>
+</odoo>

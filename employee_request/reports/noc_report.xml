@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="ucp_employee_request.noc_report_tem_id">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-if="doc.noc_type == 'study'" t-call="ucp_employee_request.noc_study_temp_id"/>
+                    <t t-if="doc.noc_type == 'applying_job'" t-call="ucp_employee_request.job_report_id"/>
+                    <t t-if="doc.noc_type == 'passport'" t-call="ucp_employee_request.passport_report"/>
+                </t>
+            </t>
+        </template>
+        <template id="noc_study_temp_id">
+            <t t-call="web.html_container">
+                <div class="header">
+                    <div class="row" style="width:100%">
+                        <div class="col-3" style="img-align:center">
+                            <img src="usc_inventory/static/description/ucp.png" height="100px" width="100px"/>
+                        </div>
+                        <div class="col-8" style="text-align:center;margin-top:20px">
+                            <b>UTILITY STORES CORPORATION OF PAKISTAN (PRIVATE) LIMITED
+                                <br/>
+                                MINISTRY OF INDUSTRIES AND PRODUCTION
+                            </b>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="container">
+                        <div>
+                            <strong>
+                                <h3 style="text-align:center">
+                                    <strong>NO OBJECTION CERTIFICATE</strong>
+                                </h3>
+                                <h4 class="font-weight-bold" style="margin-left:50px">Form Status :
+                                    <span style="margin-left:10px;text-transform: capitalize;"
+                                          t-esc="str(dict(doc._fields['state'].selection).get(doc.state))"/>
+                                </h4>
+                                <h4 class="font-weight-bold" style="margin-left:50px">Apply :
+                                    <span style="margin-left:10px;text-transform: capitalize;"
+                                          t-esc="str(dict(doc._fields['noc_type'].selection).get(doc.noc_type))"/>
+                                </h4>
+                            </strong>
+                        </div>
+                        <p style="margin-left:50px;font-size:18px">
+                            Mr./Mrs./Ms "<span t-esc="doc.employee_id.name"/>", ("
+                            <span t-esc="doc.employee_id.job_id.name"/>"), is a bonafide employee of this
+                            Corporation.
+                            <br/>
+                            <br/>He/She intends to take admission in class
+                            "<span t-esc="doc.degree_name"/>" of "<span t-esc="doc.university_name"/>"
+                            University.
+                            <br/>
+                            <br/>
+                            <br/>
+                            2. This Corporation has no objection for taking admission in the University.
+                        </p>
+                        <table style="width:100%;margin-top:50px">
+                            <tr>
+                                <td style="width:70%;"></td>
+                                <td style="width:30%;text-align:center;margin-top:80px">
+                                    Approved By:
+                                    <span t-esc="doc.approved_employee_id.name"/>
+                                    <br/>
+                                    Designation :
+                                    <span t-esc="doc.approved_employee_id.job_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+                <!--                    </t>-->
+            </t>
+        </template>
+        <template id="job_report_id">
+            <t t-call="web.html_container">
+                <!--                    <t t-call="web.internal_layout">-->
+                <div class="header">
+                    <div class="row" style="width:100%">
+                        <div class="col-3" style="img-align:center">
+                            <img src="usc_inventory/static/description/ucp.png" height="100px" width="100px"/>
+                        </div>
+                        <div class="col-8" style="text-align:center;margin-top:20px">
+                            <b>UTILITY STORES CORPORATION OF PAKISTAN (PRIVATE) LIMITED
+                                <br/>
+                                MINISTRY OF INDUSTRIES AND PRODUCTION
+                            </b>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="container ">
+                        <div>
+                            <strong>
+                                <h3 style="text-align:center">
+                                    <strong>TO WHOM IT MAY CONCERN</strong>
+                                </h3>
+                                <h4 class="font-weight-bold" style="margin-left:50px">Form Status :
+                                    <span style="margin-left:10px;text-transform: capitalize;"
+                                          t-esc="str(dict(doc._fields['state'].selection).get(doc.state))"/>
+                                </h4>
+                                <h4 class="font-weight-bold" style="margin-left:50px">Apply :
+                                    <span style="margin-left:10px;text-transform: capitalize;"
+                                          t-esc="str(dict(doc._fields['noc_type'].selection).get(doc.noc_type))"/>
+                                </h4>
+                            </strong>
+                        </div>
+                        <p style="margin-left:50px;font-size:18px">
+                            It is to certify that Mr/Ms/Mrs
+                            <span t-esc="doc.employee_id.father_name"/>
+                            D/S/O
+                            <span
+                                    t-esc="doc.employee_id.name"/>
+                            is serving in
+                            Utility Stores Corporation of Pakistan (Pvt) Limited, ucp Head Office since (<span
+                                t-esc="doc.employee_id.joining_date"/>) as Designation on
+                            <span t-esc="doc.employee_id.employment_nature"/>
+                            Regular/Contract/Daily Wages basis.
+                            <br/>
+                            <br/>
+                            <br/>
+                            2. This Corporation has no objection on applying for the post of "<span
+                                t-esc="doc.job_name"/>" at
+                            "<span t-esc="doc.organization_name"/>". However, he will have to resign from ucp service
+                            before
+                            joining any department.
+                        </p>
+                        <table style="width:100%;margin-top:50px">
+                            <tr>
+                                <td style="width:70%;"></td>
+                                <td style="width:30%;text-align:center;margin-top:80px">
+                                    Approved By:
+                                    <span t-esc="doc.approved_employee_id.name"/>
+                                    <br/>
+                                    Designation :
+                                    <span t-esc="doc.approved_employee_id.job_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+                <!--                    </t>-->
+            </t>
+        </template>
+        <template id="passport_report">
+            <t t-call="web.html_container">
+                <div class="header">
+                    <div class="row" style="width:100%">
+                        <div class="col-3" style="img-align:center">
+                            <img src="usc_inventory/static/description/ucp.png" height="100px" width="100px"/>
+                        </div>
+                        <div class="col-8" style="text-align:center;margin-top:20px">
+                            <b>UTILITY STORES CORPORATION OF PAKISTAN (PRIVATE) LIMITED
+                                <br/>
+                                MINISTRY OF INDUSTRIES AND PRODUCTION
+                            </b>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="container ">
+                        <div>
+                            <strong>
+                                <h3 style="text-align:center">
+                                    <strong>NO OBJECTION CERTIFICATE</strong>
+                                </h3>
+                                <h4 class="font-weight-bold" style="margin-left:50px">Form Status :
+                                    <span style="margin-left:10px;text-transform: capitalize;"
+                                          t-esc="str(dict(doc._fields['state'].selection).get(doc.state))"/>
+                                </h4>
+                                <h4 class="font-weight-bold" style="margin-left:50px">Apply :
+                                    <span style="margin-left:10px;text-transform: capitalize;"
+                                          t-esc="str(dict(doc._fields['noc_type'].selection).get(doc.noc_type))"/>
+                                </h4>
+                            </strong>
+                        </div>
+                        <p style="margin-left:50px;font-size:18px">It is certified that Mr. "<span
+                                t-esc="doc.employee_id.name"/>" is an employee of Utility Store Corporation
+                            of Pakistan (Pvt) Limited, since "<span t-esc="doc.renew"/>". His current position is
+                            "<span t-esc="doc.new_passport"/>" .
+                            <br/>
+                            This Corporation has no objection for obtaining Passport.
+                        </p>
+                        <table style="width:100%;margin-top:50px">
+                            <tr>
+                                <td style="width:70%;"></td>
+                                <td style="width:30%;text-align:center;margin-top:80px">
+                                    Approved By:
+                                    <span t-esc="doc.approved_employee_id.name"/>
+                                    <br/>
+                                    Designation :
+                                    <span t-esc="doc.approved_employee_id.job_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!--                    </t>-->
+            </t>
+        </template>
+
+    </data>
+</odoo>

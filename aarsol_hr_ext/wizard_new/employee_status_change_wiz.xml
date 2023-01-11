@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_employee_status_change_wiz" model="ir.ui.view">
+            <field name="name">employee.status.change.wiz</field>
+            <field name="model">employee.status.change.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Employee Status Change">
+                    <group>
+                        <group>
+                            <field name="state" required="1"/>
+                            <field name="date"/>
+                            <field name="office_order_file"/>
+                        </group>
+                        <group>
+                            <field name="termination_option" attrs="{'invisible':[('state','!=','resigned')]}"/>
+                            <field name="payroll_status" attrs="{'invisible':[('state','!=','resigned')]}"/>
+                            <field name="termination_date" attrs="{'invisible':[('termination_option','!=','immediate')]}"/>
+                            <field name="notice_period_start_date" attrs="{'invisible':[('termination_option','!=','notice_period')]}"/>
+                            <field name="notice_period_end_date" attrs="{'invisible':[('termination_option','!=','notice_period')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Employee(s)">
+                            <field name="employee_ids"/>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="action_status_change" string="Update Status" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_employee_status_change_wiz" model="ir.actions.act_window">
+            <field name="name">Employee Status</field>
+            <field name="res_model">employee.status.change.wiz</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="hr.model_hr_employee"/>
+            <field name="binding_view_types">list,form</field>
+        </record>
+
+    </data>
+</odoo>

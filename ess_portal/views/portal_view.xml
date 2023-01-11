@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_ess_portal" model="ir.actions.act_url">
+        <field name="name">ESS Portal</field>
+        <field name="url">/employee/dashboard</field>
+        <field name="target">self</field>
+    </record>
+
+    <menuitem id="menu_ess_portal_root"
+        name="ESS Portal"
+        action="ess_portal.action_ess_portal"
+        web_icon="ess_portal,static/description/icon.png"
+        sequence="1"
+        groups="group_ess_portal_user"
+    />
+
+</odoo>

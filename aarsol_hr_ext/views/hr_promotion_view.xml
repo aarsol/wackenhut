@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- HR Stage Change -->
+        <record id="view_hr_grade_change_form" model="ir.ui.view">
+            <field name="name">hr.grade.change.form</field>
+            <field name="model">hr.grade.change</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Stage Change">
+                    <header groups="base.group_user">
+                        <button name="action_approve" type="object" string="Approve" states="draft" class="oe_highlight"/>
+                        <field name="state" readonly="1" widget="statusbar" statusbar_visible="draft,approve"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="type" readonly="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="promotion_type" attrs="{'invisible':[('type','!=', 'promotion')]}"/>
+                                <field name="salary_start_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="old_contract_end_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="new_contract_start_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="total_records"/>
+                            </group>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Employee Detail">
+                                <field name="line_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='cancel'">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="employee_id" required="1"
+                                               domain="[('payscale_id.scale_category_id.code','!=','FIX PAY')]"
+                                               options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                                        <field name="grade" required="1"/>
+                                        <field name="basic_salary" sum="sum_basic_salary"/>
+                                        <field name="stage" string="Current Stage" required="1"/>
+                                        <field name="grade_stages" optional="show"/>
+                                        <field name="new_grade" invisible="1"/>
+                                        <field name="grade_stages" invisible="1"/>
+                                        <field name="increment_no" string="Increments" required="1" options='{"text": "number", "step": 1}'/>
+                                        <field name="new_stage" string="Total Increments" required="1"/>
+                                        <field name="personal_pay_count" optional="show"/>
+                                        <field name="new_basic_salary" sum="sum_new_basic_salary"/>
+                                        <field name="increment_amount" sum="sum_increment_amount"/>
+                                        <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='cancel'"/>
+                                        <field name="no_action" optional="hide"/>
+                                        <field name="remarks" optional="hide"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <!--                            <page name="grade_change_summary_page" string="Grade Change Summary">-->
+                            <!--                                <field name="grade_change_summary" widget="html"/>-->
+                            <!--                            </page>-->
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field groups="base.group_user" name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_grade_change_tree" model="ir.ui.view">
+            <field name="name">hr.grade.change.tree</field>
+            <field name="model">hr.grade.change</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Stage Change" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='cancel'">
+                    <field name="name"/>
+                    <field name="create_uid" optional="show" widget="many2one_avatar_user"/>
+                    <field name="date"/>
+                    <field name="old_contract_end_date"/>
+                    <field name="new_contract_start_date"/>
+                    <field name="type"/>
+                    <field name="promotion_type" optional="hide"/>
+                    <field name="total_records" sum="sum_total_records"/>
+                    <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='cancel'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_grade_change_search">
+            <field name="name">hr.grade.change.search</field>
+            <field name="model">hr.grade.change</field>
+            <field name="arch" type="xml">
+                <search string="Stage Change Filters">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                    <field name="type"/>
+                    <field name="old_contract_end_date"/>
+                    <field name="new_contract_start_date"/>
+
+                    <filter string="Date" name="date_filter" date="date"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter name="group_type" string="Type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter name="group_promotion_type" string="Promotion Type" domain="[]" context="{'group_by':'promotion_type'}"/>
+                        <separator/>
+                        <filter name="group_date" string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <separator/>
+                    </group>
+                    <searchpanel>
+                        <field name="type" icon="fa-users" enable_counters="1"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_hr_grade_change" model="ir.actions.act_window">
+            <field name="name">Stage Change</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.grade.change</field>
+            <field name="context">{'type':'increment'}</field>
+            <field name="domain">[('type','=','increment')]</field>
+            <field name="search_view_id" ref="aarsol_hr_ext.view_hr_grade_change_search"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                    (0, 0, {'view_mode': 'tree', 'view_id': ref('aarsol_hr_ext.view_hr_grade_change_tree')}),
+                    (0, 0, {'view_mode': 'form', 'view_id': ref('aarsol_hr_ext.view_hr_grade_change_form')}),
+               ]"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_grade_change"
+                name="Incremental Setup"
+                parent="menu_hr_emp_promotion_main"
+                action="action_hr_grade_change"
+                sequence="30"/>
+
+
+        <!-- HR Grade Promote Employee -->
+        <record id="view_hr_grade_promote_form" model="ir.ui.view">
+            <field name="name">hr.grade.promote.form</field>
+            <field name="model">hr.grade.change</field>
+            <field eval="1000" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Payscale Promotion">
+                    <header groups="base.group_user">
+                        <button name="action_approve2" type="object" string="Approve" states="draft" class="oe_highlight"/>
+                        <field name="state" readonly="1" widget="statusbar"
+                               statusbar_visible="draft,approve"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="type" required="1" readonly="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="promotion_type" required="1" attrs="{'invisible':[('type','!=', 'promotion')]}"/>
+                                <field name="salary_start_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="old_contract_end_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="new_contract_start_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="total_records"/>
+                            </group>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Employee Detail">
+                                <field name="line_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='cancel'">
+                                        <field name="employee_id" required="1"
+                                               domain="[('payscale_id.scale_category_id.code','!=','FIX PAY')]"
+                                               options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                                        <field name="department_id" required="1" options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                                        <field name="job_id" required="1" options="{'limit': 10, 'no_create': 1, 'no_create_edit': 1}"/>
+                                        <field name="grade" required="1"/>
+                                        <field name="basic_salary" sum="sum_basic_salary"/>
+                                        <field name="stage" string="Current Stage" required="1"/>
+                                        <field name="new_grade" required="1"/>
+                                        <field name="increment_no" attrs="{'column_invisible': [('parent.promotion_type', '=', 'active_promotion')]}"/>
+                                        <field name="new_stage" required="1"/>
+                                        <field name="new_grade_stages" string="Total Stages" optional="hide"/>
+                                        <field name="personal_pay_count" optional="hide"/>
+                                        <field name="new_basic_salary" sum="sum_new_basic_salary"/>
+                                        <field name="increment_amount" sum="sum_increment_amount" optional="hide"/>
+                                        <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='cancel'"/>
+                                        <field name="no_action" optional="hide"/>
+                                        <field name="remarks" optional="hide"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field groups="base.group_user" name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_grade_promote_tree" model="ir.ui.view">
+            <field name="name">hr.grade.promote.tree</field>
+            <field name="model">hr.grade.change</field>
+            <field eval="1000" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Payscale Promotion" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='cancel'">
+                    <field name="name"/>
+                    <field name="create_uid" optional="show" widget="many2one_avatar_user"/>
+                    <field name="date"/>
+                    <field name="old_contract_end_date"/>
+                    <field name="new_contract_start_date"/>
+                    <field name="type"/>
+                    <field name="promotion_type" optional="hide"/>
+                    <field name="total_records" sum="sum_total_records"/>
+                    <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='cancel'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_grade_promote_search">
+            <field name="name">hr.grade.promote.search</field>
+            <field name="model">hr.grade.change</field>
+            <field name="arch" type="xml">
+                <search string="Payscale Promotion Filters">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                    <field name="type"/>
+                    <field name="old_contract_end_date"/>
+                    <field name="new_contract_start_date"/>
+
+                    <filter string="Date" name="date_filter" date="date"/>
+                    <filter string="Promoted" name="promoted" domain="[('type','=','promotion')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter name="group_type" string="Type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter name="group_promotion_type" string="Promotion Type" domain="[]" context="{'group_by':'promotion_type'}"/>
+                        <separator/>
+                        <filter name="group_date" string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <separator/>
+                    </group>
+                    <searchpanel>
+                        <field name="type" icon="fa-users" enable_counters="1"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_hr_grade_promote" model="ir.actions.act_window">
+            <field name="name">Payscale Promote</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.grade.change</field>
+            <field name="context">{'type':'promotion'}</field>
+            <field name="domain">[('type','=','promotion')]</field>
+            <field name="search_view_id" ref="aarsol_hr_ext.view_hr_grade_promote_search"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                    (0, 0, {'view_mode': 'tree', 'view_id': ref('aarsol_hr_ext.view_hr_grade_promote_tree')}),
+                    (0, 0, {'view_mode': 'form', 'view_id': ref('aarsol_hr_ext.view_hr_grade_promote_form')}),
+               ]"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_grade_promote"
+                name="Promotion Setup"
+                parent="menu_hr_emp_promotion_main"
+                action="action_hr_grade_promote"
+                sequence="50"/>
+
+    </data>
+</odoo>

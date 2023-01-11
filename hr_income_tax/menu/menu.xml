@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem
+                id="menu_hr_income_tax_main"
+                name="Income Tax"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+                sequence="67"/>
+
+        <menuitem
+                id="menu_hr_income_tax_adjustment_main"
+                name="Tax Adjustment"
+                parent="hr_income_tax.menu_hr_income_tax_main"
+                sequence="50"/>
+
+    </data>
+</odoo>

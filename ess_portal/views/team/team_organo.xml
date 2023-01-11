@@ -1,0 +1,102 @@
+<odoo>
+    <template id="ess_portal_team_organo" name="Employee Portal Leave">
+        <t t-call="web.layout">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <!-- Vendors Style-->
+
+            <t t-set="head">
+<!-- <t t-call-assets="ess_portal_assets.ess_assets" t-js="false"/>-->
+                <link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+        <link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+        <link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+        <link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+				<style>
+					.logo_img {
+    max-width: 64% !important;
+}
+					.main-header > div .logo {
+    line-height: normal;
+    height: auto;
+					background: #112c4f !important;
+}
+					@media (max-width: 767px)
+.main-header > div .logo {
+    line-height: normal;
+    height: auto;
+    background: #112c4f !important;
+}
+				</style>
+                 <!--<title>ESS Profile</title>-->
+            </t>
+
+                <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+
+<div class="wrapper">
+	<div id="loader"/>
+
+  <t t-call="ess_portal.ess_header_menu"/>
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <t t-call="ess_portal.ess_side_menu"/>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+	  <div class="container-full">
+		<!-- Content Header (Page header) -->
+		<div class="content-header">
+			<div class="d-flex align-items-center">
+				<div class="me-auto">
+					<h4 class="page-title">Department</h4>
+					<div class="d-inline-block align-items-center">
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+								<!--<li class="breadcrumb-item" aria-current="page">Extra</li>-->
+								<li class="breadcrumb-item active" aria-current="page">My Team </li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- Main content -->
+		<section class="content">
+
+		 <div class="row">
+			 <div class="col-lg-12">
+				 Under Development
+			 </div>
+			</div>
+
+		</section>
+		<!-- /.content -->
+	  </div>
+  </div>
+  <!-- /.content-wrapper -->
+
+   <footer class="main-footer">
+    <div class="pull-right d-none d-sm-inline-block">
+       <!-- <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+		  <li class="nav-item">
+			<a class="nav-link" href="https://themeforest.net/item/crmi-bootstrap-admin-dashboard-template/33405709" target="_blank">Purchase Now</a>
+		  </li>
+		</ul>-->
+    </div>
+	  &amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+  </footer>
+      <t t-call="ess_portal.ess_quick_action"/>
+  <t t-call="ess_portal.ess_right_menu"/>
+  <!-- /quick_shop_toggle -->
+</div>
+
+                <t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+                    <!--<script src="/ess_portal_assets/static/src/js/pages/advanced-form-element.js"/>-->
+                    <script src="/ess_portal/static/js/request.js"/>
+					<script src="/ess_portal_assets/static/assets/vendor_components/datatable/datatables.min.js"/>
+					<script src="/ess_portal_assets/static/src/js/pages/data-table.js"/>
+            </body>
+        </t>
+    </template>
+</odoo>

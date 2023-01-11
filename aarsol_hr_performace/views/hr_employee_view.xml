@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="hr_ext_view_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//notebook" position="inside">
+                        <page name="employee_appraisal" string="Employee Appraisal">
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="job_id"/>
+                                            <!--                                                <field name="employee_appraisal_id"/>-->
+                                            <field name="counter_sign_id"/>
+                                            <field name="senior_counter_sign_id"/>
+                                            <field name="senior_counter_sign_id_two"/>
+                                            <field name="senior_counter_sign_id_three"/>
+                                            <field name="allow_initiation"/>
+                                            <field name="employee_type"/>
+                                            <field name="h_index"/>
+                                            <field name="focus_area"/>
+
+
+
+
+                                            <!--                                                <button name="action_send_survey" string="Initiate" type="object" class="oe_highlight"/>-->
+                                            <!--                                                <field name="designation_id"/>-->
+                                            <!--                                                <field name="date"/>-->
+                                        </group>
+                                        <group>
+                                            <field name="birthday"/>
+                                            <field name="joining_date"
+                                                   attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                            <field name="qualification"/>
+                                            <field name="specialization"/>
+                                            <field name="citations"/>
+
+                                            <!--                                                 <field name="faculty_appraisal_id"/>-->
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </page>
+                    </xpath>
+
+
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

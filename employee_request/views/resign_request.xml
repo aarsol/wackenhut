@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="resign_request_view_form" model="ir.ui.view">
+        <field name="name">resign_request_view_form</field>
+        <field name="model">resign.request</field>
+        <field name="arch" type="xml">
+            <form string="Resign Request">
+                <header>
+                    <button name="approve_request" type="object" string="Approve" class="oe_highlight" groups="ucp_employee_request.hr_request, ucp_employee_request.hr_prorector"/>
+                    <button name="reject_request" type="object" string="Reject" class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" required="1" attrs="{'readonly':[('state','!=','notice period')]}"
+                                   options="{'no_create': True, 'no_quick_create':True, 'no_create_edit': True, 'limit': 10}"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('state','not in',('notice period'))]}"/>
+                        </group>
+                        <group>
+                            <field name="resign_from" required="1"
+                                   attrs="{'readonly':[('state','!=','notice period')]}"
+                                   groups="ucp_employee_request.hr_request"/>
+                            <field name="apply_date" required="1"
+                                   attrs="{'readonly':[('state','!=','notice period')]}"/>
+                            <field name="hod_app" invisible="1"/>
+                            <!-- <field name="approval_hod" invisible="1"/> -->
+
+                            <field name="hr_app" invisible="1"/>
+                            <field name="hr_app" invisible="1"/>
+                            <field name="parent_dept_hod" invisible="1"/>
+                            <field name="sub_parent_dept_hod" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Resign Reason" attrs="{'readonly':[('state','!=','notice period')]}">
+                        <field name="resign_reason" nolabel="1" attrs="{'readonly':[('state','!=','notice period')]}"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="resign_request_view_tree" model="ir.ui.view">
+        <field name="name">resign.request.view.tree</field>
+        <field name="model">resign.request</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Resign Requests" decoration-info="state=='notice period'"
+                  decoration-success="state=='approved'" decoration-warning="state=='withdraw'"
+                  decoration-danger="state=='reject'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="resign_from"/>
+                <field name="apply_date"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                <field name="state" widget="badge" decoration-info="state=='notice period'"
+                       decoration-success="state=='approved'" decoration-warning="state=='withdraw'"
+                       decoration-danger="state=='reject'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="resign_request_search_view" model="ir.ui.view">
+        <field name="name">resign.request.search.view</field>
+        <field name="model">resign.request</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id"/>
+                <field name="resign_from"/>
+                <field name="apply_date"/>
+                <field name="state"/>
+
+
+                <filter string="Notice Period" name="filter_by_notice_period" domain="[('state','=','notice period')]"/>
+                <filter string="Approved" name="filter_by_approved" domain="[('state','=','approved')]"/>
+                <filter string="Withdraw" name="filter_by_withdraw" domain="[('state','=','withdraw')]"/>
+                <filter string="Reject" name="filter_by_reject" domain="[('state','=','reject')]"/>
+                <separator/>
+                <filter string="Resign From" name="resign_from" date="resign_from"/>
+                <filter string="Apply Date" name="apply_date" date="apply_date"/>
+                <newline/>
+
+                <group expand="0" string="Group By...">
+                    <separator/>
+                    <filter name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                    <separator/>
+                    <filter name="company_id" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
+                    <separator/>
+                </group>
+                <searchpanel>
+                    <field name="company_id" icon="fa-users"/>
+                    <field name="state" icon="fa-users"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="resign_request_action" model="ir.actions.act_window">
+        <field name="name">Resign Request</field>
+        <field name="res_model">resign.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem
+            id="resign_request_menu"
+            name="Resign Request"
+            action='resign_request_action'
+            parent="aarsol_hr_payroll.menu_hr_employee_requests_main"
+            sequence="60"
+    />
+</odoo>

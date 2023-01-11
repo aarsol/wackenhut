@@ -1,0 +1,270 @@
+<odoo>
+    <template id="hr_gratuity.gratuity_report">
+        <t t-call="web.basic_layout">
+            <style>
+                #invoice-report {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                }
+                #invoice-report1 td, #invoice-report1 th {
+                border: 1px solid #ddd;
+                padding: 2px;
+                }
+
+                #invoice-report td, #invoice-report th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align:center;
+                }
+
+                #invoice-report tr:nth-child(even){background-color: #f2f2f2;}
+
+                #invoice-report tr:hover {background-color: #ddd;}
+
+                #invoice-report th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color: #17134e;
+                color: white;
+                }
+
+                #top-info {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                margin-top:15px;
+                display: inline;
+                }
+
+                #top-info td, #personal-info th {
+                padding: 3px;
+                }
+
+            </style>
+            <div class="page" style='font-size: 14px; padding:10px; margin:5em; font-family: "Times New Roman", Times, serif;'>
+                <p style="font-size:22px;font-weight:bold;text-align:center;">
+                    <span t-esc="data['company_id'][1]"></span>
+                    <br/>
+                    <span style="font-size:20;font-weight:bold;text-align:center;">
+                        FOR USE IN FINANCE DIVISION
+                    </span>
+                    <br/>
+                    <span style="font-size:18;font-weight:bold;text-align:center;">
+                        Gratuity Payable Vide Routine Office Order No. 58/2017
+                        &#160;Dated&#160;21-04-2017
+                    </span>
+                </p>
+
+                <table id="invoice-report">
+                    <tr>
+                        <td colspan="5"></td>
+                        <td style="text-align:right;font-weight:bold;">Employee No</td>
+                        <td style="text-align:right">
+                            <span style="font-weight:bold;" t-esc="employee.code"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:left;font-weight:bold;">Name</td>
+                        <td style="text-align:left">
+                            <span t-esc="employee.name"></span>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:left;font-weight:bold;">Designation</td>
+                        <td style="text-align:left">
+                            <span t-esc="employee.job_id.name"></span>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:left;font-weight:bold;">Location</td>
+                        <td style="text-align:left">
+                            <span t-esc="employee.location_id.name"></span>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:left;font-weight:bold;">Retired On</td>
+                        <td style="text-align:left">
+                            <span t-esc="retired_date"></span>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:left;font-weight:bold;">Authority</td>
+                        <td style="text-align:left">
+                            <span t-esc="data['authority']"></span>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:left;font-weight:bold;">Dated</td>
+                        <td style="text-align:left">
+                            <span t-esc="today"></span>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:left;font-weight:bold;">Date of Confirm</td>
+                        <td style="text-align:left">
+                            <span t-field="employee.joining_date" t-field-options='{"widget": "date", "format": "dd-MM-Y"}'></span>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:left;font-weight:bold;">Date of Birth</td>
+                        <td style="text-align:left">
+                            <span t-field="employee.birthday" t-field-options='{"widget": "date", "format": "dd-MM-Y"}'></span>
+                        </td>
+                        <td colspan="4"></td>
+                    </tr>
+
+
+                    <tr>
+                        <th style="text-align:center">S.No</th>
+                        <th style="text-align:center">Basic Pay</th>
+                        <th style="text-align:center">From</th>
+                        <th style="text-align:center">To</th>
+                        <th style="text-align:center">Year</th>
+                        <th style="text-align:center">Rate @</th>
+                        <th style="text-align:center">Amount in PKR</th>
+                    </tr>
+                    <t t-foreach="res" t-as="r">
+                        <tr style="font-size:14px;">
+                            <td style="text-align:left;">
+                                <span t-esc="r_index+1"/>
+                            </td>
+                            <td style="text-align:right;">
+                                <span t-esc="r['basic_pay']"/>
+                            </td>
+                            <td style="text-align:left;">
+                                <span t-esc="r['date_from']"/>
+                            </td>
+                            <td style="text-align:left;">
+                                <span t-esc="r['date_to']"/>
+                            </td>
+                            <td style="text-align:right;">
+                                <span t-esc="r['years']"/>
+                            </td>
+                            <td style="text-align:right;">
+                                <span t-esc="r['rate']"/>
+                            </td>
+                            <td style="text-align:right;">
+                                <span t-esc="r['amount']"/>
+                            </td>
+                        </tr>
+                    </t>
+                    <tr>
+                        <td colspan="4">
+                        </td>
+                        <td style="text-align:right;font-size:15px;font-weight:bold;">
+                            <span t-esc="total_years"/>
+                        </td>
+                        <td></td>
+                        <td style="text-align:right;font-size:15px;font-weight:bold;">
+                            <span t-esc="total_amount"/>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width:100%;" id="invoice-report">
+                    <tr>
+                        <td style="text-align:left;font-size:15px;font-weight:bold;">
+                            Note:
+                        </td>
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td style="font-size:16px;text-align:left;">
+                            <span t-esc="note"/>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+
+                <table style="width:100%;" id="invoice-report">
+                    <tr style="font-size:16px;text-align:left;font-weight:bold;">
+                        <td style="font-size:16px;text-align:left;font-weight:bold;">
+                            Deduction, if any:
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+
+                <table style="width:100%;" id="invoice-report">
+                    <tr style="text-align:left;font-size:16px;">
+                        <td style="text-align:left;font-size:16px;font-weight:bold;">
+                            Net Amount Payable:
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="text-align:left;font-size:16px;">
+                        <td style="text-align:left;font-size:16px;font-weight:bold;">
+                            Rupees:
+                        </td>
+                        <td style="text-align:right;font-size:16px;">
+                            <span t-esc="total_amount"/>
+                        </td>
+                    </tr>
+                </table>
+
+                <br/>
+                <br/>
+                <table style="width:100%;">
+                    <tr>
+                        <td style="text-align:left;">Prepared By</td>
+                        <td style="text-align:right;">Checked By</td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align:left;">Faisal Mehmood</td>
+                        <td style="text-align:right;">Muhammad Nawaz Abbasi</td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align:left;font-weight:bold;">Accounts Assistant</td>
+                        <td style="text-align:right;font-weight:bold;">Assistant Director (Gratuity)</td>
+                    </tr>
+                </table>
+                <br/>
+                <br/>
+
+                <table style="width:100%;">
+                    <tr>
+                        <td style="text-align:left;">Verified By</td>
+                        <td style="text-align:right;">Recommended By</td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align:left;">Hassan Wali</td>
+                        <td style="text-align:right;">Yasir Iftikhar Abbasi</td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align:left;font-weight:bold;">Deputy Director, Finance</td>
+                        <td style="text-align:right;font-weight:bold;">Director, Finance</td>
+                    </tr>
+                </table>
+
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_employee_payroll_status_tree" model="ir.ui.view">
+            <field name="name">hr.employee.payroll.status.tree</field>
+            <field name="model">hr.employee.payroll.status</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Employee Payroll Status" create="false" edit="false"
+                      decoration-primary="state == 'draft'" decoration-success="state == 'lock'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="employee_id"/>
+                    <field name="payroll_status"/>
+                    <field name="date"/>
+                    <field name="create_uid" string="Created By" optional="show" widget="many2one_avatar_user"/>
+                    <field name="state" widget="badge" decoration-primary="state == 'draft'" decoration-success="state == 'lock'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_payroll_status_search" model="ir.ui.view">
+            <field name="name">hr.employee.payroll.status.search</field>
+            <field name="model">hr.employee.payroll.status</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Employee Payroll Status">
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                    <field name="payroll_status"/>
+                    <field name="state"/>
+
+                    <filter name="date" string="Date" date="date"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_employee_id" string="Employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter name="group_date" string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter name="group_payroll_status" string="Payroll Status" domain="[]" context="{'group_by':'payroll_status'}"/>
+                        <filter name="group_status" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_hr_employee_payroll_status">
+            <field name="name">Employee Payroll Status</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.payroll.status</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="view_hr_employee_payroll_status_search"/>
+            <field name="domain">[]</field>
+        </record>
+
+        <menuitem
+                name="Employee Payroll Status"
+                action="act_hr_employee_payroll_status"
+                id="menu_hr_employee_payroll_status"
+                sequence="100"
+                parent="menu_hr_payslip_cron_main"
+                groups="hr.group_hr_manager,account.group_account_manager"/>
+
+        <!-- Wizard -->
+        <record id="view_employee_payroll_status_update_wiz" model="ir.ui.view">
+            <field name="name">employee.payroll.status.update.wiz.view</field>
+            <field name="model">employee.payroll.status.update.wiz</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Employee Payroll Status Update">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <field name="old_payroll_status" readonly="1"/>
+                                <field name="payroll_status"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+                    <footer>
+                        <button name="action_update_payroll_status" string="Update Payroll Status" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_employee_payroll_status_update_wiz" model="ir.actions.act_window">
+            <field name="name">Payroll Status Update</field>
+            <field name="res_model">employee.payroll.status.update.wiz</field>
+            <field name="binding_model_id" ref="model_hr_employee"/>
+            <field name="view_mode">form</field>
+            <field name="binding_view_types">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,135 @@
+<odoo>
+    <data>
+        <record id="view_hr_employee_income_tax_adjustment_tree" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.adjustment.tree</field>
+            <field name="model">hr.employee.income.tax.adjustment</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Employee Income Tax Adjustment" decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="designation_id"/>
+                    <field name="description"/>
+                    <field name="tax_id"/>
+                    <field name="employee_tax_id"/>
+                    <field name="amount"/>
+                    <field name="state" widget="badge" decoration-info="state=='Draft'" decoration-success="state=='Done'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_income_tax_adjustment_form" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.adjustment.form</field>
+            <field name="model">hr.employee.income.tax.adjustment</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Income Tax">
+                    <header>
+                        <button name="action_done" states="Draft" type="object" string="Validate" class="btn-primary"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" attrs="{'readonly':[('state','!=','Draft')]}"
+                                       required="1"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                                <field name="department_id" attrs="{'readonly':[('state','!=','Draft')]}"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                                <field name="designation_id" attrs="{'readonly':[('state','!=','Draft')]}"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                                <field name="date" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="amount" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="description" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="tax_id" readonly="1"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                                <field name="employee_tax_id"
+                                       readonly="1" options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_income_tax_adjustment_search" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.search.adjustment.view</field>
+            <field name="model">hr.employee.income.tax.adjustment</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <search string="Employee Income Tax Adjustment">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="designation_id"/>
+                    <field name="date"/>
+                    <field name="tax_id"/>
+                    <field name="employee_tax_id"/>
+                    <field name="state"/>
+
+                    <separator/>
+                    <filter name="date" string="Date" date="date"/>
+
+                    <newline/>
+                    <group expand="0" string="Group By">
+                        <filter string="Employee" name="group_by_employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Department" name="group_by_department" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter string="Designation" name="group_by_designation" domain="[]" context="{'group_by':'designation_id'}"/>
+                        <separator/>
+                        <filter string="Date" name="group_by_date" domain="[]" context="{'group_by':'date'}"/>
+                        <separator/>
+                        <filter string="Status" name="group_by_state" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter string="Tax" name="group_by_tax" domain="[]" context="{'group_by':'tax_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_income_tax_adjustment_pivot" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.adjustment.pivot.view</field>
+            <field name="model">hr.employee.income.tax.adjustment</field>
+            <field name="arch" type="xml">
+                <pivot string="Employee Income Tax Adjustment Pivot Chart">
+                    <field name="employee_id" type="row"/>
+                    <field name="date" interval="month"/>
+                    <field name="amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_income_tax_adjustment_graph" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.adjustment.graph.view</field>
+            <field name="model">hr.employee.income.tax.adjustment</field>
+            <field name="arch" type="xml">
+                <graph string="Employee Income Tax adjustment Graph Analysis">
+                    <field name="employee_id"/>
+                    <field name="amount" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_income_tax_adjustment" model="ir.actions.act_window">
+            <field name="name">Employee Income Tax Adjustment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.income.tax.adjustment</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_income_tax_adjustment"
+                name="Tax Adjustment"
+                action="action_hr_employee_income_tax_adjustment"
+                parent="menu_hr_income_tax_adjustment_main"
+                sequence="10"/>
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="mail_act_resign_request" model="mail.activity.type">
+        <field name="name">Resignation Approval</field>
+        <field name="category">approval</field>
+        <field name="icon">fa-sun-o</field>
+        <field name="res_model_id" ref="ucp_employee_request.model_resign_request"/>
+        <field name="decoration_type">warning</field>
+    </record>
+
+    <!--Loan Request -->
+    <record id="mail_act_loan_request" model="mail.activity.type">
+        <field name="name">Loan/Advance Approval</field>
+        <field name="category">approval</field>
+        <field name="icon">fa-sun-o</field>
+        <field name="res_model_id" ref="ucp_employee_request.model_loan_request"/>
+        <field name="decoration_type">warning</field>
+    </record>
+
+    <!--Special Leave Request-->
+    <record id="mail_act_special_leave_request" model="mail.activity.type">
+        <field name="name">Special Leave Approval</field>
+        <field name="category">approval</field>
+        <field name="icon">fa-sun-o</field>
+        <field name="res_model_id" ref="ucp_employee_request.model_special_hr_leave"/>
+        <field name="decoration_type">warning</field>
+    </record>
+
+    <!--Missed Attendance-->
+    <record id="mail_act_missed_attendance_request" model="mail.activity.type">
+        <field name="name">Missed Attendance Request</field>
+        <field name="category">approval</field>
+        <field name="icon">fa-sun-o</field>
+        <field name="res_model_id" ref="ucp_employee_request.model_missed_attendance"/>
+        <field name="decoration_type">warning</field>
+    </record>
+    <!--Travel Request-->
+    <record id="mail_act_travel_request" model="mail.activity.type">
+        <field name="name">Travel Request</field>
+        <field name="category">approval</field>
+        <field name="icon">fa-sun-o</field>
+        <field name="res_model_id" ref="ucp_employee_request.model_travel_request"/>
+        <field name="decoration_type">warning</field>
+    </record>
+</odoo>

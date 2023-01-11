@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_bank_tree" model="ir.ui.view">
+            <field name="name">hr.bank.tree</field>
+            <field name="model">hr.bank</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Banks" decoration-primary="state == 'draft'" decoration-success="state == 'lock'">
+                    <field name="name"/>
+                    <field name="account"/>
+                    <field name="state" widget="badge" decoration-primary="state == 'draft'" decoration-success="state == 'lock'"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_bank_form" model="ir.ui.view">
+            <field name="name">hr.bank.form</field>
+            <field name="model">hr.bank</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Bank">
+                    <header>
+                        <button name="action_lock" type="object" class="oe_highlight" string="Lock" states="draft"/>
+                        <button name="action_unlock" type="object" class="oe_highlight" string="UnLock" states="lock"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="account" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_bank_search" model="ir.ui.view">
+            <field name="name">hr.bank.search</field>
+            <field name="model">hr.bank</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Bank">
+                    <field name="name"/>
+                    <field name="account"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_hr_bank">
+            <field name="name">Bank</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.bank</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_hr_bank_search"/>
+            <field name="domain">[]</field>
+        </record>
+
+        <menuitem
+                name="Banks"
+                action="act_hr_bank"
+                id="menu_hr_bank"
+                sequence="100"
+                parent="hr.menu_human_resources_configuration"
+                groups="hr.group_hr_manager,account.group_account_manager"/>
+
+    </data>
+</odoo>

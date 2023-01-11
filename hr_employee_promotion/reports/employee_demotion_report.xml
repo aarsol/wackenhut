@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="employee_demotion_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout" style="font-family:georgia,garamond,serif;font-size:10px">
+                        <div class="page">
+                            <p style="font-size:20px;font-weight:bold;text-align:center;text-decoration: underline;">
+                                <span t-esc="doc.employee_id.name"/>&#160;&#160;
+                                <span t-esc="doc.new_job_id.name"/>&#160;&#160;
+                                Posting
+                            </p>
+
+                            <div class="row">
+                                <div class="col-xs-3" style="text-align:right;">Demotion Date:
+                                    <span t-field="doc.demotion_date"/>
+                                </div>
+                            </div>
+
+                            <p style="font-size:20px;font-weight:bold;text-align:center;text-decoration: underline;">
+                                Demotion Detail:
+                            </p>
+
+
+                            <table class="table table-condensed" width="100%" style="padding-top: 1px;">
+                                <tr>
+                                    <td>Employee</td>
+                                    <td>Previous Designation</td>
+                                    <td>Previous Salary</td>
+                                    <td>New Designation</td>
+                                    <td>New Salary</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span t-esc="doc.employee_id.name"/>
+                                        <span t-esc="doc.job_id.name"/>
+                                        <span t-esc="doc.current_salary"/>
+                                        <span t-esc="doc.new_job_id.name"/>
+                                        <span t-esc="doc.new_salary"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <p style="font-size:20px;font-weight:bold;text-align:center;text-decoration: underline;">
+                                HR OFFICER
+                            </p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

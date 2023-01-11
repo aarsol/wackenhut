@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_employee_demotion_wizard" model="ir.ui.view">
+            <field name="name">hr.employee.demotion.view.wizard</field>
+            <field name="model">hr.employee.demotion.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Employee Demotion Wizard">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" required="1"
+                                       options="{'no_create':True}"/>
+                            </group>
+                            <group>
+                                <field name="demotion_date" required="1"/>
+                                <field name="promotion_type" required="1"
+                                       options="{'no_create':True}"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group string="Old Data" name="employee_old_info">
+                                <field name="department_id"/>
+                                <field name="job_id"/>
+                                <field name="manager_id"/>
+                                <field name="contract_id"/>
+                                <field name="current_salary" string="Salary"/>
+                            </group>
+                            <group string="New Data" name="employee_new_info">
+                                <field name="new_department_id" string="Department"
+                                       options="{'no_create':True}"
+                                       required="1"/>
+                                <field name="new_job_id" string="Designation"
+                                       options="{'no_create':True}"
+                                       required="1"/>
+                                <field name="new_manager_id" string="Manager"
+                                       options="{'no_create':True}"/>
+                                <field name="new_salary" string="Salary"/>
+                            </group>
+
+                            <group>
+                                <field name="is_create_new_contract"
+                                       widget="boolean_toggle"/>
+                                <field name="copy_allowances"
+                                       widget="boolean_toggle"/>
+                                <field name="copy_deductions"
+                                       widget="boolean_toggle"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <group string="Remarks">
+                            <field name="remarks" nolabel="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_demote_employee" string="Employee Demotion" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+<!--        <record id="action_hr_employee_demotion_wizard" model="ir.actions.act_window">-->
+<!--            <field name="name">Demote Employee</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">hr.employee.demotion.wizard</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="binding_model_id" ref="model_hr_employee"/>-->
+<!--            <field name="binding_view_types">form</field>-->
+<!--            <field name="target">new</field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

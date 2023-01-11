@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <record id="view_hr_emp_salary_inputs_installments_wizard" model="ir.ui.view">
+            <field name="name">view.hr.emp.salary.inputs.installments.wizard.view</field>
+            <field name="model">hr.emp.salary.inputs.installments.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Input Installments Wizard">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" options="{'no_quick_create':True,'no_create_edit':True}" readonly="1"/>
+                                <field name="emp_salary_input_id" options="{'no_quick_create':True,'no_create_edit':True}" invisible="1"/>
+                                <field name="total_amount" readonly="1"/>
+                                <field name="installments"/>
+                            </group>
+                            <group>
+                                <field name="installment_amount"/>
+                                <field name="start_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_create_entries" string="Create Record" type="object" default_focus="1" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_emp_salary_inputs_installments_wiz" model="ir.actions.act_window">
+            <field name="name">Create Installments</field>
+            <field name="res_model">hr.emp.salary.inputs.installments.wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="domain">[('state','!=','done')]</field>
+            <field name="binding_model_id" ref="aarsol_hr_ext.model_hr_emp_salary_inputs"/>
+            <field name="binding_view_types">list,form</field>
+        </record>
+
+    </data>
+</odoo>

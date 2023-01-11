@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_loan_waiveoff_wiz" model="ir.ui.view">
+            <field name="name">hr.loan.waiveoff.wiz.view</field>
+            <field name="model">hr.loan.waiveoff.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Write Off Wizard">
+                    <field name="show_message_text" invisible="1"/>
+                    <p class="text-center"
+                       attrs="{'invisible':[('show_message_text','!=',True)]}"
+                       style="font-size:22px;font-weight:bold;color:red">
+                        This Loan Entry is Already Write off.
+                    </p>
+                    <group>
+                        <group>
+                            <field name="loan_id" invisible="1"/>
+                            <field name="date" required="1" attrs="{'readonly':[('show_message_text','=',True)]}"/>
+                            <field name="journal_id" options="{'no_create':True}" attrs="{'readonly':[('show_message_text','=',True)]}"/>
+                            <field name="debit_account_id" options="{'no_create':True}" attrs="{'readonly':[('show_message_text','=',True)]}"/>
+                            <field name="credit_account_id" options="{'no_create':True}" attrs="{'readonly':[('show_message_text','=',True)]}"/>
+                        </group>
+                        <group>
+                            <field name="principal_amount"/>
+                            <field name="paid_installments"/>
+                            <field name="remaining_installments" string="Rem. Installments"/>
+
+                        </group>
+                    </group>
+                    <group string="Reason" attrs="{'readonly':[('show_message_text','=',True)]}">
+                        <field name="reason" nolabel="1" required="1" attrs="{'readonly':[('show_message_text','=',True)]}"/>
+                    </group>
+                    <footer>
+                        <button name="action_loan_waiveoff" string="Loan Write Off" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_loan_waiveoff_wiz" model="ir.actions.act_window">
+            <field name="name">Write Off</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.loan.waiveoff.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="model_hr_loan"/>
+            <field name="binding_view_types">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

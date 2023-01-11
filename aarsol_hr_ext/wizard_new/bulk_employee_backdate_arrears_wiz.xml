@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_bulk_employee_backdate_arrears_wiz" model="ir.ui.view">
+            <field name="name">bulk.employee.employee.backdate.arrears.wiz</field>
+            <field name="model">bulk.employee.backdate.arrears.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Bulk Employee BackDate Arrears">
+                    <group>
+                        <group>
+                            <field name="date_from" required="1"/>
+                            <field name="date_to" required="1"/>
+                            <field name="date" required="1"/>
+                            <field name="slip_month" required="1"/>
+                        </group>
+                        <group>
+                            <field name="calculation_type" required="1"/>
+                            <field name="ttype" required="1"/>
+                            <field name="other_deduction_input_id" domain="[('input_type','=','ded')]"
+                                   options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"
+                                   attrs="{'required':[('ttype','=','other_deduction')],'invisible':[('ttype','!=','other_deduction')]}"/>
+                            <field name="allowance_ids" widget="many2many_tags"
+                                   options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"
+                                   attrs="{'required':[('ttype','=','allowance')],'invisible':[('ttype','in',('deduction','other_deduction'))]}"/>
+                            <field name="deduction_ids" widget="many2many_tags"
+                                   options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"
+                                   attrs="{'required':[('ttype','=','deduction')],'invisible':[('ttype','in',('allowance','other_deduction'))]}"/>
+
+                        </group>
+                    </group>
+                    <group string="Employee(s)">
+                        <field name="employee_ids" nolabel="1" options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"/>
+                    </group>
+                    <footer>
+                        <button name="action_generate_entry" string="Generate Entries" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_bulk_employee_backdate_arrears_wiz" model="ir.actions.act_window">
+            <field name="name">Bulk Employee BackDate Arrears</field>
+            <field name="res_model">bulk.employee.backdate.arrears.wiz</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_bulk_employee_backdate_arrears_wiz"
+                name="Bulk Employee BackDate Arrears"
+                parent="aarsol_hr_ext.menu_hr_emp_benefits_deduction_main"
+                action="action_bulk_employee_backdate_arrears_wiz"
+                sequence="16"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+    </data>
+</odoo>

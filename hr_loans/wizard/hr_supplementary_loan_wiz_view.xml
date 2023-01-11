@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_supplementary_loan_wiz" model="ir.ui.view">
+            <field name="name">hr.supplementary.loan.wiz.view</field>
+            <field name="model">hr.supplementary.loan.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Enhanced Loan">
+                    <p>
+                        <span style="text-align:center;">
+                            <b>This Form Will Add the Additional Amount to Existing Loan.👇</b>
+                        </span>
+                    </p>
+                    <group>
+                        <group>
+                            <field name="loan_id" readonly="1"/>
+                            <field name="date" required="1"/>
+                            <field name="amount" required="1"/>
+                        </group>
+                        <group>
+                            <field name="retirement_remaining_months"/>
+                            <field name="retirement_date"/>
+                            <field name="paid_installments"/>
+                        </group>
+
+                        <group string="Remaining Amount📶">
+                            <field name="remaining_installments" string="Installments"/>
+                            <field name="remaining_principal_amount" string="Principal Amount"/>
+                            <field name="remaining_interest_amount" string="Interest Amount"/>
+                            <field name="remaining_total_amount" string="Total Amount"/>
+                        </group>
+                        <group string="New Amounts📶">
+                            <field name="new_installment_months" string="Reschedule Months"/>
+                            <field name="new_principal_amount" string="Principal Amount"/>
+                            <field name="new_interest_amount" string="Interest Amount"/>
+                            <field name="new_total_amount" string="Total Amount"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_supplementary_loan" string="Payment of Enhanced Loan" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_supplementary_loan_wiz" model="ir.actions.act_window">
+            <field name="name">Enhanced Amount</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.supplementary.loan.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="model_hr_loan"/>
+            <field name="binding_view_types">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="employee_dashboard_sidebar" name="Dashboard Sidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/employee/dashboard">
+                <!--                <div class="sidebar-brand-icon rotate-n-15">-->
+                <!--                    <i class="fas fa-laugh-wink"></i>-->
+                <!--                </div>-->
+                <div class="sidebar-brand-text mx-3">Employee Portal
+                </div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0"/>
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/employee/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider my-0"/>
+            <li class="nav-item">
+                <a class="nav-link" href="/employee/attendance">
+                    <i class="fas fa-table"></i>
+                    <span>Attendance</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider my-0"/>
+            <li class="nav-item">
+                <a class="nav-link" href="/employee/profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider my-0"/>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseleave"
+                    aria-expanded="true" aria-controls="collapseleave">
+                    <i class="fas fa-school"></i>
+                    <span>Leaves</span>
+                </a>
+                <div id="collapseleave" class="collapse" aria-labelledby="headingleave"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded" style="width: fit-content;">
+                        <a class="collapse-item" href="/employee/leave/request/status">
+                            <i class="fas fa-table"></i>
+                            <span>Requested Leaves Status</span>
+                        </a>
+                        <a class="collapse-item" href="/employee/leave/request">
+                             <i class="fas fa-plus"></i>
+                            <span>New Leave Request</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <hr class="sidebar-divider my-0"/>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsetimesheet"-->
+<!--                    aria-expanded="true" aria-controls="collapseleave">-->
+<!--                    <i class="fas fa-clock"></i>-->
+<!--                    <span>Timesheets</span>-->
+<!--                </a>-->
+<!--                <div id="collapsetimesheet" class="collapse" aria-labelledby="headingleave"-->
+<!--                    data-parent="#accordionSidebar">-->
+<!--                    <div class="bg-white py-2 collapse-inner rounded">-->
+<!--                        <a class="collapse-item" href="/employee/timesheet/history">-->
+<!--                            <i class="fas fa-table"></i>-->
+<!--                            <span>Timesheets History</span>-->
+
+<!--                        </a>-->
+<!--                        <a class="collapse-item" href="/employee/timesheet/creation">-->
+<!--                             <i class="fas fa-plus"></i>-->
+<!--                            <span>Add New Timesheet</span>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <hr class="sidebar-divider my-0"/>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="/employee/appraisal">-->
+<!--                    <i class="fas fa-tasks"></i>-->
+<!--                    <span>Appraisal</span>-->
+<!--                </a>-->
+<!--            </li>-->
+            <hr class="sidebar-divider my-0"/>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="/employee/plannings">-->
+<!--                    <i class="fas fa-tasks"></i>-->
+<!--                    <span>Plannings</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <hr class="sidebar-divider my-0"/>-->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseexpense"
+                    aria-expanded="true" aria-controls="collapseexpense">
+                    <i class="fas fa-book"></i>
+                    <span>Expenses</span>
+                </a>
+                <div id="collapseexpense" class="collapse" aria-labelledby="headingexpense"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/all/expense">
+                            <i class="fas fa-table"></i>
+                            <span>Expenses Status</span>
+
+                        </a>
+                        <a class="collapse-item" href="/add/expense">
+                             <i class="fas fa-plus"></i>
+                            <span>Add New Expenses</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </template>
+</odoo>

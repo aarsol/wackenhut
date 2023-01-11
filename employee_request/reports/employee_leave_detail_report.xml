@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="employee_leave_detail_report_id">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <style>
+                        .borderlines{
+                        border-bottom:1px solid gray;
+                        border-collapse: collapse;
+                        padding:5px;
+                        }
+                        .h3{
+                        font-family:Arial;
+                        }
+                        .borders{
+                        border:1px solid black;
+                        }
+                    </style>
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-2">
+                                <img style="width:150px;height:100px;margin-top:-10px"
+                                     t-att-src="image_data_uri(res_company.logo)"/>
+                            </div>
+                            <div class="col-7">
+                                <strong style="text-align:center">
+                                    <p t-if="res_company.name" style="font-size: 24px;">
+                                        <span t-field="res_company.name"/>
+                                    </p>
+                                    <h4>Employee Leave Detail Report</h4>
+                                </strong>
+                            </div>
+                            <div class="col-3">
+                                <ul class="list-unstyled">
+                                    <li t-if="res_company.street" style="font-size: 14px;">
+                                        <span t-field="res_company.street"/>
+                                    </li>
+                                    <li t-if="res_company.street2" style="font-size: 14px;">
+                                        <span t-field="res_company.street2"/>
+                                    </li>
+                                    <li t-if="res_company.city" style="font-size: 14px;">
+                                        <span t-field="res_company.city"/>
+                                    </li>
+                                    <li t-if="res_company.country_id">
+                                        <span t-field="res_company.country_id"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="table table-condensed"
+                               style="border:1px solid black;width:100%;border-collapse: collapse;">
+                            <tr>
+                                <td class="borderlines" style="border:1px solid black;width:50%">
+                                    <p style="margin-top:15px">
+                                        <strong>Employee :</strong>
+                                        <span style="margin-left:10px;" t-esc="doc.name"/>
+                                    </p>
+                                </td>
+                                <td class="borderlines" style="border:1px solid black;width:50%">
+                                    <p style="margin-top:15px">
+                                        <strong>Department :</strong>
+                                        <span style="margin-left:10px;" t-esc="doc.department_id.name"/>
+                                    </p>
+                                </td>
+
+                                <!--                                <td class="borderlines" style="padding-top:20px;width:50%">-->
+                                <!--                                    <p style="margin-top:15px">-->
+                                <!--                                        <strong>Department :</strong>-->
+                                <!--                                        <span style="margin-left:10px;" t-esc="doc.department_id.name"/>-->
+                                <!--                                    </p>-->
+                                <!--                                </td>-->
+                            </tr>
+                            <tr>
+                                <td class="borderlines" style="border:1px solid black;width:50%">
+                                    <p style="margin-top:15px">
+                                        <strong>Job Title :</strong>
+                                        <span style="margin-left:10px;" t-esc="doc.job_title"/>
+                                    </p>
+                                </td>
+                                <td class="borderlines" style="border:1px solid black;width:50%">
+                                    <p style="margin-top:15px">
+                                        <strong>PayScale :</strong>
+                                        <span style="margin-left:10px;" t-esc="doc.payscale_id.code"/>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table table-condensed"
+                               style="border:1px solid black;width:100%;border-collapse: collapse;">
+                            <tr>
+                                <td style="border:1px solid black;width:10%;padding-top:10px">
+                                    SNo.
+                                </td>
+                                <td style="border:1px solid black;width:30%;padding-top:10px">
+                                    <strong>Type Of Leaves</strong>
+                                </td>
+                                <td style="border:1px solid black;width:20%;padding-top:10px">
+                                    <strong>Availed Leaves</strong>
+                                </td>
+                                <td style="border:1px solid black;width:20%;padding-top:10px">
+                                    <strong>Total Leaves</strong>
+                                </td>
+                                <td style="border:1px solid black;width:20%;padding-top:10px">
+                                    <strong>Remaining Leaves</strong>
+                                </td>
+                            </tr>
+                            <t t-set="i" t-value="1"></t>
+                            <t t-set="availed_leave" t-value="0"/>
+                            <t t-set="total_leaves" t-value="0"/>
+                            <t t-set="remaining_leaves" t-value="0"/>
+                            <t t-set="remaining_leaves_total" t-value="0"/>
+                            <t t-foreach="leave_record" t-as="rec">
+
+                                <t t-set="remaining_leaves" t-value="rec.max_leaves-rec.leaves_taken"/>
+                                <t t-set="remaining_leaves_total" t-value="remaining_leaves_total+remaining_leaves"/>
+                                <t t-set="availed_leave" t-value="availed_leave+rec.leaves_taken"/>
+                                <t t-set="total_leaves" t-value="total_leaves+rec.max_leaves"/>
+
+                                <tr>
+                                    <td style="border:1px solid black;width:10%;">
+                                        <p>
+                                            <t t-esc="i"></t>
+                                        </p>
+                                    </td>
+                                    <td style="border:1px solid black;width:10%;">
+                                        <t t-esc="rec.holiday_status_id.name"/>
+                                    </td>
+                                    <td style="border:1px solid black;width:10%;">
+                                        <t t-esc="rec.leaves_taken"/>
+                                    </td>
+                                    <td style="border:1px solid black;width:10%;">
+                                        <t t-esc="rec.max_leaves"/>
+                                    </td>
+                                    <td style="border:1px solid black;width:10%;">
+
+                                        <t t-esc="remaining_leaves"/>
+
+                                    </td>
+                                    <t t-set="i" t-value="i+1"></t>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td style="border:1px solid black;"></td>
+                                <td style="border:1px solid black;"></td>
+                                <td style="border:1px solid black;">
+                                    <t t-esc="availed_leave"/>
+                                </td>
+                                <td style="border:1px solid black;">
+                                    <t t-esc="total_leaves"/>
+                                </td>
+                                <td style="border:1px solid black;">
+                                    <t t-esc="remaining_leaves_total"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

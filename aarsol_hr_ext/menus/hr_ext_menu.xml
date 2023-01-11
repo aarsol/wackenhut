@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!--        <menuitem-->
+        <!--                id="hr_work_entry_contract.menu_hr_payroll_root"-->
+        <!--                name="Payroll" sequence="45"-->
+        <!--                web_icon="hr_payroll,static/description/icon.png"-->
+        <!--                groups="hr_payroll.group_hr_payroll_manager"/>-->
+
+        <menuitem
+                name="Bank Advices"
+                id="hr_menu_payment_advice_main"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+                groups="hr_payroll.group_hr_payroll_manager,account.group_account_manager"
+                sequence="63"/>
+        />
+
+        <menuitem
+                name="Benefits &amp; Deductions"
+                id="menu_hr_emp_benefits_deduction_main"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+                groups="hr_payroll.group_hr_payroll_user"
+                sequence="65"/>
+
+
+        <menuitem
+                name="Employee Promotion"
+                id="menu_hr_emp_promotion_main"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+                groups="hr_payroll.group_hr_payroll_user"
+                sequence="70"/>
+
+        <menuitem
+                id="menu_hr_payslip_cron_main"
+                name="Payroll Process"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+                sequence="71"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+<!--        <menuitem id="hr_payroll.menu_report_payroll"-->
+<!--                  name="Payroll"-->
+<!--                  action="hr_payroll.payroll_report_action"-->
+<!--                  parent="menu_hr_payroll_report.menu_hr_payroll_report"-->
+<!--                  groups="hr_payroll.group_hr_payroll_user"-->
+<!--                  sequence="99"-->
+<!--        />-->
+
+        <menuitem
+                id="menu_hr_employee_requests_main"
+                name="Employee Requests"
+                parent="hr.menu_hr_root"
+                sequence="5"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_generate_payslip_wiz" model="ir.ui.view">
+            <field name="name">generate.payslip.wiz.view</field>
+            <field name="model">generate.payslip.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Generate Payslips">
+                    <group>
+                        <group>
+                            <field name="record_limit" required="1"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_generate_payslips" string="Generate Payslips" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_generate_payslips_wizard" model="ir.actions.act_window">
+            <field name="name">Generate Payslips Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">generate.payslip.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_generate_payslip_wizard"
+                name="Generate Payroll"
+                parent="menu_hr_payslip_cron_main"
+                action="action_generate_payslips_wizard"
+                sequence="50"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+    </data>
+</odoo>

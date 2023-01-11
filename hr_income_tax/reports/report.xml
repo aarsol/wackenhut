@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_employee_income_tax_statement_report" model="ir.actions.report">
+            <field name="name">Income Tax Report</field>
+            <field name="model">hr.employee.income.tax</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_income_tax.employee_income_tax_statement_report</field>
+            <field name="report_file">hr_income_tax.employee_income_tax_statement_report</field>
+        </record>
+    </data>
+</odoo>

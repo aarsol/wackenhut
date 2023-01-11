@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_supplementary_loan_tree_view" model="ir.ui.view">
+            <field name="name">hr.supplementary.loan.tree</field>
+            <field name="model">hr.supplementary.loan</field>
+            <field name="arch" type="xml">
+                <tree string="Enhanced Amount"
+                      decoration-info="state == 'draft'" decoration-success="state == 'done'"
+                      create="false" edit="false">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="loan_id"/>
+                    <field name="amount"/>
+                    <field name="date"/>
+                    <field name="move_id" optional="hide"/>
+                    <field name="create_uid" string="Created By" optional="show" widget="many2one_avatar_user"/>
+                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'done'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_supplementary_loan_filter_view" model="ir.ui.view">
+            <field name="name">hr.supplementary.loan.select</field>
+            <field name="model">hr.supplementary.loan</field>
+            <field name="arch" type="xml">
+                <search string="Enhanced Amount">
+                    <field name="employee_id"/>
+                    <field name="loan_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+
+                    <filter string="Draft" name="filter_draft" domain="[('state','=','draft')]"/>
+                    <filter string="Done" name="filter_done" domain="[('state','=','done')]"/>
+                    <filter string="Date" name="filter_date" date="date"/>
+
+                    <group expand="0" string="Group By...">
+                        <filter string="Employee" name="employee_id" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Date" name="group_date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Status" name="groupby_status" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="hr_supplementary_loan_action_view" model="ir.actions.act_window">
+            <field name="name">Supplementary Loans</field>
+            <field name="res_model">hr.supplementary.loan</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem
+                name="Enhanced Amounts"
+                id="menu_hr_supplementary_loan"
+                action="hr_supplementary_loan_action_view"
+                parent="hr_loans.menu_hr_loan_main_menu"
+                sequence="50"
+                groups="hr.group_hr_manager,hr_payroll.group_hr_payroll_manager"/>
+
+    </data>
+</odoo>
+

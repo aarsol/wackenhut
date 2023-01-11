@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="hr_loans.employee_loan_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <p style="font-size:16px;font-weight:bold;text-align:center;">Employee Loan Report</p>
+                            <p style="font-size:13px;font-weight:bold;text-align:center;">
+                                <span t-field="o.name"/>
+                            </p>
+
+                            <table class="table table-condensed table-bordered">
+                                <tr>
+                                    <td colspan="4" style="font-size:13:px;font-weight:bold;text-decoration: underline;">Employee Information</td>
+                                </tr>
+                                <tr>
+                                    <td>Employee Name</td>
+                                    <td>
+                                        <span t-field="o.employee_id"/>
+                                    </td>
+                                    <td>Department</td>
+                                    <td>
+                                        <span t-field="o.employee_id.department_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>CNIC</td>
+                                    <td>
+                                        <span t-field="o.employee_id.cnic"/>
+                                    </td>
+                                    <td>Province</td>
+                                    <td>
+                                        <span t-field="o.employee_id.province.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Location Type</td>
+                                    <td>
+                                        <span t-field="o.employee_id.location_type_id.name"/>
+                                    </td>
+                                    <td>Location</td>
+                                    <td>
+                                        <span t-field="o.employee_id.location_id.name"/>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4" style="font-size:13:px;font-weight:bold;text-decoration: underline;">Loan Information</td>
+                                </tr>
+                                <tr>
+                                    <td>Loan Amount</td>
+                                    <td>
+                                        <span t-field="o.amount"/>
+                                    </td>
+                                    <td>Share Amount</td>
+                                    <td>
+                                        <span t-field="o.amount_quota"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Number of Shares To Pay</td>
+                                    <td>
+                                        <span t-field="o.num_quotas"/>
+                                    </td>
+                                    <td>Payment Date</td>
+                                    <td>
+                                        <span t-field="o.date_payment"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Start Date</td>
+                                    <td>
+                                        <span t-field="o.date_start"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="font-size:13:px;font-weight:bold;text-decoration: underline;">Accounting Information</td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Method</td>
+                                    <td>
+                                        <span t-field="o.payment_channel"/>
+                                    </td>
+                                    <td>Debit Account</td>
+                                    <td>
+                                        <span t-field="o.debit_account_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Accounting Entry</td>
+                                    <td>
+                                        <span t-field="o.move_id.name"/>
+                                    </td>
+                                    <td>Credit Account</td>
+                                    <td>
+                                        <span t-field="o.credit_account_id.name"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="font-size:14px;font-weight:bold;">Installment Details:-</p>
+                            <table class="table table-condensed table-bordered">
+                                <th>S.No</th>
+                                <th>Payment Date</th>
+                                <th>Paid Amount</th>
+                                <th>Paid</th>
+                                <th>Note</th>
+                                <t t-foreach="o.loan_line_ids" t-as="ln">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="ln_index + 1"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="ln.paid_date" t-field-options='{"format": "%d-%m-%Y"}'/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="ln.paid_amount"/>
+                                        </td>
+                                        <td>
+                                            <t t-if="ln.paid">
+                                                Yes
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <span t-esc="ln.notes"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

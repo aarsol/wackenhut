@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gratuity_report_wiz" model="ir.ui.view">
+            <field name="name">gratuity.report.wiz.view</field>
+            <field name="model">gratuity.report.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Gratuity Report">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="joining_date" required="1"/>
+                                <field name="retired_date" required="1" attrs="{'invisible':[('is_death_case','=',True)]}"/>
+                                <field name="retired_date" required="1" string="Died On" attrs="{'invisible':[('is_death_case','!=',True)]}"/>
+                                <field name="authority" required="1"/>
+                                <field name="gratuity_type" required="1"/>
+                                <field name="is_death_case"/>
+                            </group>
+                            <group>
+                                <field name="company_id" readonly="1" groups="base.group_no_one"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button class="btn-primary" name="print_report" string="Generate Report" type="object"/>
+                        <button class="btn-default" special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gratuity_report_wiz" model="ir.actions.act_window">
+            <field name="name">Gratuity Report</field>
+            <field name="res_model">gratuity.report.wiz</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="hr.model_hr_employee"/>
+            <field name="binding_view_types">form</field>
+        </record>
+
+    </data>
+</odoo>

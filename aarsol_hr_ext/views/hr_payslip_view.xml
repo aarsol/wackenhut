@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="hr_salary_rule_list" model="ir.ui.view">
+            <field name="name">hr.salary.rule.list</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_list"/>
+            <field name="arch" type="xml">
+                <field name="category_id" position="after">
+                    <field name="structure_ids" widget="many2many_tags"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- HR Employee Payslip Form -->
+        <record id="hr_payslip_form_view" model="ir.ui.view">
+            <field name="name">hr.payslip.form.view</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="credit_note" position="after">
+                        <field name="payscale_id" options="{'no_create': True, 'limit': 10}"/>
+                    </field>
+                    <xpath expr="//notebook/page[@name='account_info']/group/group[@name='accounting']" position="after">
+                        <group name="bank_info_group_new">
+                            <field name="hr_bank_id" readonly="1"/>
+                            <field name="bank_branch" readonly="1"/>
+                        </group>
+                        <group name="bank_info_group_new2">
+                            <field name="bank_account_title" readonly="1"/>
+                            <field name="bank_account_no" readonly="1"/>
+                        </group>
+
+                    </xpath>
+
+                </data>
+            </field>
+        </record>
+
+
+        <!-- HR Employee Payslip Tree -->
+        <record id="hr_payslip_tree_view" model="ir.ui.view">
+            <field name="name">hr.payslip.tree.view</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="state" position="after">
+                        <field name="payscale_id"/>
+                    </field>
+
+                </data>
+            </field>
+        </record>
+
+
+        <!-- HR Employee Payslip Filter -->
+        <record id="hr_payslip_filter_view" model="ir.ui.view">
+            <field name="name">hr.payslip.filter</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//filter[@name='state']" position="after">
+                        <separator/>
+                        <filter name="group_payscale" string="Payscale" domain="[]" context="{'group_by':'payscale_id'}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+
+</odoo>

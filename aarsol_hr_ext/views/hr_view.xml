@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- HR Employee -->
+        <record id="hr_ext_view_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="replace">
+                    <header>
+                        <button name="action_profile_lock" type="object" string="Profile Lock" attrs="{'invisible':[('profile_state','=','lock')]}" class="oe_highlight"/>
+                        <button name="action_profile_unlock" type="object" string="Profile UnLock" attrs="{'invisible':[('profile_state','=','draft')]}" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" nolabel="1"/>
+                    </header>
+                </xpath>
+                <data>
+                    <field name="department_id" position="before">
+                        <field name="profile_state" invisible="1"/>
+                    </field>
+                    <field name="department_id" position="attributes">
+                        <attribute name="options">{'no_quick_create':True,'no_create_edit':True,'no_create':True}</attribute>
+                        <attribute name="required">True</attribute>
+                    </field>
+                    <field name="department_id" position="after">
+                        <field name="job_id" required="1" domain="[('department_id', '=', department_id)]"
+                               options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"/>
+                        <field name="job_title"/>
+                    </field>
+                    <field name="coach_id" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </field>
+                    <field name="parent_id" position="attributes">
+                        <attribute name="string">Report To</attribute>
+                    </field>
+                    <field name="parent_id" position="after">
+                        <field name="employment_nature" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                    </field>
+
+                    <field name="work_email" position="after">
+                        <field name="payroll_status" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                    </field>
+
+                    <page name="public" position="replace">
+                        <page name="public" string="Work Information">
+                            <group>
+                                <group string="Contact Information">
+                                    <field name="code" invisible="1"/>
+                                    <field name="address_id"
+                                           context="{'show_address': 1}"
+                                           options='{"always_reload": True, "highlight_first_line": True}'/>
+                                </group>
+                                <group string="Position">
+                                    <field name="section_id" string="Section" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                    <field name="resource_calendar_id" required="1" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                    <field name="tz" invisible="1"/>
+                                </group>
+                            </group>
+
+                            <field name="notes" placeholder="Other Information ..." colspan="4"/>
+                            <group name="managers" string="Approvers" class="hide-group-if-empty">
+                                <!-- is overridden in other hr related modules -->
+                            </group>
+                        </page>
+                    </page>
+
+                    <field name="bank_account_id" position="replace">
+                        <field name="bank_account_id" invisible="1" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="hr_bank_id" options="{'no_quick_create':True,'no_create_edit':True}"
+                               attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="bank_branch" string="Branch" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="bank_location" string="City" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="bank_account_title" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="bank_account_no" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                    </field>
+
+                    <xpath expr="//page[@name='personal_information']/group/group[2]" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+
+                    <xpath expr="//page[@name='personal_information']/group/group[@name='has_work_permit']"
+                           position="before">
+                        <group>
+                            <label for="street" string="Present Address"/>
+                            <div name="div_address">
+                                <field name="street" placeholder="Street..." attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                <field name="street2" placeholder="Street2" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                <div class="address_format">
+                                    <field name="city" placeholder="City" style="width: 40%%"
+                                           attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                    <field name="state_id" class="oe_no_button" attrs="{'readonly':[('profile_state','=','lock')]}"
+                                           placeholder="State" style="width: 37%%"
+                                           options='{"no_open": True}'/>
+                                    <field name="zip" placeholder="ZIP" style="width: 20%%"
+                                           attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                </div>
+                                <field name="country_id" placeholder="Country"
+                                       attrs="{'readonly':[('profile_state','=','lock')]}"
+                                       class="oe_no_button" options='{"no_open": True}'/>
+                            </div>
+                        </group>
+
+                        <group>
+                            <label for="any_disability" string="Disability Info"/>
+                            <field name="any_disability" widget="toggle_boolean"
+                                   attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="disability_nature_id"
+                                   attrs="{'readonly':[('profile_state','=','lock')],'required':[('any_disability','=',True)]}"
+                                   options="{'no_quick_create':True,'no_create_edit':True}"/>
+                            <field name="disability_detail" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        </group>
+                    </xpath>
+
+                    <xpath expr="//page[@name='personal_information']/group/group[@name='has_work_permit']"
+                           position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+
+                    <xpath expr="//page[@name='personal_information']/group/group[last()]" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+
+                    <!--                    <field name="birthday" position="after">-->
+                    <!--                        <field name="cnic" attrs="{'readonly':[('profile_state','=','lock')]}"/>-->
+                    <!--                        <field name="religion" string="Religion" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True}"-->
+                    <!--                               attrs="{'readonly':[('profile_state','=','lock')]}"/>-->
+                    <!--                    </field>-->
+
+                    <field name="place_of_birth" position="attributes">
+                        <attribute name="string">Domicile</attribute>
+                    </field>
+
+                    <xpath expr="//group[1]/group[2]" position="after">
+                        <group>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="total_service"/>
+                            <field name="retirement_date" string="Retirement Date"/>
+                            <field name="retired" string="Retired" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="re_appointed" string="Re-Appointed" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+
+                        </group>
+
+                    </xpath>
+
+                    <group name="active_group" position="after">
+                        <group string='Pay Scale' name="payscale">
+                            <field name="basic_pay_type" required="1" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="payscale_category" attrs="{'readonly':[('profile_state','=','lock')],'required':[('basic_pay_type','=','scale_base')]}"/>
+                            <field name="payscale_id" options="{'no_create': True, 'limit': 10}" domain="[('scale_category_id','=',payscale_category)]"
+                                   attrs="{'readonly':[('profile_state','=','lock')],'required':[('basic_pay_type','=','scale_base')]}"/>
+                            <field name="stage" string="Stage" attrs="{'readonly':[('profile_state','=','lock')],'required':[('basic_pay_type','=','scale_base')]}"/>
+                            <field name="personal_pay_count" readonly="1" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="allowance_template_id" options="{'no_create': True, 'limit': 10}" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="deduction_template_id" options="{'no_create': True, 'limit': 10}" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="category_id" string="Category" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="manual_slips" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="manual_gross" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            <field name="manual_tax" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        </group>
+                    </group>
+
+                    <field name="user_id" position="before">
+                        <field name="joining_date" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="regularization_date" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="confirmation_date" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="operation_area_id" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                        <field name="leaving_date" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                    </field>
+
+                    <field name="notes" position="before">
+                        <group name="group_publication_main_group">
+                            <group name='publication_increment' string="Publication Increment">
+                                <field name="publications" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                <field name="rate_per_publication" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                <field name="increment_date" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            </group>
+
+                            <group string="Others">
+                                <field name="appointment_mode_id" string="Appointment Mode ID" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                <field name="rebateCateg" string="Rebate Category" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                                <field name="pension_bit" string="Pension Bit" attrs="{'readonly':[('profile_state','=','lock')]}"/>
+                            </group>
+                        </group>
+                    </field>
+
+                    <page name="personal_information" position="after">
+                        <page string="Academic History">
+                            <field name="academic_ids" attrs="{'readonly':[('profile_state','=','lock')]}">
+                                <tree string="Academic Info"
+                                      editable="bottom"> <!-- create="false" delete="false" edit="false" -->
+                                    <field name="degree_level"/>
+                                    <field name="year"/>
+                                    <field name="board"/>
+                                    <field name="subjects"/>
+                                    <field name="degree_verified"/>
+                                    <field name="domicile"/>
+                                    <field name="total_marks"/>
+                                    <field name="obtained_marks"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="experiences" string="Experiences">
+                            <field name="experience_ids" colspan="4" string="Experiences" attrs="{'readonly':[('profile_state','=','lock')]}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="position"/>
+                                    <field name="reporting_to"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="total_experience"/>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <div class="oe_title">
+                                            <label for="name" class="oe_edit_only"/>
+                                            <h1>
+                                                <field name="name" placeholder="Company's Name"/>
+                                            </h1>
+                                        </div>
+                                        <group>
+                                            <group>
+                                                <field name="position"
+                                                       options="{'no_quick_create':True,'no_create_edit':True,'no_open': True}"/>
+                                                <field name="reporting_to"
+                                                       options="{'no_quick_create':True,'no_create_edit':True,'no_open': True}"/>
+                                                <field name="salary"/>
+                                            </group>
+
+                                            <group>
+                                                <field name="start_date"/>
+                                                <field name="end_date"/>
+                                                <field name="total_experience"/>
+                                            </group>
+                                        </group>
+
+                                        <separator/>
+                                        <group>
+                                            <group>
+                                                <field name="reason_to_leave"/>
+                                            </group>
+                                            <group>
+                                                <field name="responsibilities"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Medical History">
+                            <field name="medical_ids" attrs="{'readonly':[('profile_state','=','lock')]}">
+                                <tree string="Medical Info" editable="bottom">
+                                    <field name="disease"/>
+                                    <field name="appointment_date"/>
+                                    <field name="discharge_date"/>
+                                    <field name="hospital"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Family Details">
+                            <field name="family_ids" attrs="{'readonly':[('profile_state','=','lock')]}">
+                                <tree string="Family Info" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="birthday"/>
+                                    <field name="cnic"/>
+                                    <field name="relationship" string="Relation"/>
+                                    <field name="eligibility_status"/>
+                                    <field name="status"/>
+                                    <field name="age_txt" string="Age As On Today"/>
+                                    <field name="age" string="Age (Yearly)" optional="1"/>
+                                    <field name="phone_no"/>
+                                    <field name="jahez_fund" optional="hide"/>
+                                    <field name="funeral_grant" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </page>
+
+                    <xpath expr="//notebook" position="inside">
+                        <page name="status_history" string="Status History">
+                            <field name="status_history_ids" readonly="1">
+                                <tree decoration-info="state=='draft'" decoration-success="state=='lock'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="date"/>
+                                    <field name="old_status"/>
+                                    <field name="new_status"/>
+                                    <field name="create_uid" string="Created By" optional="show" widget="many2one_avatar_user"/>
+                                    <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='lock'"/>
+                                    <field name="office_order_file"/>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="employee_id"/>
+                                                <field name="department_id"/>
+                                                <field name="designation_id"/>
+                                                <field name="date"/>
+                                            </group>
+                                            <group>
+                                                <field name="old_status"/>
+                                                <field name="new_status"/>
+                                                <field name="office_order_file"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="promotion_history" string="Promotion History">
+                            <field name="emp_promotion_ids" readonly="1">
+                                <tree>
+                                    <field name="grade_change_id"/>
+                                    <field name="increment_no"/>
+                                    <field name="grade"/>
+                                    <field name="new_grade"/>
+                                    <field name="stage"/>
+                                    <field name="new_stage"/>
+                                    <field name="basic_salary"/>
+                                    <field name="increment_amount"/>
+                                    <field name="new_basic_salary"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </xpath>
+
+
+                    <xpath expr="//page[@name='hr_settings']/group[1]//group[@name='identification_group']" position="after">
+                        <group name="termination_option_group" string="Termination" attrs="{'invisible':[('state', 'not in',('terminated','resigned'))]}">
+                            <field name="termination_option" attrs="{'invisible':[('state','not in', ('terminated','resigned'))]}"/>
+                            <field name="termination_date" attrs="{'invisible':[('termination_option','!=','immediate')]}"/>
+                            <field name="notice_period_start_date" attrs="{'invisible':[('termination_option','!=','notice_period')]}"/>
+                            <field name="notice_period_end_date" attrs="{'invisible':[('termination_option','!=','notice_period')]}"/>
+                        </group>
+                        <group string="Half Pay Leave">
+                            <field name="half_pay_leave" widget="toggle_boolean" readonly="1"/>
+                            <field name="half_pay_leave_start_date" string="Leave Start Date" readonly="1"/>
+                            <field name="half_pay_leave_end_date" string="Leave End Date" readonly="1"/>
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- HR Employee -->
+        <record id="view_employee_tree" model="ir.ui.view">
+            <field name="name">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//tree" position="attributes">
+                        <attribute name="decoration-success">state=="active"</attribute>
+                        <attribute name="decoration-danger">state=="terminated"</attribute>
+                        <attribute name="decoration-warning">state=="resigned"</attribute>
+                        <attribute name="decoration-info">state in ("retired","com_retired")</attribute>
+                        <attribute name="decoration-primary">state=="deceased"</attribute>
+                        <attribute name="decoration-muted">state=="archive"</attribute>
+                    </xpath>
+                    <field name="name" position="before">
+                        <field name="code"/>
+                    </field>
+                    <field name="parent_id" position="before">
+                        <field name="payscale_id" string="Payscale"/>
+                        <field name="category_id" string="Category"/>
+                    </field>
+                    <field name="work_location_id" position="after">
+                        <field name="retirement_date" optional="hide"/>
+                        <field name="total_service" optional="hide"/>
+                        <field name="payroll_status" optional="hide"/>
+                        <field name="state" widget="badge" decoration-success="state=='active'" decoration-danger="state=='terminated'"
+                               decoration-warning="state=='resigned'" decoration-info="state in ('retired','com_retired')"
+                               decoration-primary="state=='deceased'" decoration-muted="state=='archive'"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+
+        <!--        <record id="employee_filter_view" model="ir.ui.view">-->
+        <!--            <field name="name">hr.employee.filter</field>-->
+        <!--            <field name="model">hr.employee</field>-->
+        <!--            <field name="inherit_id" ref="hr.view_employee_filter"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <data>-->
+        <!--                    <xpath expr="//filter[@name='group_job']" position="after">-->
+        <!--                        <separator/>-->
+        <!--                        <filter name="group_payscale" string="Payscale" domain="[]"-->
+        <!--                                context="{'group_by':'payscale_id'}"/>-->
+        <!--                        <filter name="group_category_id" string="Category" domain="[]"-->
+        <!--                                context="{'group_by':'category_id'}"/>-->
+        <!--                        <separator/>-->
+        <!--                        <filter name="group_payroll_status" string="Payroll Status" domain="[]"-->
+        <!--                                context="{'group_by':'payroll_status'}"/>-->
+        <!--                    </xpath>-->
+        <!--                    <xpath expr="//field[@name='name']" position="before">-->
+        <!--                        <field name="code"/>-->
+        <!--                    </xpath>-->
+        <!--                    <xpath expr="//field[@name='name']" position="after">-->
+        <!--                        <field name="state"/>-->
+        <!--                    </xpath>-->
+        <!--                    <xpath expr="filter" name="group_manager" position="before">-->
+        <!--                        <filter name="group_state" string="Employee Status" domain="[]" context="{'group_by': 'state'}"/>-->
+        <!--                        <separator/>-->
+        <!--                    </xpath>-->
+        <!--                    <xpath expr="//filter[@name='message_needaction']" position="after">-->
+        <!--                        <separator/>-->
+        <!--                        <filter string="Active Employees" name="filter_active_employee" domain="[('state', '=', 'active')]"/>-->
+        <!--                        <separator/>-->
+        <!--                        <filter string="Terminated Employees" name="filter_terminated_employee" domain="[('state', '=', 'terminated')]"/>-->
+        <!--                        <separator/>-->
+        <!--                        <filter string="Resigned Employees" name="filter_resigned_employee" domain="[('state', '=', 'resigned')]"/>-->
+        <!--                        <separator/>-->
+        <!--                        <filter string="Retired Employees" name="filter_retired_employee" domain="[('state', '=', 'retired')]"/>-->
+        <!--                        <separator/>-->
+        <!--                        <filter string="Compulsory Retired Employees" name="filter_compulsory_retired_employee" domain="[('state', '=', 'com_retired')]"/>-->
+        <!--                        <separator/>-->
+        <!--                        <filter string="Deceased Employees" name="filter_deceased_employee" domain="[('state', '=', 'deceased')]"/>-->
+        <!--                        <separator/>-->
+        <!--                        <filter string="Archive Employees" name="filter_archive_employee" domain="[('state', '=', 'archive')]"/>-->
+        <!--                        <separator/>-->
+        <!--                        <filter string="All Employees" name="filter_all_employee" domain="[('state', 'in', ('active','terminated','resigned','retired','com_retired','deceased','archive'))]"/>-->
+        <!--                    </xpath>-->
+
+        <!--                    <xpath expr="//filter[@name='inactive']" position="attributes">-->
+        <!--                        <attribute name="invisible">1</attribute>-->
+        <!--                    </xpath>-->
+
+        <!--                </data>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+
+        <!-- HR Contract Form -->
+        <record id="view_inherited_hr_contract_form" model="ir.ui.view">
+            <field name="name">inherited_hr.contract.form.view</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//header" position="inside">
+                        <field name="show_compute_arrears_button" invisible="1"/>
+                        <button name="action_compute_arrears_deductions" type="object" attrs="{'invisible':[('show_compute_arrears_button','=',False)]}" string="Compute Arrears" class="oe_highlight"/>
+                    </xpath>
+                    <field name="date_start" position="before">
+                        <field name="new_date_start" required="1" string="Salary Start Date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    </field>
+
+                    <field name="employee_id" position="attributes">
+                        <attribute name="readonly">1</attribute>
+                    </field>
+                    <field name="department_id" position="attributes">
+                        <attribute name="readonly">1</attribute>
+                    </field>
+
+                    <field name="structure_type_id" position="after">
+                        <field name="allowance_template_id" options="{'no_create': True, 'limit': 10}"/>
+                        <field name="deduction_template_id" options="{'no_create': True, 'limit': 10}"/>
+                    </field>
+
+                    <xpath expr="//page[@name='information']" position="after">
+                        <page string="Allowances" name="Allowances">
+                            <field name="allowance_ids">
+                                <tree editable="top" delete="false">
+                                    <field name="employee_id" invisible="1"
+                                           domain="[('id','=',parent.employee_id)]" options="{'no_create':True,}"/>
+                                    <field name="allowance_id"/>
+                                    <field name="type"/>
+                                    <field name="amount" readonly="1" sum="sum_amount"/>
+                                    <field name="amount_fixed"
+                                           attrs="{'readonly': [('type','=','formula')],
+					                              'required': [('type','=','fixed')]}"/>
+                                    <field name="amount_formula" readonly="1" sum="sum_amount_formula"/>
+                                    <field name="expired" attrs="{'column_invisible': [('parent.state', 'not in', ('close','cancel'))]}"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Deductions" name="Deductions">
+                            <field name="deduction_ids">
+                                <tree editable="top" delete="false">
+                                    <field name="employee_id" invisible="1"
+                                           domain="[('id','=',parent.employee_id)]" options="{'no_create':True,}"/>
+                                    <field name="deduction_id"/>
+                                    <field name="type"/>
+                                    <field name="amount" readonly="1" sum="sum_amount"/>
+                                    <field name="amount_fixed"
+                                           attrs="{'readonly': [('type','=','formula')],
+					                              'required': [('type','=','fixed')]}"/>
+                                    <field name="amount_formula" readonly="1" sum="sum_amount_formula"/>
+                                    <field name="expired" attrs="{'column_invisible': [('parent.state', 'not in', ('close','cancel'))]}"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Expired Allowances" name="Expired Allowances">
+                            <field name="expired_allowance_ids" readonly="1">
+                                <tree editable="top" delete="false" create="false">
+                                    <field name="employee_id" invisible="1"
+                                           domain="[('id','=',parent.employee_id)]" options="{'no_create':True,}"/>
+                                    <field name="allowance_id"/>
+                                    <field name="type"/>
+                                    <field name="amount"
+                                           attrs="{'readonly': [('type','=','formula')],
+                                            'required': [('type','=','fixed')]}" sum="sum_amount"/>
+                                    <field name="amount_fixed"/>
+                                    <field name="amount_formula" readonly="1" sum="sum_amount_formula"/>
+                                    <field name="expiry_date"/>
+                                    <field name="expired"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Expired Deductions" name="Expired Deductions">
+                            <field name="expired_deduction_ids" readonly="1">
+                                <tree editable="top" delete="false" create="false">
+                                    <field name="employee_id" invisible="1"
+                                           domain="[('id','=',parent.employee_id)]" options="{'no_create':True,}"/>
+                                    <field name="deduction_id"/>
+                                    <field name="type"/>
+                                    <field name="amount"
+                                           attrs="{'readonly': [('type','=','formula')],
+                                            'required': [('type','=','fixed')]}" sum="sum_amount"/>
+                                    <field name="amount_fixed"/>
+                                    <field name="amount_formula" readonly="1" sum="sum_amount_formula"/>
+                                    <field name="expiry_date"/>
+                                    <field name="expired"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </xpath>
+
+                    <xpath expr="//group[@name='yearly_advantages']" position="after">
+                        <group>
+                            <field name="basic_pay_type" invisible="1"/>
+                            <field name="payscale_id"/>
+                            <field name="stage"/>
+                            <field name="basic_pay"/>
+                            <field name="personal_pay_amount" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            <field name="match_pay"/>
+                        </group>
+                    </xpath>
+
+                    <xpath expr="//div[@name='wage']" position="replace">
+                        <div class="o_row" name="wage">
+                            <field name="wage" string="Basic Pay" nolabel="1" attrs="{'readonly':[('basic_pay_type','=','scale_base')]}"/>
+                            <span>/ month</span>
+                        </div>
+                        <field name="allowances_amount"/>
+                        <field name="gross_salary" string="Gross WithOut Monetization"/>
+                        <field name="monetization_amount" string="Monetization Alw"/>
+                        <field name="gross_salary_with_monetization" string="Gross With Monetization"/>
+                        <field name="deductions_amount"/>
+                        <field name="net_salary"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_inherited_hr_contract_tree" model="ir.ui.view">
+            <field name="name">inherited_hr.contract.tree.view</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="date_start" position="after">
+                    <field name="new_date_start" string="Salary Start Date"/>
+                </field>
+
+                <field name="employee_id" position="after">
+                    <field name="department_id" optional="hide"/>
+                </field>
+<!--                <field name="kanban_state" position="attributes">-->
+<!--                    <attribute name="optional">hide</attribute>-->
+<!--                </field>-->
+                <field name="state" position="after">
+                    <field name="structure_type_id" optional="hide"/>
+                </field>
+                <field name="resource_calendar_id" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </field>
+                <field name="date_end" position="after">
+                    <field name="wage" string="Basic Pay"/>
+                    <field name="allowances_amount" string="Allowances"/>
+                    <field name="monetization_amount" string="Monetization Alw"/>
+                    <field name="deductions_amount" string="Deductions"/>
+                    <field name="gross_salary"/>
+                    <field name="net_salary"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_department_tree" model="ir.ui.view">
+            <field name="name">hr.department.tree</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_name']" position="before">
+                    <field name="code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_users_form" model="ir.ui.view">
+            <field name="name">res.users.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='access_rights']" position="after">
+                    <page name="departments" string='Departments'>
+                        <group>
+                            <field name="dept_ids"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

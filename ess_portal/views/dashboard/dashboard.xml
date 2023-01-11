@@ -1,0 +1,473 @@
+<odoo>
+    <template name="att_7days" id="att_7days">
+        <div class="box">
+            <div class="box-header with-border">
+                <h4 class="box-title">My last 7 days attendance</h4>
+            </div>
+            <div class="box-body p-0">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr class="bg-info">
+                                <td style="width: 15%;">Date</td>
+                                <td style="width: 15%;">Check In</td>
+                                <td style="width: 15%;">Check Out</td>
+                                <td style="width: 15%;">Hours</td>
+                                <td style="width: 40%;">Exception</td>
+                            </tr>
+                            <t t-foreach="attendances" t-as="rec">
+                                <!--<t t-if="rec['type']=='public_holiday'">-->
+                                <tr t-if="rec.check_in">
+                                    <td>
+                                        <t t-esc="rec.check_in and (rec.check_in+datetime.timedelta(hours=5, minutes=1)).strftime('%d-%b')"/>
+                                    </td>
+                                    <td t-if="rec.type == 'absent'" colspan="4">Time Punch Missing</td>
+                                    <td t-if="rec.type == 'public_holiday'" colspan="4">Public Holiday</td>
+                                    <td t-if="rec.type == 'weekend'" colspan="4">Week End</td>
+                                    <td t-if="rec.type == 'leave'" colspan="4">
+                                        <t t-esc="rec.holiday_id.holiday_status_id.name"/>
+                                    </td>
+
+                                    <t t-if="rec.type == 'regular'">
+                                        <td>
+                                            <t t-esc="(rec.check_in and (rec.check_in+datetime.timedelta(hours=5)).strftime('%H:%M') or '-') if rec.status in ('in_time','late') else '-'"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="(rec.check_out and (rec.check_out+datetime.timedelta(hours=5)).strftime('%H:%M') or '-') if rec.check_out_status in ('in_time','early_out') else '-'"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="rec.worked_hours and '{0:,.2f}'.format(float(rec.worked_hours))"/>
+                                        </td>
+                                        <td>
+                                            <span t-if="rec.status=='absent' or rec.check_out_status=='absent'" class="badge badge-danger">Missing</span>
+                                            <span t-if="rec.status=='late'" class="badge badge-warning">Late</span>
+                                            <span t-if="rec.check_out_status=='early_out'" class="badge badge-info">Early-out</span>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <!--</t>-->
+
+                            </t>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template name="leaves_pie" id="leaves_pie">
+        <div class="box">
+            <!--            <span id="leaves_allocated" style="display: none;"><t t-esc="leaves_allocated"/></span>-->
+            <!--            <span id="total_available" style="display: none;"><t t-esc="total_available"/></span>-->
+            <span id="leaves_data" style="display: none;">
+                <t t-esc="leaves_data"/>
+            </span>
+            <!--<div class="box-header with-border">
+                <h4 class="box-title">My Leaves</h4>
+            </div>-->
+            <div class="box-body p-0">
+                <figure class="highcharts-figure">
+                    <div id="piechartleaves"/>
+                    <p class="highcharts-description">
+                        <!--<i>*OPPO includes OnePlus since Q3 2021</i><br><br>
+                        Chart demonstrating the use of a 3D pie layout.
+                        The "Xiaomi" slice has been selected, and is offset from the pie.
+                        Click on slices to select and unselect them.
+                        Note that 3D pies, while decorative, can be hard to read, and the
+                        viewing angles can make slices close to the user appear larger than they
+                        are.-->
+                    </p>
+                </figure>
+            </div>
+        </div>
+    </template>
+    <template id="ess_dashboard" name="Employee Portal Profile">
+        <t t-call="web.layout">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+            <t t-set="head">
+                <!-- <t t-call-assets="ess_portal_assets.ess_assets" t-js="false"/>-->
+                <link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+                <link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+                <link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+                <link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+                <link href="/ess_portal/static/css/highcharts.css" rel="stylesheet" media="all"/>
+                <style>
+                    .logo_img {
+                    max-width: 64% !important;
+                    }
+                    .main-header > div .logo {
+                    line-height: normal;
+                    height: auto;
+                    background: #112c4f !important;
+                    }
+                    @media (max-width: 767px)
+                    .main-header > div .logo {
+                    line-height: normal;
+                    height: auto;
+                    background: #112c4f !important;
+                    }
+                </style>
+            </t>
+
+            <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+                <div class="wrapper">
+                    <div id="loader"/>
+
+                    <t t-call="ess_portal.ess_header_menu"/>
+
+                    <t t-call="ess_portal.ess_side_menu"/>
+
+                    <div class="content-wrapper">
+                        <div class="container-full">
+                            <!-- Content Header (Page header) -->
+                            <div class="content-header">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-auto">
+                                        <h4 class="page-title">Home</h4>
+                                        <div class="d-inline-block align-items-center">
+                                            <nav>
+                                                <ol class="breadcrumb">
+                                                    <li class="breadcrumb-item">
+                                                        <a href="#">
+                                                            <i class="mdi mdi-home-outline"/>
+                                                        </a>
+                                                    </li>
+                                                    <!--<li class="breadcrumb-item" aria-current="page">Extra</li>-->
+                                                    <li class="breadcrumb-item active" aria-current="page">Dashboard
+                                                    </li>
+                                                </ol>
+                                            </nav>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Main content -->
+                            <section class="content">
+                                <div class="row">
+                                    <div class="col-xl-3 col-md-6 col-12">
+                                        <div class="box box-inverse box-success">
+                                            <div class="box-body">
+                                                <h4 class="fw-500 mt-0">
+                                                    <a style="color:white" href="/employee/organo">My Team</a>
+                                                </h4>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h2 class="fw-600 my-0">
+                                                        <t t-esc="my_team_members"/>
+                                                    </h2>
+                                                    <h4 class="fw-500 my-0 text-success">
+                                                        <i class="me-10 mdi mdi-arrow-top-right"/>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12">
+                                        <div class="box box-inverse box-warning">
+                                            <div class="box-body">
+                                                <h4 class="fw-500 mt-0">
+                                                    <a style="color:white" href="/employee/attendance/subordinate">Today
+                                                        On leave
+                                                    </a>
+                                                </h4>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h2 class="fw-600 my-0">
+                                                        <t t-esc="myteam_members_on_leave"/>
+                                                    </h2>
+                                                    <h4 class="fw-500 my-0 text-success">
+                                                        <i class="me-10 mdi mdi-arrow-top-right"/>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12">
+                                        <div class="box box-inverse box-danger">
+                                            <div class="box-body">
+                                                <h4 class="fw-500 mt-0">
+                                                    <a style="color:white" href="/employee/attendance/subordinate">Late
+                                                        Arrived (Today)
+                                                    </a>
+                                                </h4>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h2 class="fw-600 my-0">
+                                                        <t t-esc="late_members"/>
+                                                    </h2>
+                                                    <h4 class="fw-500 my-0 text-success"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12">
+                                        <div class="box box-inverse bg-info">
+                                            <div class="box-body">
+                                                <h4 class="fw-500 mt-0">
+                                                    <a style="color:white" href="/employee/request">My Active
+                                                        Application
+                                                    </a>
+                                                </h4>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h2 class="fw-600 my-0">
+                                                        <t t-esc="my_inprogress_app"/>
+                                                    </h2>
+                                                    <h4 class="fw-500 my-0 text-success"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-12">
+                                        <div class="box bg-bubbles-white">
+                                            <div class="box-header no-border">
+                                                <h4 class="box-title">News Feed and Notifications</h4>
+                                            </div>
+                                        </div>
+                                        <div class="news-slider owl-carousel">
+                                            <t t-foreach="notifications" t-as="notification">
+                                                <div class="box">
+                                                    <img class="card-img-top img-responsive" style="height:90px;"
+                                                         t-att-src="image_data_uri(notification.image)" alt="Image"
+                                                         t-if="notification.image"/>
+                                                    <img class="card-img-top img-responsive" style="height:90px;"
+                                                         src="/ess_portal/static/logo/ucp_image.jpg" alt="Image"
+                                                         t-if="not notification.image"/>
+                                                    <div class="box-body">
+                                                        <div class="text-center">
+                                                            <h4 class="box-title">
+                                                                <t t-esc="notification.name"/>
+                                                                <br/>
+                                                            </h4>
+                                                            <t t-esc="str(notification.date)[:19]"/>
+                                                            <p class="box-text">
+                                                                <t t-esc="notification.description[:30]"
+                                                                   t-options='{"widget": "html"}'/>
+                                                            </p>
+                                                            <a href="/employee/notification" class="btn btn-primary btn-sm">Read more</a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.box-body -->
+                                                </div>
+                                            </t>
+
+
+                                        </div>
+                                        <!-- <div class="col-xl-8 col-md-12 col-12">-->
+                                    </div>
+                                    <div class="col-xl-5 col-md-12 col-12">
+                                        <t t-call="ess_portal.leaves_pie"/>
+                                        <div class="col-12 col-md-12 col-xl-12">
+                                            <a class="box box-link-pop text-center" href="javascript:void(0)">
+                                                <div class="box-body">
+                                                    <p class="fs-40 text-success">
+                                                        <strong>
+                                                            <t t-esc="employee.total_service"/>
+                                                        </strong>
+                                                    </p>
+                                                </div>
+                                                <div class="box-body py-25 bg-success-light btsr-0 bter-0">
+                                                    <p class="fw-600">
+                                                        <span class="icon-Money me-5 text-success">
+                                                            <span class="path1"/>
+                                                            <span class="path2"/>
+                                                        </span>
+                                                        Service
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-7 col-md-12 col-12">
+                                        <t t-call="ess_portal.att_7days"/>
+                                    </div>
+                                    <!-- <div class="col-xl-12 col-md-12 col-12">
+                                         <div class="row">
+
+                                             <div class="col-12 col-md-12 col-xl-12">
+                                                 <a class="box box-link-pop text-center" href="javascript:void(0)">
+                                                     <div class="box-body">
+                                                         <p class="fs-40 text-warning">
+                                                             <strong>
+                                                                 <t t-esc="dict(employee.fields_get('employment_nature')['employment_nature']['selection'])[employee.employment_nature]"/>
+                                                             </strong>
+                                                         </p>
+                                                     </div>
+                                                     <div class="box-body py-25 bg-warning-light btsr-0 bter-0">
+                                                         <p class="fw-600">
+                                                             <span class="icon-Money me-5 text-warning">
+                                                                 <span class="path1"/>
+                                                                 <span class="path2"/>
+                                                             </span>
+                                                             Job Nature
+                                                         </p>
+                                                     </div>
+                                                 </a>
+                                             </div>
+                                             <div class="col-12 col-md-12 col-xl-12">
+                                                 <a class="box box-link-pop text-center" href="javascript:void(0)">
+                                                     <div class="box-body">
+                                                         <p class="fs-40 text-info">
+                                                             <strong>
+                                                                 <t t-esc="employee.joining_date"/>
+                                                             </strong>
+                                                         </p>
+                                                     </div>
+                                                     <div class="box-body py-25 bg-info-light btsr-0 bter-0">
+                                                         <p class="fw-600">
+                                                             <span class="icon-Money me-5 text-info">
+                                                                 <span class="path1"/>
+                                                                 <span class="path2"/>
+                                                             </span>
+                                                             Joining Date
+                                                         </p>
+                                                     </div>
+                                                 </a>
+                                             </div>
+                                             <div class="col-12 col-md-12 col-xl-12">
+                                                 <a class="box box-link-pop text-center" href="javascript:void(0)">
+                                                     <div class="box-body">
+                                                         <p class="fs-40 text-success">
+                                                             <strong>
+                                                                 <t t-esc="employee.total_service"/>
+                                                             </strong>
+                                                         </p>
+                                                     </div>
+                                                     <div class="box-body py-25 bg-success-light btsr-0 bter-0">
+                                                         <p class="fw-600">
+                                                             <span class="icon-Money me-5 text-success">
+                                                                 <span class="path1"/>
+                                                                 <span class="path2"/>
+                                                             </span>
+                                                             Service
+                                                         </p>
+                                                     </div>
+                                                 </a>
+                                             </div>
+
+                                         </div>
+                                         <div class="box">
+                                             <div class="box-header">
+                                                 <h4 class="box-title">Total Team Applications</h4>
+                                             </div>
+                                             <div class="box-body">
+                                                 <div class="d-flex py-10 w-p100 rounded100 overflow-hidden">
+                                                     <div class="bg-danger h-10" style="width: 2%;"/>
+                                                     <div class="bg-warning h-10" style="width: 3%;"/>
+                                                     <div class="bg-success h-10" style="width: 25%;"/>
+                                                     <div class="bg-info h-10" style="width: 30%;"/>
+                                                 </div>
+                                             </div>
+                                             <div class="box-body p-0">
+                                                 <div class="media-list media-list-hover media-list-divided">
+                                                     <a class="media media-single rounded-0"
+                                                        href="/employee/team/request">
+                                                         <span class="badge badge-xl badge-dot badge-info"/>
+                                                         <span class="title">Total Applications</span>
+                                                         <span class="badge badge-pill badge-info-light">
+                                                             <t t-esc="total_team_app"/>
+                                                         </span>
+                                                     </a>
+
+                                                     <a class="media media-single rounded-0"
+                                                        href="/employee/team/request">
+                                                         <span class="badge badge-xl badge-dot badge-success"/>
+                                                         <span class="title">Approved</span>
+                                                         <span class="badge badge-pill badge-success-light">
+                                                             <t t-esc="team_approv_app"/>
+                                                         </span>
+                                                     </a>
+
+                                                     <a class="media media-single rounded-0"
+                                                        href="/employee/team/request">
+                                                         <span class="badge badge-xl badge-dot badge-warning"/>
+                                                         <span class="title">Pending Action</span>
+                                                         <span class="badge badge-pill badge-warning-light">
+                                                             <t t-esc="team_inprogress_app"/>
+                                                         </span>
+                                                     </a>
+
+                                                     <a class="media media-single rounded-0"
+                                                        href="/employee/team/request">
+                                                         <span class="badge badge-xl badge-dot badge-danger"/>
+                                                         <span class="title">Rejected</span>
+                                                         <span class="badge badge-pill badge-danger-light">
+                                                             <t t-esc="team_reject_app"/>
+                                                         </span>
+                                                     </a>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>-->
+
+
+                                    <!--<div class="col-xl-3 col-md-6 col-12">
+                                                     <div class="box">
+                                                         <div class="box-body">
+                                                             <h4 class="box-title">Doughnut Chart</h4>
+                                                             <div>
+                                                                 <canvas id="doughnut-chart" height="200"></canvas>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>-->
+                                </div>
+                                <div class="row">
+
+                                    <!--<div class="col-12">
+                                        <div class="box bg-bubbles-white">
+                                            <div class="box-header no-border">
+                                                <h4 class="box-title">News Feed and Notifications</h4>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                    <div class="col-12">
+
+                                    </div>
+                                </div>
+
+
+                            </section>
+                            <!-- /.content -->
+                        </div>
+                    </div>
+                    <!-- /.content-wrapper -->
+
+                    <footer class="main-footer">
+                        &amp;copy;
+                        <script>document.write(new Date().getFullYear())</script>
+                        <a href="#">AARSOL</a>. All Rights Reserved.
+                    </footer>
+
+                    <t t-call="ess_portal.ess_quick_action"/>
+                    <t t-call="ess_portal.ess_right_menu"/>
+
+                </div>
+
+                <t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+                <script src="/ess_portal_assets/static/assets/icons/feather-icons/feather.min.js"/>
+                <script src="/ess_portal_assets/static/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js"/>
+
+                <!--<script src="/ess_portal_assets/static/assets/vendor_components/chart.js-master/Chart.min.js"/>
+                <script src="/ess_portal_assets/static/assets/vendor_components/echarts/dist/echarts-en.min.js"/>-->
+
+
+                <!--<script src="/ess_portal_assets/static/src/js/pages/echart-pie-doghnut.js"></script>-->
+
+                <!-- CRMi App -->
+                <script src="/ess_portal_assets/static/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"/>
+                <script src="/ess_portal_assets/static/src/js/pages/widget-blog.js"/>
+                <script src="https://code.highcharts.com/highcharts.js"/>
+                <script src="https://code.highcharts.com/highcharts-3d.js"/>
+                <script src="https://code.highcharts.com/modules/exporting.js"/>
+                <script src="https://code.highcharts.com/modules/export-data.js"/>
+                <script src="https://code.highcharts.com/modules/accessibility.js"/>
+                <script src="/ess_portal/static/js/dashboard.js"/>
+
+                <!--<script src="/ess_portal_assets/static/src/js/pages/widget-charts2.js"/>-->
+
+            </body>
+        </t>
+    </template>
+</odoo>

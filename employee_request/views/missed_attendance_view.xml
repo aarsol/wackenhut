@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="missed_attendance_view_form" model="ir.ui.view">
+        <field name="name">missed_attendance_view_form</field>
+        <field name="model">missed.attendance</field>
+        <field name="arch" type="xml">
+            <form string="Missed Attendance">
+                <header>
+                    <button string="Approve" name="action_approved" states='draft' type="object" class="oe_highlight"
+                            groups="hr.group_hr_user"/>
+                    <button string="Reject" name="action_reject" states='draft,approve' type="object"
+                            class="oe_highlight" groups="hr.group_hr_user"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" required="1"
+                                   options="{'no_create': True, 'no_quick_create':True, 'no_create_edit': True, 'limit': 10}"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                        </group>
+                        <group>
+                            <field name="application_date"/>
+                        </group>
+
+                        <group>
+                            <field name="checkin" widget="boolean_toggle"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="checkin_date"
+                                   attrs="{'readonly':[('state','!=','draft')],'required':[('checkin','=',True)]}"/>
+                        </group>
+                        <group>
+                            <field name="checkout" idget="boolean_toggle"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="checkout_date"
+                                   attrs="{'readonly':[('state','!=','draft')],'required':[('checkout','=',True)]}"/>
+                        </group>
+                    </group>
+                    <group string="Reason" attrs="{'readonly':[('state','!=','draft')]}">
+                        <field name="reason" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="missed_attendance_view_tree" model="ir.ui.view">
+        <field name="name">missed.attendance.view.tree</field>
+        <field name="model">missed.attendance</field>
+        <field name="arch" type="xml">
+            <tree string="Missed Attendance" decoration-info="state=='draft'" decoration-success="state=='approved'"
+                  decoration-danger="state=='reject'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="checkin"/>
+                <field name="checkin_date"/>
+                <field name="checkout"/>
+                <field name="checkout_date"/>
+                <field name="application_date"/>
+                <field name="reason"/>
+                <field name="state" widget="badge" decoration-info="state=='draft'"
+                       decoration-success="state=='approved'" decoration-danger="state=='reject'"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="missed_attendance_search_view" model="ir.ui.view">
+        <field name="name">missed.attendance.search.view</field>
+        <field name="model">missed.attendance</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id"/>
+                <field name="checkin_date"/>
+                <field name="checkout_date"/>
+                <field name="state"/>
+
+
+                <filter string="Draft" name="filter_by_draft" domain="[('state','=','draft')]"/>
+                <filter string="Approved" name="filter_by_approved" domain="[('state','=','approved')]"/>
+                <filter string="Reject" name="filter_by_reject" domain="[('state','=','reject')]"/>
+                <separator/>
+                <filter string="Check In Date" name="checkin_date" date="checkin_date"/>
+                <filter string="Check Out Date" name="checkout_date" date="checkout_date"/>
+                <newline/>
+
+                <group expand="0" string="Group By...">
+                    <filter name="employee" string="Employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                    <separator/>
+                    <filter name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                    <separator/>
+                    <filter name="company_id" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
+                    <separator/>
+                </group>
+                <searchpanel>
+                    <field name="company_id" icon="fa-users"/>
+                    <field name="state" icon="fa-users"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="missed_attendance_action" model="ir.actions.act_window">
+        <field name="name">Missed Attendance</field>
+        <field name="res_model">missed.attendance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="missed_attendance_menu"
+            name="Missed Attendance Request"
+            action="missed_attendance_action"
+            parent="aarsol_hr_payroll.menu_hr_employee_requests_main"
+            sequence="30"/>
+
+</odoo>

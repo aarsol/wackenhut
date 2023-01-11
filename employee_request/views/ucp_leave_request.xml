@@ -1,0 +1,132 @@
+<odoo>
+    <data>
+        <record id="ucp_hr_leave_view_form" model="ir.ui.view">
+            <field name="name">ucp_hr_leave_view_form</field>
+            <field name="model">special.hr.leave</field>
+            <field name="arch" type="xml">
+                <form string="UCP LEAVE Form">
+                    <header>
+                        <button name="approve_request" type="object" string="Approve" class="oe_highlight"
+                                groups="ucp_employee_request.hr_request, ucp_employee_request.hr_prorector"/>
+                        <button name="reject_request" type="object" string="Reject" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="other" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="sub_type_id"
+                                       attrs="{'invisible': [('other','!=', True)],'readonly': [('state','in', ('approve'))]}"
+                                       domain="[('special_leave','=',True)]"/>
+                                <field name="date_from" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="number_of_days" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="compensatory_date_from"
+                                       attrs="{'invisible': [('sub_type_id','!=', %(ucp_employee_request.hr_leave_type_compensatory)d)],'readonly': [('state','in', ('approve'))]}"/>
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+
+                            </group>
+                            <group>
+                                <field name="leave_type_id" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="next_on_duty" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="department_id" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="date_to" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="leave_purpose" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                                <field name="compensatory_date_to"
+                                       attrs="{'invisible': [('sub_type_id','!=', %(ucp_employee_request.hr_leave_type_compensatory)d)],'readonly': [('state','in', ('approve'))]}"/>
+                                <field name="upload_documents"/>
+                                <field name="hod_app" invisible="1"/>
+                                <field name="hr_app" invisible="1"/>
+                                <field name="pro_app" invisible="1"/>
+                                <field name="parent_dept_hod" invisible="1"/>
+                                <field name="sub_parent_dept_hod" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Leave">
+                                <field name="leave_ids" context="{'default_employee_id': employee_id}"
+                                       groups="ucp_employee_request.hr_request,ucp_employee_request.hr_prorector"
+                                       attrs="{'readonly': [('state', '=', 'approve')]}">
+                                    <tree>
+                                        <field name="holiday_status_id" string="Leave Type"/>
+                                        <field name="request_date_from" string="Date From"/>
+                                        <field name="request_date_to" string="Date To"/>
+                                        <field name="employee_id" string="Employee"/>
+                                        <field name="department_id" string="Department"/>
+                                        <field name="next_on_duty" string="Next on Duty"/>
+                                        <field name="name" string="Description"/>
+                                        <field name="leave_purpose" string="Purpose Of Leave"/>
+                                        <field name="state" string="Status"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="special_hr_leave_view_tree" model="ir.ui.view">
+            <field name="name">special_hr_leave_view_tree</field>
+            <field name="model">special.hr.leave</field>
+            <field name="arch" type="xml">
+                <tree string="Special Time Off">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="sub_type_id"/>
+                    <field name="leave_type_id"/>
+                    <field name="department_id"/>
+                    <field name="date_from"/>
+                    <field name="next_on_duty"/>
+                    <field name="date_to"/>
+                    <field name="company_id" optional="show" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="special_hr_leave_view_search" model="ir.ui.view">
+            <field name="name">special.hr.leave.search.view</field>
+            <field name="model">special.hr.leave</field>
+            <field name="model">special.hr.leave</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Special Leaves">
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="sub_type_id"/>
+                    <field name="leave_type_id"/>
+                    <field name="department_id"/>
+                    <field name="date_from"/>
+                    <field name="next_on_duty"/>
+                    <field name="date_to"/>
+
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Company" name="group_by_company" domain="[]" context="{'group_by':'company_id'}"/>
+                         <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action View -->
+        <record id="ucp_hr_leave_view_actions" model="ir.actions.act_window">
+            <field name="name">Request Time Off</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">special.hr.leave</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--Menus Items-->
+        <menuitem id="ucp_hr_leave_menu"
+                  name="Time Off Request"
+                  parent="hr_holidays.menu_hr_holidays_approvals"
+                  action="ucp_hr_leave_view_actions"
+                  sequence="2"/>
+    </data>
+</odoo>

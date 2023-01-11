@@ -1,0 +1,183 @@
+<odoo>
+
+    <template id="aarsol_hr_ext.gp_fund_statement_report">
+        <t t-call="web.basic_layout">
+
+            <style>
+                #invoice-report {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                }
+
+                #invoice-report td, #invoice-report th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align:center;
+                }
+
+                #invoice-report tr:nth-child(even){background-color: #f2f2f2;}
+
+                #invoice-report tr:hover {background-color: #ddd;}
+
+                #invoice-report th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color: #17134e;
+                color: white;
+                }
+
+                #top-info {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                margin-top:15px;
+                display: inline;
+                }
+
+                #top-info td, #personal-info th {
+                padding: 3px;
+                }
+
+
+            </style>
+
+            <div class="page"
+                 style='font-size: 14px; padding:10px; margin:5em; font-family: "Times New Roman", Times, serif;'>
+                <div>
+                    <div class="col col-12" style="font-size:25px; font-weight:bold; text-align:center;">
+                        <span style="border-bottom:1px solid" t-esc="company.name" t-if="company.name"/>
+                    </div>
+                </div>
+                <div class="col col-12" style="font-size:20px; font-weight:bold; text-align:center;">
+                    <span>(Budget &amp; Funds Section)</span>
+                </div>
+                <div style="font-size:18px; text-align:left;">
+                    <span style="font-weight:bold;">No.G.P.Fund/</span>&#160;
+
+                    <span t-esc="gp_search.code" t-if="gp_search.code"></span>
+                </div>
+                <div style="font-size:18px; text-align:left;">
+                    <span style="font-weight:bold;">Name:</span>&#160;
+                    <span t-esc="gp_search.employee_id.name" t-if="gp_search.employee_id"></span>
+                </div>
+                <div style="font-size:18px; text-align:left;">
+                    <span style="font-weight:bold;">Designation:</span>&#160;
+                    <span t-esc="gp_search.designation_id.name" t-if="gp_search.designation_id"></span>
+                </div>
+                <div style="font-size:18px; text-align:left;">
+                    <span style="font-weight:bold;">Deptt/Section:</span>&#160;
+                    <span t-esc="gp_search.department_id.name" t-if="gp_search.department_id"></span>&amp;
+                    <span t-esc="gp_search.section_id.name" t-if="gp_search.section_id"></span>
+
+
+                </div>
+                <div style="font-size:18px; text-align:left;">
+                    <span style="font-weight:bold;">Subject:</span>&#160;
+                    <span>G.P Fund Statement For The Financial Year</span>
+                    <span t-esc="start_year"/>-
+                    <span t-esc="end_year"/>
+                </div>
+
+
+                <table id="invoice-report">
+                    <tr style="text-align:center">
+                        <th style="width:10%">Sr.No</th>
+                        <th style="width:30%">Month</th>
+                        <th style="width:15%">Monthly Regular Contribution</th>
+                        <th style="tet-align:center; width:10%">Monthly Recoveries of Advance</th>
+                        <th style="tet-align:center; width:25%">Total</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Opening Balance as on
+                            <span t-esc="data['start_date']"/>
+                        </td>
+                        <td>
+                            <span t-esc="opening_balance"/>
+                        </td>
+                    </tr>
+                    <t t-foreach="search_statements" t-as="statement">
+
+                        <tr style="font-size:12px;">
+                            <td>
+                                <span t-esc="statement_index+1"/>
+                            </td>
+                            <td>
+                                <span t-esc="statement.month"/>
+                            </td>
+                            <td>
+                                <span t-esc="statement.monthly_contribution"/>
+                            </td>
+                            <td></td>
+                            <td>
+                                <span t-esc="statement.running_balance"/>
+                            </td>
+
+
+                        </tr>
+                    </t>
+                    <tr>
+                        <td></td>
+
+                        <td>
+                            Total:
+                        </td>
+                        <td>
+                            <span t-esc="sum(line.monthly_contribution for line in search_statements)"/>
+                        </td>
+                        <td>0</td>
+                        <td>
+                            <span t-esc="sum(line.running_balance for line in search_statements)"/>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>13</td>
+
+                        <td colspan="3">
+                            Balance as on
+                            <span t-esc="data['end_date']"/>
+                        </td>
+
+                        <td>
+                            <span t-esc="search_balance[0].running_balance"/>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>14</td>
+
+                        <td colspan="3">
+                            Profit @14.35 % on average cumulative balance (<span t-esc="sum(line.running_balance for line in search_statements)"/>/12 * 14.35%)=
+
+                        </td>
+
+                        <td>
+                            <span t-esc="round(sum(line.running_balance for line in search_statements)/12*14.35/100)"/>
+                        </td>
+
+                         <tr>
+                        <td></td>
+
+                        <td colspan="3">
+                            Balance as on
+                            <span t-esc="data['start_date']"/>
+                        </td>
+
+                        <td>
+                            <span t-esc="round(sum(line.running_balance for line in search_statements)/12*14.35/100)+search_balance[0].running_balance"/>
+                        </td>
+
+                    </tr>
+
+                    </tr>
+                </table>
+
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

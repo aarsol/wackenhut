@@ -1,0 +1,142 @@
+<odoo>
+	<template id="ess_side_menu" name="">
+		<aside class="main-sidebar">
+			<section class="sidebar position-relative">
+				<div class="d-flex align-items-center logo-box justify-content-start d-md-block d-none">
+					<a href="/employee/profile" class="logo">
+						<div class="logo-mini">
+							<span class="light-logo"><img src="/ess_portal/static/logo/sky.png" alt="logo"/></span>
+						</div>
+						<div class="logo-lg">
+							<span class="light-logo fs-36 fw-700" style="color: #112c4f !important">SKY-E</span>
+						</div>
+					</a>
+				</div>
+				<div class="user-profile my-15 px-20 py-10 b-1 rounded10 mx-15">
+					<div class="d-flex align-items-center justify-content-between">
+						<div class="image d-flex align-items-center">
+				    		<img src="/ess_portal/static/logo/team.webp" class="rounded-0 me-10" alt="User Image"/>
+							<!--<a class="rounded-0 me-10" href="/employee/dashboard">
+								<i class="icon-Layout-4-blocks"><span class="path1"></span><span class="path2"></span></i>
+								<span>Dashboard</span>
+				  			</a>-->
+
+							<div>
+								<h4 class="mb-0 fw-600"><t t-esc="employee.department_id.name"/></h4>
+								<p class="mb-0">Team</p>
+							</div>
+						</div>
+						<div class="info">
+							<a class="dropdown-toggle p-15 d-grid" data-bs-toggle="dropdown" href="#"/>
+							<div class="dropdown-menu dropdown-menu-end">
+					  			<a class="dropdown-item" href="/employee/organo"><i class="ti-view-list"/> My Team</a>
+					  			<!--<a class="dropdown-item" href="/employee/family"><i class="ti-home"></i> Family</a>-->
+					  			<!--<a class="dropdown-item" href="mailbox.html"><i class="ti-email"></i> Inbox</a>-->
+					  			<!--<a class="dropdown-item" href="contact_app_chat.html"><i class="ti-link"></i> Conversation</a>-->
+					  			<div class="dropdown-divider"/>
+					  			<!--<a class="dropdown-item" href="/web/session/logout?redirect=/"><i class="ti-lock"></i> Logout</a>-->
+							</div>
+						</div>
+					</div>
+	    		</div>
+	  			<div class="multinav">
+					<div class="multinav-scroll" style="height: 97%;">
+						<ul class="sidebar-menu" data-widget="tree">
+							<li class="header">Explore ESS</li>
+							<li>
+								<a href="/employee/dashboard">
+									<i class="icon-Layout-4-blocks"><span class="path1"/><span class="path2"/></i>
+									<span>Dashboard</span>
+								</a>
+							</li>
+							<li>
+								<a href="/employee/reports">
+									<i class="icon-Chart-pie"><span class="path1"/><span class="path2"/></i>
+									<span>Reports</span>
+								</a>
+							</li>
+							<li>
+								<a href="/employee/leave">
+									<i class="icon-Alarm-clock"><span class="path1"/><span class="path2"/></i>
+									<span>Leave Management</span>
+								</a>
+							</li>
+
+						  	<li class="treeview">
+								<a href="#">
+									<i class="icon-Flag"><span class="path1"/><span class="path2"/></i>
+									<span>Daily Attendance</span>
+									<span class="pull-right-container">
+										<i class="fa fa-angle-right pull-right"/>
+									</span>
+								</a>
+								<ul class="treeview-menu">
+									<li><a href="/employee/attendance"><i class="icon-Commit"><span class="path1"/><span class="path2"/></i>Self Attendance</a></li>
+									<li><a href="/employee/attendance/subordinate"><i class="icon-Commit"><span class="path1"/><span class="path2"/></i>Team Attendance</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="/employee/payment">
+									<i class="icon-Credit-card"><span class="path1"/><span class="path2"/></i>
+									<span>Pay Slip</span>
+								</a>
+							</li>
+							<li class="treeview">
+								<a href="#">
+									<i class="icon-Chat2"><span class="path1"/><span class="path2"/></i>
+									<span>Request</span>
+									<span class="pull-right-container">
+										<i class="fa fa-angle-right pull-right"/>
+									</span>
+								</a>
+								<ul class="treeview-menu">
+									<li>
+										<a href="/employee/request"><i class="icon-Commit"><span class="path1"/>
+											<span class="path2"/></i>Self Request
+										</a>
+									</li>
+									<li>
+										<a href="/employee/team/request"><i class="icon-Commit"><span class="path1"/>
+											<span class="path2"/></i>Team Requests
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="/employee/notification">
+									<i class="icon-Chat"><span class="path1"/><span class="path2"/></i>
+									<span>Notifications</span>
+								</a>
+							</li>
+							<li t-if="back_office">
+								<a t-att-href="'%s/web#cids=1&amp;home=' %(base_url)">
+									<i class="glyphicon glyphicon-home"><span class="path1"/><span class="path2"/></i>
+									<span>Back Office</span>
+								</a>
+							</li>
+							<li/>
+
+					  </ul>
+
+					  <div class="sidebar-widgets">
+						  <div class="mx-25 mb-30 pb-20 side-bx bg-primary-light rounded20">
+							<div class="text-center">
+								<!--<img src="/ess_portal_assets/static/images/svg-icon/color-svg/custom-17.svg" class="sideimg p-5" alt=""/>-->
+								<h4 class="title-bx text-primary"><!--View Reports--></h4>
+								<!--<a href="#" class="py-10 fs-14 mb-0 text-primary">
+									Best CRM App here <i class="mdi mdi-arrow-right"></i>
+								</a>-->
+							</div>
+						  </div>
+						<!--<div class="copyright text-center m-25">
+							<p><strong class="d-block">CRMi Dashboard</strong> © <script>document.write(new Date().getFullYear())</script> All Rights Reserved</p>
+						</div>-->
+					  </div>
+				  </div>
+				</div>
+    		</section>
+  </aside>
+     </template>
+</odoo>
+
+<!-- Left side column. contains the logo and sidebar -->

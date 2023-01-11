@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_deduction_ministerial_wiz" model="ir.ui.view">
+            <field name="name">hr.ministerial.deduction.wiz</field>
+            <field name="model">hr.ministerial.deduction.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Ministerial Deduction Details">
+                    <group>
+                        <field name="start_date" />
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Generate Report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_deduction_ministerial_wize" model="ir.actions.act_window">
+            <field name="name">Ministerial Staff Deduction</field>
+            <field name="res_model">hr.ministerial.deduction.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+<!--        <menuitem-->
+<!--                action="action_deduction_ministerial_wize"-->
+<!--                id="menu_deduction_ministerial_wize"-->
+<!--                parent="hr_payroll.menu_report_payroll"-->
+<!--                sequence="130"-->
+<!--        />-->
+    </data>
+</odoo>

@@ -1,0 +1,120 @@
+<odoo>
+    <data>
+        <record id="view_employee_bulk_promote_wizard" model="ir.ui.view">
+            <field name="name">view.hr.promote.view</field>
+            <field name="model">hr.employee.bulk.promote</field>
+            <field name="arch" type="xml">
+                <form string="Bulk Increment Setup Wizard">
+                    <sheet>
+                        <p>
+                            <b>🎱This Wizard will Create the Entries in the Grade Change Form.</b>
+                            <br/>
+                            <br/>
+                            <b>
+                                <u>📶Payscale Selection</u>
+                            </b>
+                            <br/>
+                            If you Select the Payscales then System will Include the Selected Payscale Employee(s),
+                            <br/>
+                            if you do not Select any Payscale then system will consider all the Payscale Employee(s).
+                            <br/>
+
+                            <br/>
+                            <br/>
+                            <b>
+                                <u>🌈Location Type Selection</u>
+                            </b>
+                            <br/>
+                            If you Select the Location type then System will Include selected Location Type Employee(s),
+                            <br/>
+                            if you do not Select any Location then system will consider all the Location Type Employee(s).
+                            <br/>
+                            if select the Payscale as well as the Location Type then system will include the Employee(s) of the Selected Payscale Location Types.
+                            <br/>
+
+                            <br/>
+                            <br/>
+                            <b>
+                                <u>👧Selected Employee(s)</u>
+                            </b>
+                            <br/>
+                            If you Want only Selected Employee to change their Stages then Use the Selected Employee(s)
+                            <br/>
+                            If you select the Selected Employee(s) then system will ignore all other Parameter like Payscales, Location Types etc.
+                            <br/>
+                            <br/>
+
+                            <b>
+                                <u>Following will be Exclude from the List</u>
+                            </b>
+                            <br/>
+                            ✔Fixed Pay Employee
+                            <br/>
+                            ✔Employee With Last Stage
+                            <br/>
+                            ✔Selected Excluded Employee
+                            <br/>
+                        </p>
+
+                        <group>
+                            <group>
+                                <field name="type" readonly="1"/>
+                                <field name="promotion_type" readonly="1"
+                                       attrs="{'invisible':[('type','!=', 'promotion')]}"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+
+                        <group string="Payscales" name="payscale_ids">
+                            <field name="payscale_ids" options="{'no_quick_create':True,'no_create_edit':True}" nolabel="1">
+                            </field>
+                        </group>
+                        <notebook>
+                            <page string="Selected Employee(s)" name="selected_employee_ids">
+                                <field name="selected_employee_ids" nolabel="1">
+                                    <tree>
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                        <field name="joining_date"/>
+                                        <field name="department_id"/>
+                                        <field name="job_id"/>
+                                        <field name="payscale_id"/>
+                                        <field name="stage"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Excluded Employee(s)" name="employee_ids">
+                                <field name="employee_ids" nolabel="1">
+                                    <tree>
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                        <field name="joining_date"/>
+                                        <field name="department_id"/>
+                                        <field name="job_id"/>
+                                        <field name="payscale_id"/>
+                                        <field name="stage"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button name="action_create_entries" string="Generate Increments" type="object" default_focus="1" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_hr_bulk_promote_wizard" model="ir.actions.act_window">
+            <field name="name">Bulk Increment Setup</field>
+            <field name="res_model">hr.employee.bulk.promote</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_grade_change"/>
+            <field name="binding_view_types">form,list</field>
+        </record>
+    </data>
+</odoo>

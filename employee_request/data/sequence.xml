@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_resign_request" model="ir.sequence">
+            <field name="name">Employee Resign Requests</field>
+            <field name="code">resign.request</field>
+            <field name="prefix">Resign/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_time_off" model="ir.sequence">
+            <field name="name">Special Time Off</field>
+            <field name="code">special.hr.leave</field>
+            <field name="prefix">Time Off/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_loan_advance" model="ir.sequence">
+            <field name="name">Loan Advance Request</field>
+            <field name="code">loan.request</field>
+            <field name="prefix">Loan/Advance/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_missed_attendance" model="ir.sequence">
+            <field name="name">Missed Attendance Requests</field>
+            <field name="code">missed.attendance</field>
+            <field name="prefix">Miss/Att/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_noc_request" model="ir.sequence">
+            <field name="name">NOC Requests</field>
+            <field name="code">noc.request</field>
+            <field name="prefix">NOC/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_travel_request" model="ir.sequence">
+            <field name="name">Travel Request</field>
+            <field name="code">travel.request</field>
+            <field name="prefix">Travel/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_marriage_grant" model="ir.sequence">
+            <field name="name">Marriage Grant</field>
+            <field name="code">marriage.grant</field>
+            <field name="prefix">Marriage/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_medical_advance" model="ir.sequence">
+            <field name="name">Medical Advance</field>
+            <field name="code">medical.advance</field>
+            <field name="prefix">MED/ADV/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

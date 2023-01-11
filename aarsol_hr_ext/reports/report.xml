@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="aarsol_hr_ext.action_report_gp_statement" model="ir.actions.report">
+            <field name="name">GP Fund Statement</field>
+            <field name="model">gp.fund.statement.wize</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">aaarsol_hr_ext.gp_fund_statement_report</field>
+            <field name="report_file">aarsol_hr_ext.gp_fund_statement_report</field>
+        </record>
+
+        <record id="aarsol_hr_ext.action_report_allowance" model="ir.actions.report">
+            <field name="name">Allowances Report</field>
+            <field name="model">hr.allowance</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">aarsol_hr_ext.allowance_report</field>
+            <field name="report_file">aarsol_hr_ext.allowance_report</field>
+        </record>
+
+        <record id="aarsol_hr_ext.action_report_deduction" model="ir.actions.report">
+            <field name="name">Deduction Report</field>
+            <field name="model">hr.deduction.wiz</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">aarsol_hr_ext.deduction_report</field>
+            <field name="report_file">aarsol_hr_ext.deduction_report</field>
+        </record>
+
+        <record id="aarsol_hr_ext.action_report_topsheet_allowance" model="ir.actions.report">
+            <field name="name">Top Sheet Allowance Report</field>
+            <field name="model">hr.deduction.wiz</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">aarsol_hr_ext.topsheet_allowance_report</field>
+            <field name="report_file">aarsol_hr_ext.topsheet_allowance_report</field>
+        </record>
+
+        <record id="aarsol_hr_ext.action_report_topsheet_deduction" model="ir.actions.report">
+            <field name="name">Top Sheet Deduction Report</field>
+            <field name="model">hr.topsheet.deduction</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">aarsol_hr_ext.topsheet_deduction_report</field>
+            <field name="report_file">aarsol_hr_ext.topsheet_deduction_report</field>
+        </record>
+
+        <record id="aarsol_hr_ext.action_grade_change_report" model="ir.actions.report">
+            <field name="name">Grade Change Report</field>
+            <field name="model">hr.grade.change</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">aarsol_hr_ext.grade_change_report</field>
+            <field name="report_file">aarsol_hr_ext.grade_change_report</field>
+            <field name="print_report_name">('%s' % (object.name))</field>
+        </record>
+
+        <!--		<report-->
+        <!--            id="action_report_payslip"-->
+        <!--            model="hr.payslip"-->
+        <!--            string="Payslip"-->
+        <!--            report_type="qweb-pdf"-->
+        <!--            name="hr_payroll.report_payslip"-->
+        <!--            file="hr_payroll.report_payslip"-->
+        <!--            print_report_name="'Payslip - %s' % (object.employee_id.name)"-->
+        <!--        />-->
+    </data>
+</odoo>

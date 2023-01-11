@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="employee_timesheet_creation" name="Create Employee Timesheets">
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <t t-call="employee_portal.employee_dashboard_sidebar"/>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <t t-call="employee_portal.dashboard_topbar"/>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- Page Heading -->
+                        <h1 class="h3 mb-2 text-gray-800">Create New Record</h1>
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="timesheet-form" method="post">
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Date</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="date" name="sheet_date" id="sheet_date"
+                                                           class="form-control"
+                                                           placeholder="Date" required="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Project</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <select class="form-control" id="project" name="project" onchange="onchange_project(my_id= this.value)">
+                                                        <t t-foreach="dropdown_values_project" t-as="project_value">
+
+                                                            <option  t-value="project_value"><t t-esc="project_value"/></option>
+
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Task</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                   <select class="form-control" id="task" name="task">
+                                                        <t t-foreach="dropdown_values_task" t-as="task_value">
+
+                                                            <option  t-att-value="task_value.id"><t t-esc="task_value.name"/></option>
+
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Duration</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="number" step="0.01" name="duration" id="duration" class="form-control"
+                                                           placeholder="Duration" required="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Description</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="text" name="description" id="description" class="form-control"
+                                                           placeholder="Description" required="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3"></div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <!--                                                <input type="button" class="btn btn-primary px-4" value="Save Changes"/>-->
+                                                    <input id="leave_request" type="submit" class="btn btn-primary px-4"
+                                                           value="Submit"/>
+                                                </div>
+                                            </div>
+                                            <div class="row"></div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+            </div>
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+
+        <div class="modal-body" style="padding: 0rem;">
+
+
+            <div class="modal fade" id="ignismyModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="">
+                                <span>×</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body" style="padding: 0rem;">
+
+                            <div class="thank-you-pop">
+                                <img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png"
+                                     alt=""/>
+                                <h1>Record Created SuccessFully</h1>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ignismyModalerror" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="">
+                                <span>×</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body" style="padding: 0rem;">
+
+                            <div class="thank-you-pop">
+                                <img src="/employee_portal/static/img/red-x.png" alt=""/>
+                                <h1>Something Went Wrong</h1>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </template>
+</odoo>

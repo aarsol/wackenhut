@@ -1,0 +1,313 @@
+<odoo>
+    <data>
+        <record id="view_hr_employee_income_tax_tree" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.tree</field>
+            <field name="model">hr.employee.income.tax</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Employee Income Tax" decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="code" optional="1"/>
+                    <field name="employee_cnic"/>
+                    <field name="department_id"/>
+                    <field name="designation_id"/>
+                    <field name="tax_id"/>
+                    <field name="basic_wage"/>
+                    <field name="allowances"/>
+                    <field name="per_month_gross_pay"/>
+                    <field name="annual_gross_pay"/>
+                    <field name="rebate_amt"/>
+                    <field name="payable_tax"/>
+                    <field name="adjustment_amt"/>
+                    <field name="total_tax_amount"/>
+                    <field name="per_month_tax"/>
+                    <field name="date_from" optional="1"/>
+                    <field name="date_to" optional="1"/>
+                    <field name="year" optional="1"/>
+                    <field name="total_deducted_amount" optional="1"/>
+                    <field name="remaining_amount" optional="1"/>
+                    <field name="state" widget="badge" decoration-info="state=='Draft'" decoration-success="state=='Done'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_income_tax_form" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.form</field>
+            <field name="model">hr.employee.income.tax</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Income Tax">
+                    <header>
+                        <button name="action_done" states="Draft" type="object" string="Validate" class="btn-primary"/>
+                        <button name="action_turn_to_draft" states="Done" type="object" string="Turn To Draft" class="btn-primary"/>
+                        <!--                        <button name="action_tun_to_draft" states="Done" type="object" string="Turn To Done" class="btn-primary"/>-->
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" required="1" attrs="{'readonly':[('state','!=','Draft')]}"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                                <field name="code"/>
+                                <field name="employee_cnic"/>
+                                <!--                                <field name="active" widget="boolean_toggle"/>-->
+                            </group>
+                            <group>
+                                <field name="department_id" options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                                <field name="designation_id" options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                                <field name="tax_id" attrs="{'readonly':[('state','!=','Draft')]}" options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                            </group>
+
+                            <group>
+                                <field name="date_from" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="date_to" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="year" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="installment"/>
+                            </group>
+                            <group>
+                                <field name="basic_wage"/>
+                                <field name="allowances"/>
+                                <field name="manual_gross" readonly="1"/>
+                                <field name="annual_income_adjustment_amt"/>
+                                <field name="per_month_gross_pay"/>
+                                <field name="annual_gross_pay"/>
+                            </group>
+
+                            <group>
+                                <field name="tax_slab_id" options="{'no_quick_create':True,'no_create_edit':True,'no_create':True,}"/>
+                                <field name="rebate_rate" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="payable_tax" invisible="1"/>
+                                <field name="adjustment_amt"/>
+                                <field name="manual_tax" readonly="1"/>
+                                <field name="total_deducted_amount" readonly="1" invisible="1"/>
+                                <field name="total_deducted_amount2" string="Total Deduction" readonly="1"/>
+                                <field name="remaining_tax_payable"/>
+                            </group>
+                            <group>
+                                <field name="total_tax_amount" invisible="1"/>
+                                <field name="total_tax_amount2" string="Total Tax Amount"/>
+                                <field name="rebate_amt"/>
+                                <field name="per_month_tax"/>
+                                <field name="remaining_amount" invisible="1"/>
+                            </group>
+                        </group>
+
+                        <group string="Remarks">
+                            <field name="remarks" nolabel="1"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Tax Detail" name="employee_tax_detail">
+                                <field name="employee_tax_lines" readonly="1">
+                                    <tree decoration-info="state=='Draft'" decoration-success="state=='Deducted'">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="employee_id" optional="1"/>
+                                        <field name="date"/>
+                                        <field name="month"/>
+                                        <field name="reference"/>
+                                        <field name="slip_id"/>
+                                        <field name="amount" sum="sum_amount"/>
+                                        <field name="deducted_amount" sum="sum_deducted_amount"/>
+                                        <field name="difference" sum="sum_difference"/>
+                                        <field name="state"/>
+                                    </tree>
+                                    <form>
+                                        <header>
+                                            <field name="state" widget="statusbar"/>
+                                        </header>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="employee_id"/>
+                                                    <field name="date"/>
+                                                    <field name="month"/>
+                                                    <field name="deducted_amount"/>
+                                                </group>
+                                                <group>
+                                                    <field name="amount"/>
+                                                    <field name="reference"/>
+                                                    <field name="slip_id"/>
+                                                    <field name="difference"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <page name="tax_adjustments" string="Tax Adjustments">
+                                <field name="tax_adjustment_lines" readonly="1">
+                                    <tree decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="employee_id"/>
+                                        <field name="department_id"/>
+                                        <field name="designation_id"/>
+                                        <field name="description"/>
+                                        <field name="tax_id"/>
+                                        <field name="employee_tax_id"/>
+                                        <field name="amount"/>
+                                        <field name="date"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="annual_income_adjustments" string="Annual Income Adjustments">
+                                <field name="annual_income_adjustment_lines" readonly="1">
+                                    <tree decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="employee_id"/>
+                                        <field name="department_id"/>
+                                        <field name="designation_id"/>
+                                        <field name="description"/>
+                                        <field name="tax_id"/>
+                                        <field name="employee_tax_id"/>
+                                        <field name="amount"/>
+                                        <field name="date"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="employee_cpr_nos" string="CPR Nos">
+                                <field name="cpr_no_ids" readonly="1">
+                                    <tree decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="month"/>
+                                        <field name="cpr_no"/>
+                                        <field name="date"/>
+                                        <field name="state"/>
+                                    </tree>
+                                    <form>
+                                        <header>
+                                            <field name="state" widget="statusbar"/>
+                                        </header>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="name"/>
+                                                    <field name="month"/>
+                                                    <field name="date"/>
+                                                </group>
+                                                <group>
+                                                    <field name="cpr_no"/>
+                                                    <field name="employee_id"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <page name="other_info" string="Other Info" groups="base.group_no_one">
+                                <group>
+                                    <group>
+                                        <field name="previous_month_gross" readonly="1"/>
+                                        <field name="net_income" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="manual_slips" readonly="1"/>
+                                    </group>
+
+                                    <group>
+                                        <field name="contract_id" readonly="1"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_income_tax_search" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.search.view</field>
+            <field name="model">hr.employee.income.tax</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <search string="Employee Income Tax">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="employee_cnic"/>
+                    <field name="department_id"/>
+                    <field name="designation_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="year"/>
+                    <field name="tax_id"/>
+                    <field name="state"/>
+                    <separator/>
+                    <filter name="date_from" string="From Date" date="date_from"/>
+                    <separator/>
+                    <filter name="date_to" string="To Date" date="date_to"/>
+
+                    <newline/>
+                    <group expand="0" string="Group By">
+                        <filter string="Employee" name="group_by_employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Department" name="group_by_department" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter string="Designation" name="group_by_designation" domain="[]" context="{'group_by':'designation_id'}"/>
+                        <separator/>
+                        <filter string="From Date" name="group_by_date_from" domain="[]" context="{'group_by':'date_from'}"/>
+                        <filter string="To Date" name="group_by_date_to" domain="[]" context="{'group_by':'date_to'}"/>
+                        <filter string="Year" name="group_by_for_year" domain="[]" context="{'group_by':'year'}"/>
+                        <separator/>
+                        <filter string="Status" name="group_by_state" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter string="Tax" name="group_by_tax" domain="[]" context="{'group_by':'tax_id'}"/>
+                        <filter string="Tax Slab" name="group_by_tax_slab" domain="[]" context="{'group_by':'tax_slab_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_income_tax_pivot" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.pivot.view</field>
+            <field name="model">hr.employee.income.tax</field>
+            <field name="arch" type="xml">
+                <pivot string="Employee Income Tax Pivot Chart">
+                    <field name="employee_id" type="row"/>
+                    <field name="year"/>
+                    <field name="annual_gross_pay" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_income_tax_graph" model="ir.ui.view">
+            <field name="name">hr.employee.income.tax.graph.view</field>
+            <field name="model">hr.employee.income.tax</field>
+            <field name="arch" type="xml">
+                <graph string="Employee Income Tax Graph Analysis">
+                    <field name="employee_id"/>
+                    <field name="annual_gross_pay"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_income_tax" model="ir.actions.act_window">
+            <field name="name">Employee Income Tax</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.income.tax</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_income_tax"
+                name="Income Tax Calculation"
+                action="action_hr_employee_income_tax"
+                parent="menu_hr_income_tax_main"
+                sequence="20"/>
+    </data>
+</odoo>

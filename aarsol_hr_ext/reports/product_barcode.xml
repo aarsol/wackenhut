@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+
+        <record id="paperformat_barcode" model="report.paperformat">
+            <field name="name">Barcode Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">23</field>
+            <field name="page_width">50</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">2</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">80</field>
+        </record>
+
+        <record id="report_product_product_barcode" model="ir.actions.report">
+            <field name="name">report_product_product_barcode</field>
+            <field name="model">product.product</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="paperformat_id" ref="aarsol_hr_ext.paperformat_barcode"/>
+            <field name="report_name">product.report_productbarcode</field>
+            <field name="report_file">product.report_productbarcode</field>
+            <field name="print_report_name">('Products barcode - %s' %object.name)</field>
+        </record>
+
+        <template id="report_simple_barcode_inherit" inherit_id="product.report_simple_barcode">
+            <xpath expr="//div" position="replace">
+                <div style="width: 275px; display: inline-table; height: 6rem;">
+                    <table class="table  mb-0">
+                        <tr>
+                            <td class="text-center align-middle" style="height: 6rem;">
+                                <t t-if="product.barcode">
+                                    <img alt="Barcode" t-if="len(product.barcode) == 13"
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', product.barcode, 600, 150)"
+                                         style="width:100%;height:4rem;"/>
+                                    <img alt="Barcode" t-elif="len(product.barcode) == 8"
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', product.barcode, 600, 150)"
+                                         style="width:100%;height:4rem;"/>
+                                    <img alt="Barcode" t-else=""
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', product.barcode, 600, 150)"
+                                         style="width:100%;height:4rem"/>
+                                    <span t-field="product.barcode"/>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-muted">No barcode available</span>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

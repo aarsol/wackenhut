@@ -1,0 +1,98 @@
+<odoo>
+    <data>
+        <record id="view_tax_cpr_no_tree" model="ir.ui.view">
+            <field name="name">tax.cpr.no.tree</field>
+            <field name="model">tax.cpr.no</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="CPR No" decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="period_name"/>
+                    <field name="date"/>
+                    <field name="create_uid" string="Created By" optional="show" widget="many2one_avatar_user"/>
+                    <field name="state" widget="badge" decoration-info="state=='Draft'" decoration-success="state=='Done'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_tax_cpr_no_form" model="ir.ui.view">
+            <field name="name">tax.cpr.no.form</field>
+            <field name="model">tax.cpr.no</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Tax CPR NO">
+                    <header>
+                        <button name="action_done" states="Draft" type="object" string="Validate" class="btn-primary"/>
+                        <button name="action_cancel" states="Draft" type="object" string="Cancel" class="btn-primary"/>
+                        <button name="action_copy_crp_no" states="Draft,Done" type="object" string="Generate CPR No" class="btn-primary"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="date" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="month" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="year" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="period_name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tax_cpr_no_search" model="ir.ui.view">
+            <field name="name">tax.cpr.no.view</field>
+            <field name="model">tax.cpr.no</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <search string="Tax CPR No">
+                    <field name="name"/>
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="period_name"/>
+                    <field name="date"/>
+                    <field name="state"/>
+
+                    <separator/>
+                    <filter name="date" string="Date" date="date"/>
+
+                    <newline/>
+                    <group expand="0" string="Group By">
+                        <separator/>
+                        <filter string="Date" name="group_by_date" domain="[]" context="{'group_by':'date'}"/>
+                        <separator/>
+                        <filter string="Status" name="group_by_state" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_tax_cpr_no" model="ir.actions.act_window">
+            <field name="name">Tax CPR No</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tax.cpr.no</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_tax_cpr_no"
+                name="Tax CPR No"
+                action="action_tax_cpr_no"
+                parent="menu_hr_income_tax_main"
+                sequence="30"/>
+    </data>
+</odoo>

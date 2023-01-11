@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_hr_employee_half_pay_leave_request_tree" model="ir.ui.view">
+            <field name="name">hr.employee.half.pay.leave.request.tree</field>
+            <field name="model">hr.employee.half.pay.leave.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Half Pay Leave Request"
+                      decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='reject'">
+                    <field name="sequence" string="Sequence" widget="handle"/>
+                    <field name="employee_code"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="date"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="leave_period"/>
+                    <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='reject'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_half_pay_leave_request_form" model="ir.ui.view">
+            <field name="name">hr.employee.half.pay.leave.request.form</field>
+            <field name="model">hr.employee.half.pay.leave.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Half Pay Leave Request">
+                    <header>
+                        <field name="show_turn_to_draft" invisible="1"/>
+                        <button name="action_approve" type="object" string="Approve" states="draft" class="oe_highlight"/>
+                        <button name="action_reject" type="object" string="Reject" states="draft" class="oe_highlight"/>
+                        <button name="action_turn_to_draft" type="object" string="Turn To Draft" attrs="{'invisible':[('show_turn_to_draft','=',True)]}" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" domain="[('state','=','active')]" required="1" attrs="{'readonly':[('state','!=','draft')]}"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"/>
+                                <field name="employee_code"/>
+                                <field name="department_id"/>
+                                <field name="job_id"/>
+                            </group>
+
+                            <group>
+                                <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_from" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_to" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="leave_period"/>
+                                <field name="duty_resume_request" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Remarks" attrs="{'readonly':[('state','!=','draft')]}">
+                            <field name="remarks" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="view_hr_employee_half_pay_leave_request_search" model="ir.ui.view">
+            <field name="name">hr.employee.half.pay.leave.request.search</field>
+            <field name="model">hr.employee.half.pay.leave.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Half Pay Leave Request">
+                    <field name="employee_code"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="date"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                    <field name="duty_resume_request"/>
+
+                    <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Approved" name="approve" domain="[('state','=','approve')]"/>
+                    <filter string="Rejected" name="reject" domain="[('state','=','reject')]"/>
+                    <separator/>
+                    <filter string="From Date" name="from_date" date="date_from"/>
+                    <filter string="To Date" name="from_date" date="date_from"/>
+                    <filter string="Date" name="date" date="date"/>
+                    <newline/>
+
+                    <group expand="0" string="Group By...">
+                        <filter name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter name="employee_id" string="Employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter name="group_by_department_id" string="Department" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter name="group_id_job_id" string="Job" domain="[]" context="{'group_by':'job_id'}"/>
+                        <separator/>
+                        <filter name="group_by_date" string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter name="group_by_ate_from" string="Date From" domain="[]" context="{'group_by':'date_from'}"/>
+                        <filter name="group_by_date_to" string="Date To" domain="[]" context="{'group_by':'date_to'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_hr_employee_half_pay_leave_request" model="ir.actions.act_window">
+            <field name="name">Employee Half Pay Leave Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.half.pay.leave.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_half_pay_leave_request"
+                name="Half Pay Leave Request"
+                parent="aarsol_hr_ext.menu_hr_employee_requests_main"
+                action="action_hr_employee_half_pay_leave_request"
+                sequence="10"
+        />
+
+        <!-- HR Employee Resume Duty Request-->
+        <record id="view_hr_employee_duty_resume_request_tree" model="ir.ui.view">
+            <field name="name">hr.employee.duty.resume.request.tree</field>
+            <field name="model">hr.employee.duty.resume.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Employee Duty Resume Request"
+                      decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='reject'">
+                    <field name="sequence" string="Sequence" widget="handle"/>
+                    <field name="employee_code"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="request_type"/>
+                    <field name="date"/>
+                    <field name="duty_resume_date"/>
+                    <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='approve'" decoration-warning="state=='reject'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_duty_resume_request_form" model="ir.ui.view">
+            <field name="name">hr.employee.duty.resume.request.form</field>
+            <field name="model">hr.employee.duty.resume.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Employee Duty Resume Request">
+                    <header>
+                        <button name="action_approve" type="object" string="Approve" states="draft" class="oe_highlight"/>
+                        <button name="action_reject" type="object" string="Reject" states="draft" class="oe_highlight"/>
+                        <button name="action_turn_to_draft" type="object" string="Turn To Draft" states="approve" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" domain="[('state','=','active')]" required="1" attrs="{'readonly':[('state','!=','draft')]}"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_create':True}"/>
+                                <field name="employee_code"/>
+                                <field name="request_type" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="half_pay_request" readonly="1"/>
+                            </group>
+
+                            <group>
+                                <field name="department_id"/>
+                                <field name="job_id"/>
+                                <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="duty_resume_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </group>
+                        <group string="Remarks" attrs="{'readonly':[('state','!=','draft')]}">
+                            <field name="remarks" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="view_hr_employee_duty_resume_request_search" model="ir.ui.view">
+            <field name="name">hr.employee.duty.resume.request.search</field>
+            <field name="model">hr.employee.duty.resume.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Duty Resume Request">
+                    <field name="employee_code"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="date"/>
+                    <field name="duty_resume_date"/>
+                    <field name="half_pay_request"/>
+                    <field name="state"/>
+
+                    <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Approved" name="approve" domain="[('state','=','approve')]"/>
+                    <filter string="Rejected" name="reject" domain="[('state','=','reject')]"/>
+                    <separator/>
+                    <filter string="Date" name="date" date="date"/>
+                    <filter string="Duty Resume Date" name="duty_resume_date" date="duty_resume_date"/>
+                    <newline/>
+
+                    <group expand="0" string="Group By...">
+                        <filter name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter name="employee_id" string="Employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter name="group_by_department_id" string="Department" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter name="group_id_job_id" string="Job" domain="[]" context="{'group_by':'job_id'}"/>
+                        <separator/>
+                        <filter name="group_by_date" string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter name="group_by_duty_resume_date" string="Duty Resume Date" domain="[]" context="{'group_by':'duty_resume_date'}"/>
+                        <separator/>
+                        <filter name="group_by_type" string="Request Type" domain="[]" context="{'group_by':'request_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_hr_employee_duty_resume_request" model="ir.actions.act_window">
+            <field name="name">Employee Duty Resume Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.duty.resume.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_duty_resume_request"
+                name="Duty Resume Request"
+                parent="aarsol_hr_ext.menu_hr_employee_requests_main"
+                action="action_hr_employee_duty_resume_request"
+                sequence="20"
+        />
+
+
+    </data>
+</odoo>

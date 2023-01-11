@@ -1,0 +1,230 @@
+<odoo>
+    <data>
+
+        <!-- HR Income Tax -->
+        <record id="view_hr_income_tax_tree" model="ir.ui.view">
+            <field name="name">hr.income.tax.tree</field>
+            <field name="model">hr.income.tax</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Income Tax Configuration" decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="create_uid" widget="many2one_avatar_user"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="year"/>
+                    <field name="state" widget="badge" decoration-info="state=='Draft'" decoration-success="state=='Done'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_income_tax_form" model="ir.ui.view">
+            <field name="name">hr.income.tax.form</field>
+            <field name="model">hr.income.tax</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Income Tax Configuration">
+                    <header>
+                        <button name="action_done" states="Draft" type="object" string="Validate" class="btn-primary"/>
+                        <!--                        <button name="action_tun_to_draft" states="Done" type="object" string="Turn To Done" class="btn-primary"/>-->
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="year" required="1" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="date_from" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                                <field name="date_to" attrs="{'readonly':[('state','!=','Draft')]}"/>
+                            </group>
+                        </group>
+                        <group string="Remarks">
+                            <field name="remarks" nolabel="1"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Tax Details">
+                                <field name="lines">
+                                    <tree name="tax_lines" editable="bottom" attrs="{'readonly':[('state','!=','Draft')]}"
+                                          decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="start_limit"/>
+                                        <field name="end_limit"/>
+                                        <field name="taxable_amount"/>
+                                        <field name="fixed_amount"/>
+                                        <field name="percentage"/>
+                                        <field name="date_from" optional="1"/>
+                                        <field name="date_to" optional="1"/>
+                                        <field name="state"/>
+                                    </tree>
+
+                                    <form>
+                                        <header>
+                                            <field name="state" widget="statusbar"/>
+                                        </header>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="name"/>
+                                                    <field name="date_from"/>
+                                                    <field name="date_to"/>
+                                                    <field name="fixed_amount"/>
+                                                </group>
+                                                <group>
+                                                    <field name="start_limit"/>
+                                                    <field name="end_limit"/>
+                                                    <field name="taxable_amount"/>
+                                                    <field name="percentage"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_income_tax_search" model="ir.ui.view">
+            <field name="name">hr.income.tax.search.view</field>
+            <field name="model">hr.income.tax</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <search string="Income Tax Configuration">
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="year"/>
+                    <field name="state"/>
+
+                    <separator/>
+                    <filter name="date_from" string="From Date" date="date_from"/>
+                    <separator/>
+                    <filter name="date_to" string="To Date" date="date_to"/>
+
+                    <newline/>
+                    <group expand="0" string="Group By">
+                        <filter string="Year" name="group_by_for_year" domain="[]" context="{'group_by':'year'}"/>
+                        <separator/>
+                        <filter string="Status" name="group_by_for_state" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="action_hr_income_tax" model="ir.actions.act_window">
+            <field name="name">Income Tax</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.income.tax</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_income_tax"
+                name="Income Tax Slabs Setup"
+                action="action_hr_income_tax"
+                parent="menu_hr_income_tax_main"
+                groups="hr.group_hr_manager,hr_payroll.group_hr_payroll_manager"
+                sequence="10"/>
+
+
+        <!-- HR Income Tax Lines -->
+        <record id="view_hr_income_tax_line_tree" model="ir.ui.view">
+            <field name="name">hr.income.tax.line.tree</field>
+            <field name="model">hr.income.tax.line</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Income Tax Slabs" decoration-info="state=='Draft'" decoration-success="state=='Done'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="start_limit"/>
+                    <field name="end_limit"/>
+                    <field name="taxable_amount"/>
+                    <field name="fixed_amount"/>
+                    <field name="percentage"/>
+                    <field name="date_from" optional="1"/>
+                    <field name="date_to" optional="1"/>
+                    <field name="state" widget="badge" decoration-info="state=='Draft'" decoration-success="state=='Done'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_income_tax_line_form" model="ir.ui.view">
+            <field name="name">hr.income.tax.line.form</field>
+            <field name="model">hr.income.tax.line</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Income Tax Slabs">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="fixed_amount"/>
+                            </group>
+                            <group>
+                                <field name="start_limit"/>
+                                <field name="end_limit"/>
+                                <field name="taxable_amount"/>
+                                <field name="percentage"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_hr_income_tax_line_search" model="ir.ui.view">
+            <field name="name">hr.income.tax.line.search.view</field>
+            <field name="model">hr.income.tax.line</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <search string="Income Tax Slabs">
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+
+                    <separator/>
+                    <filter name="date_from" string="From Date" date="date_from"/>
+                    <separator/>
+                    <filter name="date_to" string="To Date" date="date_to"/>
+
+                    <newline/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="group_by_for_state" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_hr_income_tax_line" model="ir.actions.act_window">
+            <field name="name">Income Tax Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.income.tax.line</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

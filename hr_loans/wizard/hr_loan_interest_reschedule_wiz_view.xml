@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_loan_interest_reschedule_wiz" model="ir.ui.view">
+            <field name="name">hr.loan.interest.reschedule.wiz.view</field>
+            <field name="model">hr.loan.interest.reschedule.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Interest Reschedule">
+                    <group>
+                        <group>
+                            <field name="loan_id" invisible="1"/>
+                            <field name="employee_id"/>
+                            <field name="date" required="1" readonly="1"/>
+                            <field name="remaining_months"/>
+                            <field name="reschedule_months" required="1"/>
+                            <field name="next_installment_start_date" required="1"/>
+                            <field name="old_interest_rate"/>
+                            <field name="new_interest_rate"/>
+                        </group>
+                        <group>
+                            <field name="retirement_date"/>
+                            <field name="retirement_remaining_months" string="Retirement Rem. Months"/>
+                            <field name="principal_amount"/>
+                            <field name="paid_installments"/>
+                            <field name="remaining_installments" string="Rem. Installment"/>
+                        </group>
+                    </group>
+                    <group>
+                        <hr/>
+                    </group>
+
+                    <group string="Reason For Reschedule">
+                        <field name="reason" nolabel="1" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_interest_reschedule" string="Reschedule Interest Rate" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_loan_interest_reschedule_wiz" model="ir.actions.act_window">
+            <field name="name">Interest ReSchedule</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.loan.interest.reschedule.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="model_hr_loan"/>
+            <field name="binding_view_types">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

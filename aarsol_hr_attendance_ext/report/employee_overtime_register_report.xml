@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id='aarsol_hr_attendance_ext.employee_monthly_overtime_register_report'>
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <p style="font-size:16px;font-weight:bold;text-align:center;">Employee Overtime Report</p>
+                            <p style="font-size:13px;font-weight:bold;text-align:center;">
+                                Overtime Month:
+                                <span t-esc="o.date.strftime('%B-%Y')"/>
+                                <!--                                <span t-field="o.date"/>-->
+                            </p>
+
+                            <table class='table table-condensed' width='100%' id="invoice-report1">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:left;vertical-align: middle;font-size:13px;font-weight:bold;">
+                                            Sr#
+                                        </th>
+                                        <th style="text-align:left;vertical-align: middle;font-size:13px;font-weight:bold;">
+                                            Code
+                                        </th>
+                                        <th style="text-align:left;vertical-align: middle;font-size:13px;font-weight:bold;">
+                                            Name
+                                        </th>
+                                        <th style="text-align:center;vertical-align: middle;font-size:13px;font-weight:bold;">
+                                            Weekdays
+                                        </th>
+                                        <th style="text-align:center;vertical-align: middle;font-size:13px;font-weight:bold;">
+                                            Weekends
+                                        </th>
+                                        <th style="text-align:center;vertical-align: middle;font-size:13px;font-weight:bold;">
+                                            Weekdays Overtime
+                                        </th>
+                                        <th style="text-align:center;vertical-align: middle;font-size:13px;font-weight:bold;">
+                                            Weekends Overtime
+                                        </th>
+                                        <th style="text-align:center;vertical-align: middle;font-size:13px;font-weight:bold;">
+                                            Total Amount
+                                        </th>
+                                    </tr>
+                                    <t t-as="line" t-foreach="o.lines">
+                                        <tr>
+                                            <td style="text-align:left;font-size:14px;">
+                                                <span t-esc="line_index+1"/>
+                                            </td>
+                                            <td style="text-align:left;font-size:14px;">
+                                                <span t-esc="line.employee_code"/>
+                                            </td>
+                                            <td style="text-align:left;font-size:14px;">
+                                                <span t-esc="line.employee_id.name"/>
+                                            </td>
+                                            <td style="text-align:right;font-size:14px;">
+                                                <span t-esc="line.duration"/>
+                                            </td>
+                                            <td style="text-align:right;font-size:14px;">
+                                                <span t-esc="line.weekend_hours"/>
+                                            </td>
+                                            <td style="text-align:right;font-size:14px;">
+                                                <span t-esc="line.weekdays_overtime"/>
+                                            </td>
+                                            <td style="text-align:right;font-size:14px;">
+                                                <span t-esc="line.weekend_overtime"/>
+                                            </td>
+                                            <td style="text-align:right;font-size:14px;">
+                                                <span t-esc="line.amount"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </thead>
+                            </table>
+
+                            <br/>
+                            <table class='table table-condensed' width='100%'>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2">
+                                            <span style="font-weight:bold;font-size:11px;">Prepared By:</span>
+                                        </td>
+
+                                        <td style="font-weight:bold;font-size:11px;">
+                                            <span style="font-weight:bold;font-size:11px;">Checked By:</span>
+                                        </td>
+
+                                        <td style="font-weight:bold;font-size:11px;">
+                                            <span style="font-weight:bold;font-size:11px;">Approved By:</span>
+                                        </td>
+                                    </tr>
+
+                                    <br/>
+                                    <br/>
+
+                                    <tr>
+                                        <td>
+                                            <span style="font-weight:bold;font-size:11px;">Print Date:</span>
+                                        </td>
+                                        <td style="font-weight:bold;font-size:11px;">
+                                            <span style="padding-left:5px;" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                                        </td>
+                                        <td style="font-weight:bold;font-size:11px;">
+                                            <span>Print User:</span>
+                                        </td>
+                                        <td style="font-weight:bold;font-size:11px;">
+                                            <span style="padding-left:5px;" t-esc="request.env.user.name"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

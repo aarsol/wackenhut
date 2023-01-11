@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_employee_notification_root"
+                  name="employee Notifications"
+                  web_icon="employee_notifications,static/description/icon.png"
+                  sequence="1"/>
+
+
+        <menuitem id="menu_employee_notification_main"
+                  name="Notifications"
+                  parent="menu_employee_notification_root"
+                  action="action_employee_notification"
+                  sequence="3"/>
+
+
+    </data>
+</odoo>

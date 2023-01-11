@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_loan_pause_wiz" model="ir.ui.view">
+            <field name="name">hr.loan.pause.wiz.view</field>
+            <field name="model">hr.loan.pause.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Loan Pause Wizard">
+                    <group>
+                        <group>
+                            <field name="loan_id" invisible="1"/>
+                            <field name="date" required="1"/>
+                            <field name="pause_months" required="1"/>
+                            <field name="next_installment_start_date" required="1"/>
+                        </group>
+                        <group>
+                            <field name="paid_installments"/>
+                            <field name="remaining_installments"/>
+                        </group>
+                    </group>
+                    <group string="Reason For Pause or Skipped">
+                        <field name="reason" nolabel="1" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_loan_pause" string="Pause Loan" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_loan_pause_wiz" model="ir.actions.act_window">
+            <field name="name">Loan Pause or Skipped</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.loan.pause.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="model_hr_loan"/>
+            <field name="binding_view_types">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

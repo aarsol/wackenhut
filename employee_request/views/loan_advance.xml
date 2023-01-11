@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="loan_request_view_form" model="ir.ui.view">
+        <field name="name">loan.request.view.form</field>
+        <field name="model">loan.request</field>
+        <field name="arch" type="xml">
+            <form string="_form">
+                <header>
+                    <button name="approve_request" type="object" string="Approve" class="oe_highlight"
+                            groups="ucp_employee_request.hr_request, ucp_employee_request.finance, ucp_employee_request.hr_prorector"/>
+                    <button name="reject_request" type="object" string="Reject" class="oe_highlight"
+                            groups="ucp_employee_request.hod_request, ucp_employee_request.hr_prorector"/>
+                    <field name="state" widget="statusbar" statusbar_visible=""
+                           statusbar_colors="{'KEY_IS_STATE':'VALUE_IS_COLOR'}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" required="1" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"
+                                   attrs="{'readonly':[('state','=', 'approved')]}"/>
+                            <field name="department_id"/>
+                            <field name="loan_advance" required="1" attrs="{'readonly':[('state','=', 'approved')]}"/>
+                            <field name="forward_to_ho"
+                                   attrs="{'required': [('forward','=', False)],'readonly': [('state','in', ('approved'))]}"
+                                   groups="ucp_employee_request.finance"/>
+                        </group>
+                        <group>
+                            <field name="apply_date" required="1" attrs="{'readonly':[('state','=', 'approved')]}"/>
+                            <field name="amount" required="1" attrs="{'readonly':[('state','=', 'approved')]}"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+
+                            <field name="head_office_approval"
+                                   attrs="{'required': [('forward','=', False)],'readonly': [('state','in', ('approved'))]}"
+                                   groups="ucp_employee_request.finance"/>
+                            <field name="hod_app" invisible="1"/>
+                            <field name="hr_app" invisible="1"/>
+                            <field name="pro_app" invisible="1"/>
+                            <field name="fin_app" invisible="1"/>
+                            <field name="parent_dept_hod" invisible="1"/>
+                            <field name="sub_parent_dept_hod" invisible="1"/>
+                            <field name="forward" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="purpose" nolabel="1" attrs="{'readonly':[('state','=', 'approved')]}"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="loan_advance_view_tree" model="ir.ui.view">
+        <field name="name">loan.advance.view.tree</field>
+        <field name="model">loan.request</field>
+        <field name="arch" type="xml">
+            <tree string="Loan Request" decoration-info="state=='draft'" decoration-success="state=='approved'" decoration-danger="state=='reject'">
+                <field name="sequence" widget="handle"/>
+                <field name="name" optional="hide"/>
+                <field name="employee_id"/>
+                <field name="department_id" optional="show"/>
+                <field name="loan_advance"/>
+                <field name="apply_date"/>
+                <field name="amount" sum="sum_amount"/>
+                <field name="purpose" optional="hide"/>
+                <field name="create_uid" string="Created By" optional="show" widget="many2one_avatar_user"/>
+                <field name="state" widget="badge" decoration-info="state=='draft'" decoration-success="state=='approved'" decoration-danger="state=='reject'"/>
+
+                <field name="forward_to_ho" optional="hide"/>
+                <field name="head_office_approval" optional="hide"/>
+                <field name="forward" optional="hide"/>
+
+                <field name="hod_app" optional="hide"/>
+                <field name="hr_app" optional="hide"/>
+                <field name="pro_app" optional="hide"/>
+                <field name="fin_app" optional="hide"/>
+
+                <field name="parent_dept_hod" optional="hide"/>
+                <field name="sub_parent_dept_hod" optional="hide"/>
+                <field name="fin_app" optional="hide"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="loan_advance_view_kanban" model="ir.ui.view">
+        <field name="name">loan.request.kanban.view</field>
+        <field name="model">loan.request</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban class="o_hr_employee_kanban" js_class="hr_employee_kanban" sample="1">
+                <field name="id"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="apply_date"/>
+                <field name="amount"/>
+                <field name="loan_advance"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <div class="oe_kanban_details">
+                                <div class="row o_kanban_record_headings">
+                                    <div class="col-9" style="font-size:10px;">
+                                        <strong>
+                                            <field name="employee_id"/>
+                                        </strong>
+                                    </div>
+                                    <div class="col-3" style="font-size:10px;text-align:left;">
+                                        <field name="loan_advance"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-9" style="font-size:10px;text-align:left;">
+                                        <strong>
+                                            <field name="department_id"/>
+                                        </strong>
+                                    </div>
+                                    <div class="col-3" style="font-size:10px;text-align:left;">
+                                        <field name="apply_date" widget="date"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-9">
+                                        <field name="state"/>
+                                    </div>
+                                    <div class="col-3" style="font-size:10px;text-align:left;">
+                                        <field name="amount"/>
+                                        Rs.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="loan_request_view_activity" model="ir.ui.view">
+        <field name="name">loan.request.activity</field>
+        <field name="model">loan.request</field>
+        <field name="arch" type="xml">
+            <activity string="Loan Requests">
+                <field name="id"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activity_image('hr.employee', 'image_128', record.id.raw_value)" role="img" t-att-title="record.id.value" t-att-alt="record.id.value"/>
+                        <div>
+                            <field name="name" display="full"/>
+                            <field name="employee_id" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+
+    <record id="view_loan_advance_search" model="ir.ui.view">
+        <field name="name">loan.advance.search.view</field>
+        <field name="model">loan.request</field>
+        <field name="arch" type="xml">
+            <search string="Loan Requests">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="apply_date"/>
+                <field name="state"/>
+
+                <newline/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
+                <filter string="Rejected" name="reject" domain="[('state','=','reject')]"/>
+                <newline/>
+                <group expand="0" string="Group By...">
+                    <filter name="group_state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                    <separator/>
+                    <filter name="group_employee" string="Employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                    <separator/>
+                    <filter name="group_department" string="Department" domain="[]" context="{'group_by':'department_id'}"/>
+                    <separator/>
+                    <filter name="group_loan_advance" string="Type" domain="[]" context="{'group_by':'loan_advance'}"/>
+                    <separator/>
+                    <filter name="company_id" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
+                    <separator/>
+                </group>
+                <searchpanel>
+                    <field name="company_id" icon="fa-users"/>
+                    <field name="state" icon="fa-users"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="loan_request_view_action" model="ir.actions.act_window">
+        <field name="name">Loan Advance Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">loan.request</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+    </record>
+
+    <menuitem
+            id="loan_request_menu"
+            name="Loan Advance Request"
+            action='loan_request_view_action'
+            parent="aarsol_hr_payroll.menu_hr_employee_requests_main"
+            sequence="62"/>
+</odoo>

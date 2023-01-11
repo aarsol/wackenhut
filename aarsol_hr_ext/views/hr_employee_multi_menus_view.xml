@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- Inherited Menu -->
+        <menuitem
+                id="hr.menu_hr_employee_user"
+                name="All Employees"
+                action="hr.open_view_employee_list_my"
+                parent="hr.menu_hr_employee_payroll"
+                sequence="1"/>
+
+
+        <!-- Active Employee Action -->
+        <record id="action_hr_employee_active_view" model="ir.actions.act_window">
+            <field name="name">Active Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('state','=','active')]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_active_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_active_view"/>
+        </record>
+
+        <record id="action_hr_employee_active_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_active_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_active"
+                parent="hr.menu_hr_employee_payroll"
+                name="Active Employee"
+                action="action_hr_employee_active_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="2"/>
+
+
+        <!-- Terminated Employee Action -->
+        <record id="action_hr_employee_terminated_view" model="ir.actions.act_window">
+            <field name="name">Terminated Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('state','=','terminated')]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_terminated_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_terminated_view"/>
+        </record>
+
+        <record id="action_hr_employee_terminated_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_terminated_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_terminated"
+                parent="hr.menu_hr_employee_payroll"
+                name="Terminated Employee"
+                action="action_hr_employee_terminated_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="3"/>
+
+        <!-- Resigned Employee Action -->
+        <record id="action_hr_employee_resigned_view" model="ir.actions.act_window">
+            <field name="name">Resigned Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('state','=','resigned')]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_resigned_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_resigned_view"/>
+        </record>
+
+        <record id="action_hr_employee_resigned_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_resigned_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_resigned"
+                parent="hr.menu_hr_employee_payroll"
+                name="Resigned Employee"
+                action="action_hr_employee_resigned_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="3"/>
+
+        <!-- Retired Employee Action -->
+        <record id="action_hr_employee_retired_view" model="ir.actions.act_window">
+            <field name="name">Retired Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('state','=','retired')]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_retired_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_retired_view"/>
+        </record>
+
+        <record id="action_hr_employee_retired_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_retired_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_retired"
+                parent="hr.menu_hr_employee_payroll"
+                name="Retired Employee"
+                action="action_hr_employee_retired_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="3"/>
+
+
+        <!-- Compulsory Retired Employee Action -->
+        <record id="action_hr_employee_com_retired_view" model="ir.actions.act_window">
+            <field name="name">Compulsory Retired Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('state','=','com_retired')]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_com_retired_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_com_retired_view"/>
+        </record>
+
+        <record id="action_hr_employee_com_retired_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_com_retired_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_com_retired"
+                parent="hr.menu_hr_employee_payroll"
+                name="Compulsory Retired Employee"
+                action="action_hr_employee_com_retired_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="3"/>
+
+        <!-- Removal From Service Employee Action -->
+        <record id="action_hr_employee_removal_from_services_view" model="ir.actions.act_window">
+            <field name="name">Removal From Services Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('state','=','removal')]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_removal_from_services_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_removal_from_services_view"/>
+        </record>
+
+        <record id="action_hr_employee_removal_from_services_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_removal_from_services_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_removal_from_services"
+                parent="hr.menu_hr_employee_payroll"
+                name="Removal From Services Employee"
+                action="action_hr_employee_removal_from_services_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="3"/>
+
+        <!-- Dismissal From Service Employee Action -->
+        <record id="action_hr_employee_dismissal_from_services_view" model="ir.actions.act_window">
+            <field name="name">Dismissal From Services Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('state','=','dismissal')]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_dismissal_from_services_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_dismissal_from_services_view"/>
+        </record>
+
+        <record id="action_hr_employee_dismissal_from_services_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_dismissal_from_services_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_dismissal_from_services"
+                parent="hr.menu_hr_employee_payroll"
+                name="Dismissal From Services Employee"
+                action="action_hr_employee_dismissal_from_services_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="3"/>
+
+        <!-- Deceased Employee Action -->
+        <record id="action_hr_employee_deceased_view" model="ir.actions.act_window">
+            <field name="name">Deceased Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('state','=','deceased')]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_deceased_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_deceased_view"/>
+        </record>
+
+        <record id="action_hr_employee_deceased_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_deceased_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_deceased"
+                parent="hr.menu_hr_employee_payroll"
+                name="Deceased Employee"
+                action="action_hr_employee_deceased_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="3"/>
+
+
+        <!-- Archive Employee Action -->
+        <record id="action_hr_employee_archive_view" model="ir.actions.act_window">
+            <field name="name">Archive Employee</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">['|',('state','=','archive'),('active','=', False)]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_archive_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="action_hr_employee_archive_view"/>
+        </record>
+
+        <record id="action_hr_employee_archive_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr.view_employee_form"/>
+            <field name="act_window_id" ref="action_hr_employee_archive_view"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_employee_archive"
+                parent="hr.menu_hr_employee_payroll"
+                name="Archive Employee"
+                action="action_hr_employee_archive_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="3"/>
+
+
+        <!-- Payroll Module Multi Menus of Employee -->
+        <!-- Inherited Menu -->
+        <menuitem
+                id="hr_payroll.menu_hr_payroll_employees_configuration"
+                action="hr.open_view_employee_list_my"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="All Employees"
+                sequence="10"/>
+
+        <!-- Active Employee -->
+        <menuitem
+                id="payroll_menu_hr_employee_active"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Active Employee"
+                action="action_hr_employee_active_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="11"/>
+
+        <!-- Terminated Employee -->
+        <menuitem
+                id="payroll_menu_hr_employee_terminated"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Terminated Employee"
+                action="action_hr_employee_terminated_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="12"/>
+
+        <!-- Resigned Employee -->
+        <menuitem
+                id="payroll_menu_hr_employee_resigned"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Resigned Employee"
+                action="action_hr_employee_resigned_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="13"/>
+
+        <!-- Retired Employee-->
+        <menuitem
+                id="payroll_menu_hr_employee_retired"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Retired Employee"
+                action="action_hr_employee_retired_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="14"/>
+
+        <!-- Compulsory Retired Employee -->
+        <menuitem
+                id="payroll_menu_hr_employee_com_retired"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Compulsory Retired Employee"
+                action="action_hr_employee_com_retired_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="14"/>
+
+        <!-- Removal From Service Employee -->
+        <menuitem
+                id="payroll_menu_hr_employee_removal_from_services"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Removal From Services Employee"
+                action="action_hr_employee_removal_from_services_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="15"/>
+
+        <!-- Dismissal From Service Employee -->
+        <menuitem
+                id="payroll_menu_hr_employee_dismissal_from_services"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Dismissal From Services Employee"
+                action="action_hr_employee_dismissal_from_services_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="16"/>
+
+        <!-- Deceased Employee -->
+        <menuitem
+                id="payroll_menu_hr_employee_deceased"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Deceased Employee"
+                action="action_hr_employee_deceased_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="17"/>
+
+        <!-- Archive Employee -->
+        <menuitem
+                id="payroll_menu_hr_employee_archive"
+                parent="hr_payroll.menu_hr_payroll_employees_root"
+                name="Archive Employee"
+                action="action_hr_employee_archive_view"
+                groups="hr.group_hr_user,base.group_user"
+                sequence="18"/>
+
+    </data>
+</odoo>

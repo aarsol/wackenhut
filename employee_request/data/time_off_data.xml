@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="hr_leave_type" model="hr.leave.type">
+        <field name="name">Sick</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="hr_leave_type_casual" model="hr.leave.type">
+        <field name="name">Casual</field>
+        <field name="sequence">2</field>
+    </record>
+
+    <record id="hr_leave_type_annual" model="hr.leave.type">
+        <field name="name">Annual</field>
+        <field name="sequence">3</field>
+    </record>
+
+    <record id="hr_leave_type_maternity" model="hr.leave.type">
+        <field name="name">Maternity Leave</field>
+        <field name="sequence">4</field>
+    </record>
+
+    <record id="hr_leave_type_compensatory" model="hr.leave.type">
+        <field name="name">Compensatory</field>
+        <field name="sequence">5</field>
+    </record>
+
+    <record id="hr_leave_type_hajj" model="hr.leave.type">
+        <field name="name">Hajj</field>
+        <field name="sequence">6</field>
+    </record>
+
+    <record id="hr_leave_type_paid" model="hr.leave.type">
+        <field name="name">Paid</field>
+        <field name="sequence">7</field>
+    </record>
+
+    <record id="hr_leave_type_unpaid" model="hr.leave.type">
+        <field name="name">Un Paid</field>
+        <field name="sequence">8</field>
+    </record>
+</odoo>

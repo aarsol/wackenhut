@@ -1,0 +1,590 @@
+<odoo>
+	<template name="missed_att_requests" id="missed_att_requests">
+		<div class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+					<a href="#"><strong>Missed Attendance</strong></a>
+					<small class="sidetitle"><t t-esc="rec['state']"/></small>
+				</p>
+				<p t-if="rec['checkin']">Check In: <t t-esc="rec['checkin_date']"/></p>
+				<p t-if="rec['checkout']">Check Out: <t t-esc="rec['checkout_date']"/></p>
+				<small><t t-esc="rec['reason']"/></small>
+				<p>Request Date: <t t-esc="rec['application_date']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" t-attf-onclick="cancel_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-remove"/> Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="loan_requests" id="loan_requests">
+		<div class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+					<a href="#"><strong>Advance Payment</strong></a>
+					<small class="sidetitle"><t t-esc="rec['state']"/></small>
+				</p>
+				<p>Amount: <t t-esc="rec['amount']"/> Loan Type: <t t-esc="rec['loan_type']"/></p>
+				<small><t t-esc="rec['purpose']"/></small>
+				<p>Request Date: <t t-esc="rec['apply_date']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" t-attf-onclick="cancel_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-remove"/> Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="travel_requests" id="travel_requests">
+		<div class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+					<a href="#"><strong>Travel Request</strong></a>
+					<small class="sidetitle"><t t-esc="rec['state']"/></small>
+				</p>
+				<p>Source: <t t-esc="rec['loc_from']"/> - Destination: <t t-esc="rec['loc_to']"/></p>
+				<small><t t-esc="rec['reason']"/></small>
+				<p>From: <t t-esc="rec['start_date']"/> To: <t t-esc="rec['end_date']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" t-attf-onclick="cancel_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-remove"/> Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="resign_requests" id="resign_requests">
+		<div class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+					<a href="#"><strong>Resigned Request</strong></a>
+					<small class="sidetitle"><t t-esc="rec['state']"/></small>
+				</p>
+				<p>Notice Period: <t t-esc="rec['resign_from']"/></p>
+				<small><t t-esc="rec['resign_reason']"/></small>
+				<p>Request Date: <t t-esc="rec['apply_date']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" t-attf-onclick="cancel_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-remove"/> Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<template name="missed_att_form" id="missed_att_form">
+		<form class="form" id="form_missed_att">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Missed Attendance Request</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+					</div>
+					<div class="modal-body">
+						<div class="box-body">
+									<div class="row">
+										<div class="col-md-12">
+										<div class="form-group">
+											<div class="controls">
+										 <input class="form-control" name="checkin" id="checkin" type="checkbox"/>
+											<label for="checkin" class="me-30">Check In</label>
+											</div>
+										</div>
+									  </div>
+									  <div class="col-md-6" id="checkin_date_div">
+										<div class="form-group">
+										  <label class="form-label">Check In Date</label>
+											<div class="controls">
+										  <input type="date" name="checkin_date"  class="form-control"/>
+											</div>
+										</div>
+									  </div>
+										<div class="col-md-6" id="checkin_time_div">
+										<div class="form-group">
+										  <label class="form-label">Check In Time</label>
+											<div class="controls">
+											<input class="form-control" name="checkin_time" type="time" value="13:45:00" id="checkin_time"/>
+											</div>
+
+										</div>
+									  </div>
+									</div>
+									<hr class="my-15"/>
+									<div class="row">
+										<div class="col-md-12">
+										<div class="form-group">
+										 <input class="form-control" name="checkout" type="checkbox" id="checkout"/>
+											<label for="checkout" class="me-30">Check Out</label>
+										</div>
+									  </div>
+									  <div class="col-md-6" id="checkout_date_div">
+										<div class="form-group">
+										  <label class="form-label">Check Out Date</label>
+											<div class="controls">
+										  <input type="date" name="checkout_date"  class="form-control"/>
+											</div>
+										</div>
+									  </div>
+										<div class="col-md-6" id="checkout_time_div">
+										<div class="form-group">
+										  <label class="form-label">Check Out Time</label>
+											<div class="controls">
+											<input class="form-control" name="checkout_time" type="time" value="13:45:00" id="checkout_time"/>
+											</div>
+
+										</div>
+									  </div>
+									</div>
+								</div>
+						<hr class="my-15"/>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label">Reason</label>
+									<div class="controls">
+										 <textarea rows="8" name="reason" class="form-control" placeholder="" required="true"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer modal-footer-uniform">
+						<button type="submit" class="btn btn-primary ">Submit</button>
+						<button type="button" class="btn btn-danger float-end" data-bs-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</template>
+	<template name="loan_form" id="loan_form">
+		<form class="form" id="form_advance_payment">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Advance Payment Request</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+					</div>
+					<div class="modal-body">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+									  <label class="form-label">Payment Type</label>
+										<div class="controls">
+									  <select data-validation-required-message="This field is required" name="payment_type" class="form-select" required="">
+										<option value="">Select</option>
+										<option value="loan">Loan</option>
+										<option value="advance">Salary Advance</option>
+										<option value="permanent_withdraw">Permanent Withdraw</option>
+									  </select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="form-label">Amount Needed</label>
+										<div class="controls">
+											<input type="number" name="amount"  class="form-control" placeholder="Enter Amount" required="" data-validation-required-message="This field is required"/>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="form-label">Purpose</label>
+										<div class="controls">
+											<textarea rows="8" name="purpose" class="form-control" placeholder=""/>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr class="my-15"/>
+						</div>
+					</div>
+					<div class="modal-footer modal-footer-uniform">
+						<button type="submit" class="btn btn-success">Submit</button>
+						<button type="button" class="btn btn-danger float-end" data-bs-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</template>
+	<template name="travel_form" id="travel_form">
+		<form class="form" id="form_travel_request">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Travel Request</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+					</div>
+					<div class="modal-body">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+									  <label class="form-label">Date From</label>
+									  <input name="start_date" type="date"  class="form-control" placeholder="" required=""/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+									  <label class="form-label">Date To</label>
+									  <input name="end_date" type="date"  class="form-control" placeholder="" required=""/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+									  <label class="form-label">Source</label>
+									  <input name="loc_from" type="text"  class="form-control" placeholder="Source" required=""/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+									  <label class="form-label">Destination</label>
+									  <input name="loc_to" type="text"  class="form-control" placeholder="Destination" required=""/>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+									  <label class="form-label">Reason</label>
+										<textarea name="reason" rows="8" class="form-control" placeholder="" required=""/>
+									</div>
+							  </div>
+							</div>
+							<hr class="my-15"/>
+						</div>
+					</div>
+					<div class="modal-footer modal-footer-uniform">
+						<button type="submit" class="btn btn-success">Submit</button>
+						<button type="button" class="btn btn-danger float-end" data-bs-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</template>
+	<template name="resign_form" id="resign_form">
+		<form class="form" id="form_resign_request">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Resign Request</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+					</div>
+					<div class="modal-body">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+									  <label class="form-label">Notice Period (Date)</label>
+									  <input name="resign_from" type="date"  class="form-control" placeholder="" required=""/>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+									  <label class="form-label">Reason</label>
+										<textarea name="reason" rows="8" class="form-control" placeholder="" required=""/>
+									</div>
+							  </div>
+							</div>
+							<hr class="my-15"/>
+						</div>
+					</div>
+					<div class="modal-footer modal-footer-uniform">
+						<button type="submit" class="btn btn-success">Submit</button>
+						<button type="button" class="btn btn-danger float-end" data-bs-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</template>
+	<template name="my_missed_att" id="my_missed_att">
+		<div class="row">
+			<div class="table-responsive">
+				<table id="example5" class="table table-bordered table-striped" style="width:100%">
+					<thead>
+						<tr>
+							<th>Request Date</th>
+							<th>Check In/Out</th>
+							<th>Reason</th>
+							<th>Status</th>
+							<!--<th>Checkout Status</th>-->
+						</tr>
+					</thead>
+					<tbody>
+						<t t-foreach="missed_att_history" t-as="rec">
+							<tr>
+								<td><t t-esc="rec['application_date']"/></td>
+								<td>
+									<span t-if="rec['checkin']" class="badge badge-primary mb-1">Check In: <t t-esc="rec['checkin_date']"/></span>
+									<span t-if="rec['checkout']" class="badge badge-primary mb-1">Check Out:<t t-esc="rec['checkout_date']"/> </span>
+								</td>
+								<td><t t-esc="rec['reason']"/></td>
+								<td><t t-esc="rec['state']"/></td>
+							</tr>
+						</t>
+					</tbody>
+					<tfoot>
+						<tr>
+							 <th>Request Date</th>
+							<th>Check In/Out</th>
+							<th>Reason</th>
+							<th>Status</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</template>
+	<template name="my_travel" id="my_travel">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<tr>
+							<th>Source &amp; Destination</th>
+							<th>Date From/To</th>
+							<th>Reason</th>
+							<th>Status</th>
+						</tr>
+						<t t-foreach="travel_history" t-as="rec">
+							<tr>
+							  <td><t t-esc="rec['loc_from']"/> - <t t-esc="rec['loc_to']"/></td>
+							  <td><t t-esc="rec['start_date']"/> <br/>
+							  <t t-esc="rec['end_date']"/></td>
+							  <td><t t-esc="rec['reason']"/> </td>
+							  <td><span class="badge badge-pill badge-success"><t t-esc="rec['state']"/></span></td>
+							</tr>
+					  </t>
+				  </table>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="my_resign" id="my_resign">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<tr>
+							<th>Date Applied</th>
+							<th>Notice Period</th>
+							<th>Reason</th>
+							<th>Status</th>
+						</tr>
+						<t t-foreach="resign_requests" t-as="rec">
+							<tr>
+								<td><t t-esc="rec['apply_date']"/></td>
+								<td><t t-esc="rec['resign_from']"/></td>
+								<td><t t-esc="rec['resign_reason']"/></td>
+								<td><span class="badge badge-pill badge-success"><t t-esc="rec['state']"/></span></td>
+							</tr>
+						</t>
+				  </table>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="my_loan" id="my_loan">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<tr>
+							<th>Date Applied</th>
+							<th>Loan Type</th>
+							<th>Amount</th>
+							<th>Purpose</th>
+							<th>Status</th>
+						</tr>
+						<t t-foreach="loan_history" t-as="rec">
+							<tr>
+								<td><t t-esc="rec['apply_date']"/></td>
+								<td><t t-esc="rec['loan_type']"/></td>
+								<td><t t-esc="rec['amount']"/></td>
+								<td><t t-esc="rec['purpose']"/></td>
+								<td><span class="badge badge-pill badge-success"><t t-esc="rec['state']"/></span></td>
+							</tr>
+						</t>
+					</table>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="my_request_history" id="my_request_history">
+		<div class="row">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-header with-border">
+					  <h4 class="box-title">Tasks History</h4>
+					</div>
+					<div class="box-body">
+						<!-- Nav tabs -->
+						<ul class="nav nav-pills  mb-20">
+							<li class=" nav-item"> <a href="#nav_my_missed_att" class="nav-link " data-bs-toggle="tab" aria-expanded="false">Attendance</a> </li>
+							<li class="nav-item"> <a href="#nav_my_loan" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Advance Payment</a> </li>
+							<li class="nav-item"> <a href="#nav_my_travel" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Travel</a> </li>
+							<li class="nav-item"> <a href="#nav_my_resign" class="nav-link" data-bs-toggle="tab" aria-expanded="true">Resigned</a> </li>
+						</ul>
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div id="nav_my_missed_att" class="tab-pane">
+								<t t-call="ess_portal.my_missed_att"/>
+							</div>
+							<div id="nav_my_loan" class="tab-pane">
+								<t t-call="ess_portal.my_loan"/>
+							</div>
+							<div id="nav_my_travel" class="tab-pane active">
+								<t t-call="ess_portal.my_travel"/>
+							</div>
+							<div id="nav_my_resign" class="tab-pane">
+								<t t-call="ess_portal.my_resign"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+    <template id="ess_portal_request" name="Employee Portal Leave">
+        <t t-call="web.layout">
+			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <t t-set="head">
+				<!-- <t t-call-assets="ess_portal_assets.ess_assets" t-js="false"/>-->
+                <link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+        		<link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+        		<link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+		        <link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+				<style>
+					.logo_img {
+						max-width: 64% !important;
+					}
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+					@media (max-width: 767px)
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+				</style>
+            </t>
+
+			<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+				<div class="wrapper">
+					<div id="loader"/>
+  					<t t-call="ess_portal.ess_header_menu"/>
+					<t t-call="ess_portal.ess_side_menu"/>
+					<div class="content-wrapper">
+	  					<div class="container-full">
+							<div class="content-header">
+								<div class="d-flex align-items-center">
+									<div class="me-auto">
+										<h4 class="page-title">Request</h4>
+										<div class="d-inline-block align-items-center">
+											<nav>
+												<ol class="breadcrumb">
+													<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"/></a></li>
+													<li class="breadcrumb-item active" aria-current="page">Request Management</li>
+												</ol>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<section class="content">
+		 						<div class="row">
+									<div class="col-lg-9 col-md-8">
+										<div class="box">
+											<div class="box-header with-border">
+												<h4 class="box-title">Pending Tasks</h4>
+											</div>
+											<div class="media-list media-list-divided media-list-hover">
+												<t t-foreach="missed_att_request" t-as="rec">
+													<t t-call="ess_portal.missed_att_requests"/>
+												</t>
+												<t t-foreach="loan_request" t-as="rec">
+													<t t-call="ess_portal.loan_requests"/>
+												</t>
+												<t t-foreach="travel_request" t-as="rec">
+													<t t-call="ess_portal.travel_requests"/>
+												</t>
+												<t t-foreach="resign_request" t-as="rec">
+													<t t-call="ess_portal.resign_requests"/>
+												</t>
+												<t t-if="not travel_request and not resign_request and not missed_att_request and not loan_request">
+													<div class="media align-items-center">
+														<div class="media-body">
+															<p><a href="#"><strong>No Request.</strong></a></p>
+														</div>
+													</div>
+												</t>
+					    					</div>
+										</div>
+									</div>
+									<div class="col-lg-3 col-md-4">
+										<div class="box no-shadow">
+											<div class="box-body">
+											  	<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#missed_att" class="btn btn-success mt-10 d-block text-center">+ Missed Attendance</a>
+											  	<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#advance_request" class="btn btn-primary mt-10 d-block text-center">+ Advance Payment</a>
+											  	<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#travel_request" class="btn btn-warning mt-10 d-block text-center">+ Travel</a>
+											  	<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#resign_request" class="btn btn-danger mt-10 d-block text-center">+ Resign</a>
+										  	</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal modal-right fade" id="missed_att" tabindex="-1">
+									<t t-call="ess_portal.missed_att_form"/>
+								</div>
+  								<div class="modal modal-right fade" id="advance_request" tabindex="-1">
+	  								<t t-call="ess_portal.loan_form"/>
+								</div>
+  								<div class="modal modal-right fade" id="travel_request" tabindex="-1">
+	  								<t t-call="ess_portal.travel_form"/>
+								</div>
+								<div class="modal modal-right fade" id="resign_request" tabindex="-1">
+	  								<t t-call="ess_portal.resign_form"/>
+								</div>
+
+								<t t-call="ess_portal.my_request_history"/>
+							</section>
+						</div>
+  					</div>
+  					<!-- /.content-wrapper -->
+
+   					<footer class="main-footer">
+	  					&amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+  					</footer>
+
+				  	<t t-call="ess_portal.ess_quick_action"/>
+  					<t t-call="ess_portal.ess_right_menu"/>
+				</div>
+                <t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+				<!--<script src="/ess_portal_assets/static/src/js/pages/advanced-form-element.js"/>-->
+				<script src="/ess_portal/static/js/request.js"/>
+				<script src="/ess_portal_assets/static/assets/vendor_components/datatable/datatables.min.js"/>
+				<script src="/ess_portal_assets/static/src/js/pages/data-table.js"/>
+            </body>
+        </t>
+    </template>
+</odoo>

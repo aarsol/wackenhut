@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <template id="marriage_temp_id">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <!--                    <t t-call="web.internal_layout">-->
+                    <div class="header">
+                        <div class="row" style="width:100%">
+                            <div class="col-3" style="img-align:center">
+                                <img src="usc_inventory/static/description/ucp.png" height="100px" width="100px"/>
+                            </div>
+                            <div class="col-8" style="text-align:center;margin-top:20px">
+                                <b>UTILITY STORES CORPORATION OF PAKISTAN (PRIVATE) LIMITED
+                                    <br/>
+                                    MINISTRY OF INDUSTRIES AND PRODUCTION
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="container">
+                            <div>
+                                <strong>
+                                    <h3 style="text-align:center">
+                                        <strong>Office Order</strong>
+                                    </h3>
+                                    <h4 class="font-weight-bold" style="margin-left:50px">Form Status :
+                                        <span style="margin-left:10px;text-transform: capitalize;"
+                                              t-esc="str(dict(doc._fields['state'].selection).get(doc.state))"/>
+                                    </h4>
+                                    <h4 class="font-weight-bold" style="margin-left:50px">Subject: GRANT OF SPECIAL
+                                        ASSISTANCE ON THE MARRIAGE OF DAUGHTER
+                                    </h4>
+                                </strong>
+                            </div>
+                            <p style="margin-left:50px;font-size:18px">
+                                Approval of the competent authority is hereby conveyed for payment of Marriage Grant as
+                                per below detail:
+                            </p>
+                            <br/>
+                            <br/>
+                            <div style="margin-left:100px">
+                                <table style="width:90%;border:1px solid black;border-collapse: collapse;">
+                                    <tr>
+                                        <td style="border:1px solid black;padding:10px;">
+                                            <strong>Name of employee</strong>
+                                        </td>
+                                        <td style="border:1px solid black;padding:10px;">
+                                            <strong>
+                                                <span t-esc="doc.employee_id.name"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black;padding:10px;">
+                                            <strong>CNIC</strong>
+                                        </td>
+                                        <td style="border:1px solid black;padding:10px;">
+                                            <strong>
+                                                <span t-esc="doc.employee_id.cnic"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black;padding:10px;">
+                                            <strong>Daughter Name</strong>
+                                        </td>
+                                        <td style="border:1px solid black;padding:10px;">
+                                            <strong>
+                                                <span t-esc="doc.daughter_name"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="border:1px solid black;padding:10px;">
+                                            <strong>Fund</strong>
+                                        </td>
+                                        <td style="border:1px solid black;padding:10px;">
+                                            <strong>E.W.B Funds</strong>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                            <table style="width:100%;margin-top:50px">
+                                <tr>
+                                    <td style="width:70%;"></td>
+                                    <td style="width:30%;text-align:center;margin-top:80px">
+                                        Approved By:
+                                        <span t-esc="doc.approved_employee_id.name"/>
+                                        <br/>
+                                        Designation :
+                                        <span t-esc="doc.approved_employee_id.job_id.name"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

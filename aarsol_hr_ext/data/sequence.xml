@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sequence_hr_grade_change" model="ir.sequence">
+            <field name="name">HR Grade Change</field>
+            <field name="code">hr.grade.change</field>
+            <field name="prefix">CG-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="sequence_hr_benefit_change" model="ir.sequence">
+            <field name="name">HR Benefit Change</field>
+            <field name="code">hr.benefit.change</field>
+            <field name="prefix">CB-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="sequence_payslip_cron" model="ir.sequence">
+            <field name="name">Payslip Cron Seq</field>
+            <field name="code">hr.payslip.cron</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+            <field name="suffix"></field>
+        </record>
+
+        <record id="sequence_hr_employee_status_history" model="ir.sequence">
+            <field name="name">Employee Status History Seq</field>
+            <field name="code">hr.employee.status.history</field>
+            <field name="prefix">STHS/</field>
+            <field name="padding">4</field>
+            <field name="suffix"></field>
+        </record>
+
+        <record id="sequence_hr_employee_backdate_arrears" model="ir.sequence">
+            <field name="name">Employee BackDate Arrears Sequence</field>
+            <field name="code">hr.employee.backdate.arrears</field>
+            <field name="prefix">BB-ARR/</field>
+            <field name="padding">4</field>
+            <field name="suffix"></field>
+        </record>
+
+        <record id="sequence_hr_employee_half_pay_leave_request" model="ir.sequence">
+            <field name="name">Employee Half Pay Leave Request Sequence</field>
+            <field name="code">hr.employee.half.pay.leave.request</field>
+            <field name="prefix">HALF-PAY/</field>
+            <field name="padding">4</field>
+            <field name="suffix"></field>
+        </record>
+
+        <record id="sequence_hr_employee_duty_resume_request" model="ir.sequence">
+            <field name="name">Employee Duty Resume Request Sequence</field>
+            <field name="code">hr.employee.duty.resume.request</field>
+            <field name="prefix">DUTY-RESUME/</field>
+            <field name="padding">4</field>
+            <field name="suffix"></field>
+        </record>
+
+    </data>
+</odoo>

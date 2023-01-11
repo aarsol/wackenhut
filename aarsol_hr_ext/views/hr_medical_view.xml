@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- HR Employee -->
+        <record id="view_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="work_phone" position="after">
+                    <field name="operation_area_id"/>
+                    <field name="joining_date"/>
+                    <field name="leaving_date"/>
+                </field>
+                <field name="birthday" position="after">
+                    <field name="age"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
+

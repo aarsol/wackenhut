@@ -1,0 +1,529 @@
+<odoo>
+	<template name="no_task" id="no_task">
+		<div class="media align-items-center">
+			<div class="media-body">
+				<p>
+					No Task Pending for <strong><t t-esc="msg"/></strong>
+				</p>
+			</div>
+		</div>
+	</template>
+
+	<template name="pending_team_leave_request" id="pending_team_leave_request">
+		<div t-attf-id="{{leave['table_name2']}}_{{leave['id']}}" class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+					<a href="#"><strong><t t-esc="leave['leave_name']"/></strong></a>
+					<small class="sidetitle"><t t-esc="leave['state']"/></small>
+				</p>
+				<p>
+					<a href="#">Requested By: <strong><t t-esc="leave['employee_name']"/></strong></a>
+					<small class="sidetitle"><t t-esc="leave['employee_job_name']"/></small>
+				</p>
+				<p>Number of days: <t t-esc="leave['number_of_days']"/> Next of Duty: <t t-esc="leave['next_on_duty']"/></p>
+				<p>Purpose: <t t-esc="leave['leave_purpose']"/></p>
+				<p>From: <t t-esc="leave['date_from']"/> To: <t t-esc="leave['date_to']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item"  t-attf-onclick="approve_request('{{leave['table_name']}}',{{leave['id']}})"><i class="fa fa-fw fa-check"/> Approve</a>
+						<a class="dropdown-item" t-attf-onclick="reject_request('{{leave['table_name']}}',{{leave['id']}})"><i class="fa fa-fw fa-remove"/> Reject</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="pending_missing_att_request" id="pending_missing_att_request">
+		<div t-attf-id="{{rec['table_name2']}}_{{rec['id']}}" class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+					<a href="#"><strong><t t-esc="rec['name']"/></strong></a>
+					<small class="sidetitle"><t t-esc="rec['state']"/></small>
+				</p>
+				<p>
+					<a href="#">Requested By: <strong><t t-esc="rec['employee_name']"/></strong></a>
+					<small class="sidetitle"><t t-esc="rec['employee_job_name']"/></small>
+				</p>
+				<p t-if="rec['checkin']">Check In: <t t-esc="rec['checkin_date']"/></p>
+				<p t-if="rec['checkout']">Check Out: <t t-esc="rec['checkout_date']"/></p>
+				<small><t t-esc="rec['reason']"/></small>
+				<p>Request Date: <t t-esc="rec['application_date']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" t-attf-onclick="approve_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-check"/> Approve</a>
+						<a class="dropdown-item" t-attf-onclick="reject_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-remove"/> Reject</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="pending_team_loan_request" id="pending_team_loan_request">
+		<div t-attf-id="{{rec['table_name2']}}_{{rec['id']}}" class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+				  <a href="#"><strong>Advance Payment (<t t-esc="rec['name']"/>)</strong></a>
+				  <small class="sidetitle"><t t-esc="rec['state']"/></small>
+				</p>
+				<p>
+					<a href="#">Requested By: <strong><t t-esc="rec['employee_name']"/></strong></a>
+					<small class="sidetitle"><t t-esc="rec['employee_job_name']"/></small>
+				</p>
+				<p>Amount: <t t-esc="rec['amount']"/> Loan Type: <t t-esc="rec['loan_type']"/></p>
+				<small><t t-esc="rec['purpose']"/></small>
+				<p>Request Date: <t t-esc="rec['apply_date']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" t-attf-onclick="approve_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-check"/> Approve</a>
+						<a class="dropdown-item" t-attf-onclick="reject_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-remove"/> Reject</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="pending_team_travel_request" id="pending_team_travel_request">
+		<div t-attf-id="{{rec['table_name2']}}_{{rec['id']}}" class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+				  <a href="#"><strong>Travel (<t t-esc="rec['name']"/>)</strong></a>
+				  <small class="sidetitle"><t t-esc="rec['state']"/></small>
+				</p>
+				<p>
+					<a href="#">Requested By: <strong><t t-esc="rec['employee_name']"/></strong></a>
+					<small class="sidetitle"><t t-esc="rec['employee_job_name']"/></small>
+				</p>
+				<p>Source: <t t-esc="rec['loc_from']"/> - Destination: <t t-esc="rec['loc_to']"/></p>
+				<small><t t-esc="rec['reason']"/></small>
+				<p>From: <t t-esc="rec['start_date']"/> To: <t t-esc="rec['end_date']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" t-attf-onclick="approve_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-check"/> Approve</a>
+						<a class="dropdown-item" t-attf-onclick="reject_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-remove"/> Reject</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="pending_team_resign_request" id="pending_team_resign_request">
+		<div t-attf-id="{{rec['table_name2']}}_{{rec['id']}}" class="media align-items-center">
+			<span class="badge badge-dot badge-danger"/>
+			<div class="media-body">
+				<p>
+				  <a href="#"><strong>Resigned Request (<t t-esc="rec['name']"/>)</strong></a>
+				  <small class="sidetitle"><t t-esc="rec['state']"/></small>
+				</p>
+				<p>
+					<a href="#">Requested By: <strong><t t-esc="rec['employee_name']"/></strong></a>
+					<small class="sidetitle"><t t-esc="rec['employee_job_name']"/></small>
+				</p>
+				<p>Notice Period: <t t-esc="rec['resign_from']"/></p>
+				<small><t t-esc="rec['resign_reason']"/></small>
+				<p>Request Date: <t t-esc="rec['apply_date']"/></p>
+			</div>
+			<div class="media-right gap-items">
+				<div class="btn-group">
+					<a class="media-action lead" href="#" data-bs-toggle="dropdown"><i class="ion-android-more-vertical"/></a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" t-attf-onclick="approve_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-check"/> Approve</a>
+						<a class="dropdown-item" t-attf-onclick="reject_request('{{rec['table_name']}}',{{rec['id']}})"><i class="fa fa-fw fa-remove"/> Reject</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<template name="team_request_leave" id="team_request_leave">
+		<div class="row">
+			<div class="table-responsive">
+				<table id="example5" class="table table-bordered table-striped" style="width:100%">
+				<thead>
+					<tr>
+						<th>Request By</th>
+						<th>Leave Type</th>
+						<th>From-To(Date)</th>
+						<th>No of Days</th>
+						<th>Purpose</th>
+						<th>Status</th>
+						<!--<th>Checkout Status</th>-->
+					</tr>
+				</thead>
+				<tbody>
+					<t t-foreach="leave_history" t-as="rec">
+						<tr>
+							<td><t t-esc="rec['employee_name']"/><br/><small><t t-esc="rec['employee_job_name']"/></small></td>
+							<td><t t-esc="rec['leave_name']"/></td>
+							<td><t t-esc="rec['date_from']"/> <br/><t t-esc="rec['date_to']"/></td>
+							<td><t t-esc="rec['number_of_days']"/></td>
+							<td><t t-esc="rec['leave_purpose']"/></td>
+							<td><t t-esc="rec['state']"/></td>
+						</tr>
+					</t>
+				</tbody>
+
+				</table>
+			</div>
+		</div>
+	</template>
+	<template name="team_request_leave_special" id="team_request_leave_special">
+		<div class="row">
+			<div class="table-responsive">
+				<table id="example5" class="table table-bordered table-striped" style="width:100%">
+				<thead>
+					<tr>
+						<th>Request By</th>
+						<th>Leave Type</th>
+						<th>From-To(Date)</th>
+						<th>No of Days</th>
+						<th>Purpose</th>
+						<th>Status</th>
+						<!--<th>Checkout Status</th>-->
+					</tr>
+				</thead>
+				<tbody>
+					<t t-foreach="special_history" t-as="rec">
+						<tr>
+							<td><t t-esc="rec['employee_name']"/><br/><small><t t-esc="rec['employee_job_name']"/></small></td>
+							<td><t t-esc="rec['leave_name']"/></td>
+							<td><t t-esc="rec['date_from']"/> <br/><t t-esc="rec['date_to']"/></td>
+							<td><t t-esc="rec['number_of_days']"/></td>
+							<td><t t-esc="rec['leave_purpose']"/></td>
+							<td><t t-esc="rec['state']"/></td>
+						</tr>
+					</t>
+				</tbody>
+
+				</table>
+			</div>
+		</div>
+	</template>
+	<template name="team_miss_attendance" id="team_miss_attendance">
+		<div class="row">
+			<div class="table-responsive">
+				<table id="example5" class="table table-bordered table-striped" style="width:100%">
+				<thead>
+					<tr>
+						<th>Request By</th>
+						<th>Check In</th>
+						<th>Check Out</th>
+						<th>Reason</th>
+						<th>Request Date</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<t t-foreach="missed_att_history" t-as="rec">
+						<tr>
+							<td><t t-esc="rec['employee_name']"/><br/><small><t t-esc="rec['employee_job_name']"/></small></td>
+							<td><t t-esc="rec['checkin_date']"/></td>
+							<td><t t-esc="rec['checkout_date']"/></td>
+							<td><t t-esc="rec['reason']"/></td>
+							<td><t t-esc="rec['application_date']"/></td>
+							<td><t t-esc="rec['state']"/></td>
+						</tr>
+					</t>
+				</tbody>
+
+				</table>
+			</div>
+		</div>
+	</template>
+	<template name="team_request_loan" id="team_request_loan">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+				   <table class="table table-hover">
+					   <tr>
+						   <th>Request By</th>
+							<th>Date Applied</th>
+							<th>Loan Type</th>
+							<th>Amount</th>
+							<th>Purpose</th>
+							<th>Status</th>
+						</tr>
+						<t t-foreach="loan_recs" t-as="rec">
+							<tr>
+								<td><t t-esc="rec['employee_name']"/><br/><small><t t-esc="rec['employee_job_name']"/></small></td>
+								<td><t t-esc="rec['apply_date']"/></td>
+								<td><t t-esc="rec['loan_type']"/></td>
+								<td><t t-esc="rec['amount']"/></td>
+								<td><t t-esc="rec['purpose']"/></td>
+								<td><span class="badge badge-pill badge-success"><t t-esc="rec['state']"/></span></td>
+							</tr>
+						</t>
+					</table>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="team_request_travel" id="team_request_travel">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+				  <table class="table table-hover">
+					<tr>
+						<th>Request By</th>
+						<th>Source &amp; Destination</th>
+						<th>Date From/To</th>
+						<th>Reason</th>
+						<th>Status</th>
+					</tr>
+					<t t-foreach="travel_history" t-as="rec">
+						<tr>
+							<td><t t-esc="rec['employee_name']"/><br/><small><t t-esc="rec['employee_job_name']"/></small></td>
+							<td><t t-esc="rec['loc_from']"/> - <t t-esc="rec['loc_to']"/></td>
+							<td><t t-esc="rec['start_date']"/> <br/>
+								<t t-esc="rec['end_date']"/></td>
+							<td><t t-esc="rec['reason']"/> </td>
+							<td><span class="badge badge-pill badge-success"><t t-esc="rec['state']"/></span></td>
+						</tr>
+					</t>
+				  </table>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template name="team_request_resign" id="team_request_resign">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+				  <table class="table table-hover">
+					<tr>
+						<th>Request By</th>
+						<th>Date Applied</th>
+						<th>Notice Period</th>
+						<th>Reason</th>
+						<th>Status</th>
+					</tr>
+					<t t-foreach="resign_history" t-as="rec">
+						<tr>
+							<td><t t-esc="rec['employee_name']"/><br/><small><t t-esc="rec['employee_job_name']"/></small></td>
+							<td><t t-esc="rec['apply_date']"/></td>
+							<td><t t-esc="rec['resign_from']"/></td>
+							<td><t t-esc="rec['resign_reason']"/></td>
+							<td><span class="badge badge-pill badge-success"><t t-esc="rec['state']"/></span></td>
+						</tr>
+					</t>
+				  </table>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<template id="ess_portal_team_request" name="Employee Portal Leave">
+		<t t-call="web.layout">
+			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+			<t t-set="head">
+				<!-- <t t-call-assets="ess_portal_assets.ess_assets" t-js="false"/>-->
+				<link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+				<link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+				<link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+				<link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+				<style>
+					.logo_img {
+						max-width: 64% !important;
+					}
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+					@media (max-width: 767px)
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+				</style>
+				 <!--<title>ESS Profile</title>-->
+			</t>
+			<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+				<div class="wrapper">
+					<div id="loader"/>
+					<t t-call="ess_portal.ess_header_menu"/>
+					<t t-call="ess_portal.ess_side_menu"/>
+
+					<div class="content-wrapper">
+						<div class="container-full">
+							<div class="content-header">
+								<div class="d-flex align-items-center">
+									<div class="me-auto">
+										<h4 class="page-title">Request</h4>
+										<div class="d-inline-block align-items-center">
+											<nav>
+												<ol class="breadcrumb">
+													<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"/></a></li>
+													<!--<li class="breadcrumb-item" aria-current="page">Extra</li>-->
+													<li class="breadcrumb-item active" aria-current="page">Team Requests</li>
+												</ol>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+							<section class="content">
+								<div class="row">
+									<div class="col-12">
+										<div class="box">
+											<div class="box-header with-border">
+											  <h4 class="box-title">Pending Tasks</h4>
+											</div>
+											<div class="nav nav-pills mb10">
+												<ul class="nav nav-tabs tabs-vertical" role="tablist">
+													<li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#regular_leave" role="tab" aria-expanded="true" aria-selected="true"><span class="hidden-sm-up"/> <span class="hidden-xs-down">Regular Leaves</span> </a> </li>
+													<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#special_leave" role="tab" aria-expanded="false" aria-selected="false"><span class="hidden-sm-up"/> <span class="hidden-xs-down">Special Leaves</span></a> </li>
+													<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#missing_att" role="tab" aria-expanded="false" aria-selected="false"><span class="hidden-sm-up"/> <span class="hidden-xs-down">Missing Attendance</span></a> </li>
+													<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#loan_request" role="tab" aria-expanded="false" aria-selected="false"><span class="hidden-sm-up"/> <span class="hidden-xs-down">Advance Payments</span></a> </li>
+													<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#travel_request" role="tab" aria-expanded="false" aria-selected="false"><span class="hidden-sm-up"/> <span class="hidden-xs-down">Travel Requests</span></a> </li>
+													<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#resign_request" role="tab" aria-expanded="false" aria-selected="false"><span class="hidden-sm-up"/> <span class="hidden-xs-down">Resign Requests</span></a> </li>
+												</ul>
+												<div class="tab-content">
+													<div class="tab-pane active" id="regular_leave" role="tabpanel" aria-expanded="true">
+														<t t-foreach="leave_progress" t-as="leave">
+															<t t-call="ess_portal.pending_team_leave_request"/>
+														</t>
+														<t t-if="not len(leave_progress) > 0">
+															<t t-call="ess_portal.no_task">
+																<t t-set="msg">Leaves</t>
+															</t>
+														</t>
+													</div>
+													<div class="tab-pane" id="special_leave" role="tabpanel" aria-expanded="false">
+														<t t-foreach="special_progress" t-as="leave">
+															<t t-call="ess_portal.pending_team_leave_request"/>
+														</t>
+														<t t-if="not len(special_progress) > 0">
+															<t t-call="ess_portal.no_task">
+																<t t-set="msg">Special Leaves</t>
+															</t>
+														</t>
+													</div>
+													<div class="tab-pane" id="missing_att" role="tabpanel" aria-expanded="false">
+														<t t-foreach="missed_att_progress" t-as="rec">
+															<t t-call="ess_portal.pending_missing_att_request"/>
+														</t>
+														<t t-if="not len(missed_att_progress) > 0">
+															<t t-call="ess_portal.no_task">
+																<t t-set="msg">Missing Attendance</t>
+															</t>
+														</t>
+													</div>
+													<div class="tab-pane" id="loan_request" role="tabpanel" aria-expanded="false">
+														<t t-foreach="loan_progress" t-as="rec">
+															<t t-call="ess_portal.pending_team_loan_request"/>
+														</t>
+														<t t-if="not len(loan_progress) > 0">
+															<t t-call="ess_portal.no_task">
+																<t t-set="msg">Advance Payment</t>
+															</t>
+														</t>
+													</div>
+													<div class="tab-pane" id="travel_request" role="tabpanel" aria-expanded="false">
+														<t t-foreach="travel_progress" t-as="rec">
+															<t t-call="ess_portal.pending_team_travel_request"/>
+														</t>
+														<t t-if="not len(travel_progress) > 0">
+															<t t-call="ess_portal.no_task">
+																<t t-set="msg">Travel Request</t>
+															</t>
+														</t>
+													</div>
+													<div class="tab-pane" id="resign_request" role="tabpanel" aria-expanded="false">
+														<t t-foreach="resign_progress" t-as="rec">
+															<t t-call="ess_portal.pending_team_resign_request"/>
+														</t>
+														<t t-if="not len(resign_progress) > 0">
+															<t t-call="ess_portal.no_task">
+																<t t-set="msg">Resign</t>
+															</t>
+														</t>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-12">
+										<t t-call="ess_portal.team_requests"/>
+									</div>
+								</div>
+							</section>
+						</div>
+					</div>
+
+					<footer class="main-footer">
+						&amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+					</footer>
+
+				  	<t t-call="ess_portal.ess_quick_action"/>
+  					<t t-call="ess_portal.ess_right_menu"/>
+				</div>
+
+				<!-- Sidebar -->
+				<t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+					<!--<script src="/ess_portal_assets/static/src/js/pages/advanced-form-element.js"/>-->
+				<script src="/ess_portal/static/js/request.js"/>
+				<script src="/ess_portal_assets/static/assets/vendor_components/datatable/datatables.min.js"/>
+				<script src="/ess_portal_assets/static/src/js/pages/data-table.js"/>
+			</body>
+		</t>
+	</template>
+
+	<template name="team_requests" id="team_requests">
+		<div class="box">
+			<div class="box-header with-border">
+			  <h4 class="box-title">Tasks History</h4>
+			</div>
+			<div class="box-body">
+				<!-- Nav tabs -->
+				<ul class="nav nav-pills  mb-20">
+					<li class=" nav-item"> <a href="#nav_team_request_leave" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Regular Leaves</a> </li>
+					<li class="nav-item"> <a href="#nav_team_request_leave_special" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Special Leaves</a> </li>
+					<li class=" nav-item"> <a href="#nav_missed_attendance" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Missing Attendance</a> </li>
+					<li class="nav-item"> <a href="#na_team_request_loan" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Advance Payments</a> </li>
+					<li class="nav-item"> <a href="#nav_team_request_travel" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Travel Requests</a> </li>
+					<li class="nav-item"> <a href="#nav_team_request_resign" class="nav-link" data-bs-toggle="tab" aria-expanded="true">Resigns</a> </li>
+				</ul>
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div id="nav_team_request_leave" class="tab-pane active">
+						<t t-call="ess_portal.team_request_leave"/>
+					</div>
+					<div id="nav_team_request_leave_special" class="tab-pane">
+						<t t-call="ess_portal.team_request_leave_special"/>
+					</div>
+					<div id="nav_missed_attendance" class="tab-pane">
+						<t t-call="ess_portal.team_miss_attendance"/>
+					</div>
+					<div id="nav_team_request_loan" class="tab-pane">
+						<t t-call="ess_portal.team_request_loan"/>
+					</div>
+					<div id="nav_team_request_travel" class="tab-pane">
+						<t t-call="ess_portal.team_request_travel"/>
+					</div>
+					<div id="nav_team_request_resign" class="tab-pane">
+						<t t-call="ess_portal.team_request_resign"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+
+
+</odoo>

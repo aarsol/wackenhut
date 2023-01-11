@@ -1,0 +1,112 @@
+<odoo>
+    <data>
+        <record id="marriage_grant_view_form" model="ir.ui.view">
+            <field name="name">marriage_grant_view_form</field>
+            <field name="model">marriage.grant</field>
+            <field name="arch" type="xml">
+                <form string="Marriage Grant">
+                    <header>
+                        <button name="action_recommend" type="object" class="oe_highlight" string="Recommend"
+                                states="draft" groups="hr.group_hr_user"/>
+                        <button name="action_review" type="object" class="oe_highlight" string="Review"
+                                states="recommend" groups="hr.group_hr_user"/>
+                        <button name="action_approved" type="object" class="oe_highlight" string="Approved"
+                                states="review" groups="hr.group_hr_user"/>
+                        <button name="action_draft" type="object" class="oe_highlight" string="Draft"
+                                groups="hr.group_hr_user"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"
+                                       options="{'no_create': True, 'no_quick_create':True, 'no_create_edit': True, 'limit': 10}"/>
+                                <field name="daughter_name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="marriage_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+
+                            </group>
+                            <group>
+                                <field name="request_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="age"/>
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="marriage_grant_view_tree" model="ir.ui.view">
+            <field name="name">marriage_grant_view_tree</field>
+            <field name="model">marriage.grant</field>
+            <field name="arch" type="xml">
+                <tree string="Marriage Grant" decoration-info="state=='draft'" decoration-success="state=='approved'"
+                      decoration-primary="state=='recommend'" decoration-bf="state=='review'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="daughter_name"/>
+                    <field name="request_date"/>
+                    <field name="age"/>
+                    <field name="marriage_date"/>
+                    <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                    <field name="state" widget="badge" decoration-info="state=='draft'"
+                           decoration-success="state=='approved'" decoration-primary="state=='recommend'"
+                           decoration-bf="state=='review'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="marriage_grant_search_view" model="ir.ui.view">
+            <field name="name">marriage.grant.search.view</field>
+            <field name="model">marriage.grant</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="employee_id"/>
+                    <field name="state"/>
+
+                    <filter string="Draft" name="filter_by_draft" domain="[('state','=','draft')]"/>
+                    <filter string="Recommend" name="filter_by_recommend" domain="[('state','=','recommend')]"/>
+                    <filter string="Approved" name="filter_by_approved" domain="[('state','=','approved')]"/>
+                    <separator/>
+                    <filter string="Request Date" name="request_date" date="request_date"/>
+                    <newline/>
+
+                    <group expand="0" string="Group By...">
+                        <filter name="employee_id" string="Employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <separator/>
+                        <filter name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter name="company_id" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
+                        <separator/>
+                    </group>
+                    <searchpanel>
+                        <field name="company_id" icon="fa-users"/>
+                        <field name="state" icon="fa-users"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="marriage_grant_action" model="ir.actions.act_window">
+            <field name="name">Marriage Grant</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">marriage.grant</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem
+                id="marriage_grant_id"
+                name="Marriage Grant"
+                parent="aarsol_hr_payroll.menu_hr_employee_requests_main"
+                action="marriage_grant_action"
+                sequence="50"/>
+    </data>
+</odoo>

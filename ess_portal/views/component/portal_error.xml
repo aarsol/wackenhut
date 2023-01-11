@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <template id="portal_error" name="Portal Error">
+        <t t-call="web.layout">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <t t-set="head">
+                <link rel="icon" href="/ess_portal/static/logo/favicon.ico"/>
+        		<link href="/ess_portal_assets/static/src/css/vendors_css.css" rel="stylesheet" media="all"/>
+        		<link href="/ess_portal_assets/static/src/css/style.css" rel="stylesheet" media="all"/>
+        		<link href="/ess_portal_assets/static/src/css/skin_color.css" rel="stylesheet" media="all"/>
+				<style>
+					.logo_img {
+						max-width: 64% !important;
+					}
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+					@media (max-width: 767px)
+					.main-header > div .logo {
+						line-height: normal;
+						height: auto;
+						background: #112c4f !important;
+					}
+				</style>
+            </t>
+            <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+				<div class="wrapper">
+					<div id="loader"/>
+
+  					<t t-call="ess_portal.ess_header_menu"/>
+					<t t-call="ess_portal.ess_side_menu"/>
+
+					<!-- Content Wrapper. Contains page content -->
+					<div class="content-wrapper">
+					  <div class="container-full">
+                          <section class="content">
+                              <h1 class="h3 mb-2" style="color:#154c79">
+                                  <strong>Portal Error</strong>
+                              </h1>
+                              <div class="error_page_header">
+                                <div class="uk-width-8-10 uk-container-center">
+                                    <t t-if="error_head" t-esc="error_head"/>
+                                    <t t-if="not error_head">Something went wrong.</t>
+                                </div>
+                              </div>
+                              <div class="error_page_content">
+                                  <div class="uk-width-8-10 uk-container-center">
+                                     <p style='color:red;' class="heading_b"><t t-if="error_message" t-esc="error_message"/></p>
+                                      <t t-if="not error_message">Internal server error</t>
+                                      <a href="#" onclick="history.go(-1);return false;">Go back to previous page</a>
+                                  </div>
+                              </div>
+
+                          </section>
+                      </div>
+                    </div>
+                    <footer class="main-footer">
+					  &amp;copy; <script>document.write(new Date().getFullYear())</script> <a href="#">AARSOL</a>. All Rights Reserved.
+					</footer>
+    				<t t-call="ess_portal.ess_quick_action"/>
+					<t t-call="ess_portal.ess_right_menu"/>
+                </div>
+                <t t-call-assets="ess_portal_assets.ess_assets" t-css="false"/>
+            </body>
+        </t>
+    </template>
+
+
+
+</odoo>

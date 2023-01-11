@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <!-- Leave Report -->
+        <record id="employee_leave_report_menu_id" model="ir.actions.report">
+            <field name="name">Print Report</field>
+            <field name="model">hr.leave</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ucp_employee_request.employee_leave_report_id</field>
+            <field name="report_file">ucp_employee_request.employee_leave_report_id</field>
+        </record>
+
+        <!-- Leave Report -->
+        <record id="employee_leave_report_detail_menu_id" model="ir.actions.report">
+            <field name="name">Leaves Report</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ucp_employee_request.employee_leave_detail_report_id</field>
+            <field name="report_file">ucp_employee_request.employee_leave_detail_report_id</field>
+        </record>
+
+        <!-- Leave Report -->
+        <record id="noc_report_id" model="ir.actions.report">
+            <field name="name">NOC Report</field>
+            <field name="model">noc.request</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ucp_employee_request.noc_report_tem_id</field>
+            <field name="report_file">ucp_employee_request.noc_report_tem_id</field>
+        </record>
+
+        <!-- Marriage Grant Report -->
+        <record id="marriage_temp_id_report_id" model="ir.actions.report">
+            <field name="name">Marriage Report</field>
+            <field name="model">marriage.grant</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ucp_employee_request.marriage_temp_id</field>
+            <field name="report_file">ucp_employee_request.marriage_temp_id</field>
+        </record>
+
+        <!--Missed Attendance Report -->
+        <record id="action_missed_attendance_report" model="ir.actions.report">
+            <field name="name">Missed Attendance Report</field>
+            <field name="model">missed.attendance.rep.wiz</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ucp_employee_request.missed_attendance_report</field>
+            <field name="report_file">ucp_employee_request.missed_attendance_report</field>
+        </record>
+
+        <!--Department Wise Report -->
+        <!--        <record id="action_hr_department_wise_report" model="ir.actions.report">-->
+        <!--            <field name="name">Department Missed Attendance Report</field>-->
+        <!--            <field name="model">hr.departure.wise.wizard</field>-->
+        <!--            <field name="report_type">qweb-pdf</field>-->
+        <!--            <field name="report_name">ucp_employee_request.department_wise_report</field>-->
+        <!--            <field name="report_file">ucp_employee_request.department_wise_report</field>-->
+        <!--        </record>-->
+
+    </data>
+</odoo>

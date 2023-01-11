@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="hr_emp_salary_inputs_import_wizard_form_view" model="ir.ui.view">
+            <field name="name">Import Employee Salary Inputs from csv or excel file</field>
+            <field name="model">hr.emp.salary.inputs.import.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import Employee Inputs From Excel / CSV File">
+                    <group>
+                        <field name="import_option" widget="radio"/>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="file" filename="name"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="sequence_opt" invisible="1"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="import_emp_salary_inputs_action" string="Import" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_emp_salary_inputs_import_wizard" model="ir.actions.act_window">
+            <field name="name">Import Employee Salary Inputs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.emp.salary.inputs.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_emp_salary_inputs"/>
+            <field name="binding_view_types">list,form</field>
+        </record>
+
+    </data>
+</odoo>
